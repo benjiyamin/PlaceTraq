@@ -1,8 +1,6 @@
-const express = require('express')
+module.exports = function (app) {
 
-const router = express.Router()
-
-/*
+  /*
 function createRoutes (model, baseUrl, includeModels) {
   router.get(baseUrl, function (request, response) {
     let options = {}
@@ -56,7 +54,7 @@ function createRoutes (model, baseUrl, includeModels) {
 }
 */
 
-// createRoutes(db.Customer, '/api/customers', [db.Burger])
-// createRoutes(db.Burger, '/api/burgers', [db.Customer])
+  // createRoutes(db.Customer, '/api/customers', [db.Burger])
+  // createRoutes(db.Burger, '/api/burgers', [db.Customer])
 
-module.exports = router
+}

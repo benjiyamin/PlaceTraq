@@ -1,9 +1,9 @@
-const express = require('express')
+module.exports = function (app) {
+  app.get('/', function (request, response) {
+    response.render('index', {})
+  })
 
-const router = express.Router()
-
-router.get('/', function (request, response) {
-  response.render('index', {})
-})
-
-module.exports = router
+  app.get('/project', function (request, response) {
+    response.render('project', {})
+  })
+}

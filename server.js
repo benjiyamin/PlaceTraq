@@ -1,9 +1,9 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
+const passport = require('passport')
+const session = require('express-session')
 
 const db = require('./models')
-const apiRoutes = require('./routes/api_routes')
-const htmlRoutes = require('./routes/html_routes')
 
 let app = express()
 
@@ -14,14 +14,27 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+// For Passport
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+})) // session secret
+app.use(passport.initialize())
+app.use(passport.session()) // persistent login sessions
+
 // Template engine
 app.engine('handlebars', handlebars({
   defaultLayout: 'main'
 }))
 app.set('view engine', 'handlebars')
 
-app.use(apiRoutes)
-app.use(htmlRoutes)
+require('./routes/api_routes')(app)
+require('./routes/html_routes')(app)
+require('./routes/auth_routes.js')(app, passport)
+
+// Load passport strategies
+require('./config/passport/passport.js')(passport, db.User)
 
 db.sequelize.sync({
   force: true
