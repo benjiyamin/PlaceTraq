@@ -16,6 +16,9 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     location: {
+      type: DataTypes.TEXT
+    },
+    shape: {
       type: DataTypes.GEOMETRY
     }
   })

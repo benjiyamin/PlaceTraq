@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const handlebars = require('express-handlebars')
 const passport = require('passport')
@@ -20,7 +22,7 @@ app.use(function (request, response, next) {
 
 // For Passport
 app.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.PASSPORT_SECRET,
   resave: true,
   saveUninitialized: true
 })) // session secret
@@ -42,7 +44,7 @@ require('./routes/auth_routes')(app, passport)
 require('./config/passport/passport')(passport, db.User)
 
 db.sequelize.sync({
-  force: true
+  force: false
 })
   .then(function () {
     const PORT = process.env.PORT || 3000
