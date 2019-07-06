@@ -4,9 +4,9 @@ module.exports = function (app, passport) {
     failureRedirect: '/signup'
   }))
 
-  app.post('/signin', passport.authenticate('local-signin', {
+  app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/',
-    failureRedirect: '/sigin'
+    failureRedirect: '/login'
   }))
 
   app.get('/logout', function (request, response) {

@@ -45,7 +45,7 @@ module.exports = function (passport, user) {
     }
   ))
 
-  passport.use('local-signin', new LocalStrategy(
+  passport.use('local-login', new LocalStrategy(
     {
       // by default, local strategy uses username and password, we will override with email
       usernameField: 'email',
@@ -96,7 +96,7 @@ module.exports = function (passport, user) {
 
   // deserialize user
   passport.deserializeUser(function (id, done) {
-    User.findById(id).then(function (user) {
+    User.findByPk(id).then(function (user) {
       if (user) {
         done(null, user.get())
       } else {
