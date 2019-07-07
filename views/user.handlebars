@@ -1,83 +1,25 @@
 <div class="container mt-4">
-
   <div class="row">
-    <div class="col-md-4 mb-5">
-      <div class="row align-items-center">
-        <div class="col">
-          <h1 class="display-4">{{project.name}}</h1>
-          <p class="lead">
-            {{project.description}}
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
-          <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{formatDate project.start 'MMMM YYYY'}} -
-            {{formatDate project.end 'MMMM YYYY'}}</p>
-          <button type="button" class="btn btn-primary btn-lg btn-block"><i class="fas fa-plus-square"></i> Follow this
-            Project</button>
-        </div>
-      </div>
-    </div>
 
     <div class="col-md-8 mb-5">
-      <!-- Nav tabs -->
-      <ul class="nav nav-pills mb-4" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab">Timeline</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab">Posts</a>
-        </li>
-      </ul>
 
-      <!-- Tab panes -->
-      <div class="tab-content">
-        <div class="tab-pane active" id="timeline" role="tabpanel">
-          <div class="container">
-            <div class="row">
-              <div class="col">
-                <ul class="timeline">
-                  <li>
-                    <h4 class="jumbotron p-2 text-center">Project End - {{formatDate project.end 'MMMM YYYY'}}</h4>
-                  </li>
-                  {{#each project.Events}}
-                  {{> project/event-block}}
-                  {{/each}}
-                  <!--
-                  <li>
-                    <h4 class="jumbotron p-2 text-center">Today - July 6, 2019</h4>
-                  </li>
-                  -->
-
-                  <li>
-                    <h4 class="jumbotron p-2 text-center">
-                      Project Start - {{formatDate project.start 'MMMM YYYY'}}
-                    </h4>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane" id="posts" role="tabpanel">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Ben Miller <small>mail@benkmiller.com • Jun 18</small></h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde ipsa aperiam odio
-                minima,
-                deleniti natus similique impedit adipisci itaque, sit quo, eligendi illum nobis. Veritatis, modi cum!
-                Officia, similique. Sed?.</p>
-              <div class="card-text">
-                <a href="#">Reply</a>
-              </div>
-            </div>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <ul class="timeline">
+              {{#each events}}
+              {{> project/event-block}}
+              {{/each}}
+            </ul>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- /.row -->
 
+    </div>
+
+    <div class="col-md-4 mb-5">
+
+    </div>
+
+  </div>
 </div>

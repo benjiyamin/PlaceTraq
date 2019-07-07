@@ -1,4 +1,4 @@
-var db = require('../models')
+const db = require('../models')
 
 module.exports = function (app) {
   app.get('/', function (request, response) {
@@ -10,16 +10,24 @@ module.exports = function (app) {
       where: {
         id: request.params.id
       },
-      include: {
+      include: [{
         model: db.Project,
-        include: [db.Event]
-      },
-      order: [
-        [db.Event, 'datetime', 'DESC']
-      ]
+        include: [db.Event],
+        order: [
+          [db.Event, 'datetime', 'DESC']
+        ]
+      }]
     }).then(function (user) {
+      // Need to fix this to actually combine event data in order
+      let events = []
+      user.Projects.forEach(project => {
+        project.Events.forEach(event => {
+          events.push(event)
+        })
+      })
       response.render('user', {
-        user: user
+        user: user,
+        events: events
       })
     })
   })
