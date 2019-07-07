@@ -1,0 +1,65 @@
+{
+  "ops": [
+    {
+      "insert": "I-4 Ultimate is an important project for Central Florida. The 21-mile makeover — from west of Kirkman Road in Orange County to east of State Road 434 in Seminole County — is transforming the region to better connect our communities, boost our economy and improve everyone’s quality of life.\n\nThis section of the website contains everything you need to know about the I-4 Ultimate project, including the "
+    },
+    {
+      "attributes": {
+        "color": "#4777d9",
+        "link": "https://i4ultimate.com/project-info/overview/"
+      },
+      "insert": "past"
+    },
+    {
+      "insert": ", present and "
+    },
+    {
+      "attributes": {
+        "color": "#4777d9",
+        "link": "https://i4ultimate.com/project-info/future-i-4/"
+      },
+      "insert": "future of I-4"
+    },
+    {
+      "insert": ", "
+    },
+    {
+      "attributes": {
+        "color": "#4777d9",
+        "link": "https://i4ultimate.com/project-info/working-on-i-4/"
+      },
+      "insert": "job opportunities"
+    },
+    {
+      "insert": " and "
+    },
+    {
+      "attributes": {
+        "color": "#4777d9",
+        "link": "https://i4ultimate.com/project-info/special-features/"
+      },
+      "insert": "innovative features"
+    },
+    {
+      "insert": ".\n\nLooking for more information on I-4 Beyond the Ultimate? Visit "
+    },
+    {
+      "attributes": {
+        "color": "#4777d9",
+        "link": "http://www.i4express.com/"
+      },
+      "insert": "i4express.com"
+    },
+    {
+      "insert": " to learn more about the improvements planned for the rest of Seminole, Volusia and Polk counties.\n\n"
+    },
+    {
+      "insert": {
+        "image": "https://i4ultimate.com/wp-content/uploads/2015/04/i4-ultimate-project-map-key.png"
+      }
+    },
+    {
+      "insert": "\n\n"
+    }
+  ]
+}

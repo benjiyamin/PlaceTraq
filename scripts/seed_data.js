@@ -8,15 +8,18 @@ db.sequelize
     force: true
   })
   .then(function () {
-    fs.readFile('./scripts/about_quill.json', (err, data) => {
+    fs.readFile('./scripts/about_quill1.json', (err, data) => {
       if (err) throw err
       let about = JSON.parse(data)
       createProject1(about)
     })
   })
   .then(function () {
-    let about = []
-    createProject2(about)
+    fs.readFile('./scripts/about_quill2.json', (err, data) => {
+      if (err) throw err
+      let about = JSON.parse(data)
+      createProject2(about)
+    })
   })
 
 function createProject1 (about) {
