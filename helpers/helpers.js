@@ -9,5 +9,14 @@ module.exports = {
   },
   currentDate: function (formatString) {
     return moment().format(formatString)
+  },
+  length: function (array) {
+    return array.length
+  },
+  userFollowsProject: function (request, project) {
+    if (request.isAuthenticated()) {
+      return project.Users.filter(u => (u.id === request.user.id))
+    }
+    return false
   }
 }

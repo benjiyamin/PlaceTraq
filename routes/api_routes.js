@@ -59,5 +59,6 @@ module.exports = function (app) {
   }
   */
 
-  createReadOnlyRoutes(db.Project, '/api/projects', [db.Event])
+  createReadOnlyRoutes(db.Project, '/api/projects', [db.User])
+  createReadOnlyRoutes(db.User, '/api/users', [db.Project])
 }

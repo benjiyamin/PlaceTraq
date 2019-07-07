@@ -1,5 +1,3 @@
-<div class="w-100 bg-info" id="map" style="height:33vh"></div>
-
 <div class="container mt-4">
 
   <div class="row">
@@ -17,14 +15,8 @@
           <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
           <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{formatDate project.start 'MMMM YYYY'}} -
             {{formatDate project.end 'MMMM YYYY'}}</p>
-          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Followers</p>
-          <button type="button" class="btn btn-primary btn-lg btn-block">
-            {{#if (userFollowsProject request project)}}
-            <i class="fas fa-user-minus"></i> Unfollow this Project
-            {{else}}
-            <i class="fas fa-user-plus"></i> Follow this Project
-            {{/if}}
-            </button>
+          <button type="button" class="btn btn-primary btn-lg btn-block"><i class="fas fa-plus-square"></i> Follow this
+            Project</button>
         </div>
       </div>
     </div>
@@ -89,85 +81,3 @@
   <!-- /.row -->
 
 </div>
-
-
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<script>
-  function initMap() {
-
-    map = new google.maps.Map(document.getElementById('map'));
-
-    if (!google.maps.Polygon.prototype.getBounds) {
-
-      google.maps.Polygon.prototype.getBounds = function () {
-        var bounds = new google.maps.LatLngBounds();
-        var paths = this.getPaths();
-        var path;
-        for (var i = 0; i < paths.getLength(); i++) {
-          path = paths.getAt(i);
-          for (var ii = 0; ii < path.getLength(); ii++) {
-            bounds.extend(path.getAt(ii));
-          }
-        }
-        return bounds;
-      }
-
-    }
-
-    let paths = [{
-        lat: 27.303865,
-        lng: -80.329024
-      },
-      {
-        lat: 27.305074,
-        lng: -80.321676
-      },
-      {
-        lat: 27.297980,
-        lng: -80.307798
-      },
-      {
-        lat: 27.299994,
-        lng: -80.296639
-      },
-      {
-        lat: 27.298180,
-        lng: -80.295914
-      },
-      {
-        lat: 27.295884,
-        lng: -80.306346
-      },
-      {
-        lat: 27.303180,
-        lng: -80.320815
-      },
-      {
-        lat: 27.302334,
-        lng: -80.328299
-      }
-    ]
-
-    var polygon = new google.maps.Polygon({
-      paths: paths,
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35
-    });
-
-    console.log(polygon);
-
-    polygon.setMap(map);
-
-    var bounds = new google.maps.LatLngBounds();
-    bounds = polygon.getBounds();
-    map.fitBounds(bounds);
-
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBogJPw220WsvPGVwvTyt3SudYMRVrgiig&amp;callback=initMap"
-  async="" defer=""></script>
--->

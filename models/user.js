@@ -30,6 +30,8 @@ module.exports = function (sequelize, DataTypes) {
     User.hasMany(models.Post, {
       onDelete: 'CASCADE'
     })
+
+    User.belongsToMany(models.Project, { through: 'ProjectFollowers' })
   }
 
   return User
