@@ -1,3 +1,7 @@
+#about img {
+    max-width: 100%;
+}
+
 ul.timeline {
     list-style-type: none;
     position: relative;

@@ -7,8 +7,12 @@
         <p class="lead mb-5 text-white-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab
           labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque
           unde nisi, totam quas ipsam.</p>
+        {{#if (isAuthenticated request)}}
+        <a class="btn btn-primary btn-lg" href="/users/{{request.user.id}}">Go to My Timeline</a>
+        {{else}}
         <a class="btn btn-primary btn-lg" href="/login">Log In</a>
         <a class="btn btn-primary btn-lg" href="/signup">Sign Up</a>
+        {{/if}}
       </div>
     </div>
   </div>

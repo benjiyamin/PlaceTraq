@@ -5,7 +5,8 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     description: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     start: {
       type: DataTypes.DATE,
@@ -20,6 +21,9 @@ module.exports = function (sequelize, DataTypes) {
     },
     shape: {
       type: DataTypes.GEOMETRY
+    },
+    about: {
+      type: DataTypes.JSON
     }
   })
 

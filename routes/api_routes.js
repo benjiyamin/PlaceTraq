@@ -59,6 +59,34 @@ module.exports = function (app) {
   }
   */
 
+  app.put('/api/follow', function (request, response) {
+    /* eslint eqeqeq:0 */
+    if (request.isAuthenticated() && request.user.id == request.query.user_id) {
+      db.Project.findOne({
+        where: {
+          id: request.query.project_id
+        }
+      })
+        .then(project => {
+          db.User.findOne({
+            where: {
+              id: request.query.user_id
+            }
+          })
+            .then(user => {
+              if (request.query.value) {
+                user.addProject(project)
+              } else {
+                user.removeProject(project)
+              }
+              response.json(user)
+            })
+        })
+    } else {
+      response.status(403).end()
+    }
+  })
+
   createReadOnlyRoutes(db.Project, '/api/projects', [db.User])
   createReadOnlyRoutes(db.User, '/api/users', [{
     model: db.Project,

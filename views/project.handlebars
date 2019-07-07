@@ -18,13 +18,13 @@
           <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{formatDate project.start 'MMMM YYYY'}} -
             {{formatDate project.end 'MMMM YYYY'}}</p>
           <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Followers</p>
-          <button type="button" class="btn btn-primary btn-lg btn-block">
+          <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block" {{#if (userFollowsProject request project)}}data-followed{{/if}}>
             {{#if (userFollowsProject request project)}}
             <i class="fas fa-user-minus"></i> Unfollow this Project
             {{else}}
             <i class="fas fa-user-plus"></i> Follow this Project
             {{/if}}
-            </button>
+          </button>
         </div>
       </div>
     </div>
@@ -37,6 +37,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab">Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab">About</a>
         </li>
       </ul>
 
@@ -83,6 +86,9 @@
             </div>
           </div>
         </div>
+        <div class="tab-pane" id="about" role="tabpanel">
+          {{{aboutHtml}}}
+        </div>
       </div>
     </div>
   </div>
@@ -91,6 +97,24 @@
 </div>
 
 {{#section 'js'}}
+<script>
+  $(document).ready(function () {
+    $('#followBtn').click(function () {
+      let followed = $(this).data('followed')
+      let url = '/api/follow?user_id={{request.user.id}}&project_id={{project.id}}&value=' + followed
+      $.ajax({
+          url: url,
+          method: 'PUT'
+        })
+        .done(data => {
+          location.reload()
+        })
+        .fail(error => {
+          throw error
+        })
+    })
+  })
+</script>
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script>

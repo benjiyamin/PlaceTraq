@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
 
 const db = require('../models')
 
@@ -45,9 +46,14 @@ module.exports = function (app) {
         [db.Event, 'datetime', 'DESC']
       ]
     }).then(function (project) {
-      // console.log(request.user)
+      var deltaOps = project.about.ops
+      var cfg = {}
+      var converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
+      var aboutHtml = converter.convert()
+
       response.render('project', {
-        project: project
+        project: project,
+        aboutHtml: aboutHtml
       })
     })
   })
