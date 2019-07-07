@@ -10,6 +10,10 @@ module.exports = {
     dialectOptions: {
       dateStrings: true,
       typeCast: true
+    },
+    define: {
+      underscored: true,
+      timestamps: false
     }
   },
   test: {
@@ -18,10 +22,18 @@ module.exports = {
     database: process.env.MYSQL_TEST_DATABASE || 'testdb',
     host: process.env.MYSQL_HOST || 'localhost',
     dialect: 'mysql',
-    logging: false
+    logging: false,
+    define: {
+      underscored: true,
+      timestamps: false
+    }
   },
   production: {
     use_env_variable: 'JAWSDB_URL',
-    dialect: 'mysql'
+    dialect: 'mysql',
+    define: {
+      underscored: true,
+      timestamps: false
+    }
   }
 }

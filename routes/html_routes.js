@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const db = require('../models')
 
 module.exports = function (app) {
@@ -18,13 +20,14 @@ module.exports = function (app) {
         ]
       }]
     }).then(function (user) {
-      // Need to fix this to actually combine event data in order
       let events = []
       user.Projects.forEach(project => {
         project.Events.forEach(event => {
+          event.project = project
           events.push(event)
         })
       })
+      events = _.sortBy(events, ['datetime']).reverse()
       response.render('user', {
         user: user,
         events: events

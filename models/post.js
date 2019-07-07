@@ -3,11 +3,14 @@ module.exports = function (sequelize, DataTypes) {
     message: {
       type: DataTypes.TEXT
     }
+  }, {
+    timestamps: true
   })
 
   Post.associate = function (models) {
     Post.belongsTo(models.User, {
       foreignKey: {
+        name: 'userId',
         allowNull: false
       }
     })
@@ -16,6 +19,7 @@ module.exports = function (sequelize, DataTypes) {
   Post.associate = function (models) {
     Post.belongsTo(models.Project, {
       foreignKey: {
+        name: 'projectId',
         allowNull: false
       }
     })
