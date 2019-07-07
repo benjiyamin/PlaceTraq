@@ -1,25 +1,25 @@
 module.exports = function (sequelize, DataTypes) {
-  let post = sequelize.define('post', {
+  let Post = sequelize.define('Post', {
     message: {
       type: DataTypes.TEXT
     }
   })
 
-  post.associate = function (models) {
-    post.belongsTo(models.user, {
+  Post.associate = function (models) {
+    Post.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }
     })
   }
 
-  post.associate = function (models) {
-    post.belongsTo(models.project, {
+  Post.associate = function (models) {
+    Post.belongsTo(models.Project, {
       foreignKey: {
         allowNull: false
       }
     })
   }
 
-  return post
+  return Post
 }

@@ -7,7 +7,7 @@ db.sequelize
   })
   .then(function () {
     console.log('Creating a project.')
-    db.project.create({
+    db.Project.create({
       name: 'Crosstown Parkway',
       description: 'The Crosstown Parkway Extension Project will provide a new bridge crossing over the North Fork of the St. Lucie River in the City of Port St. Lucie, connecting the existing Crosstown Parkway from Manth Lane to U.S. 1.',
       start: new Date(2017, 2),
@@ -50,11 +50,11 @@ db.sequelize
         ]
         events.forEach(event => {
           event.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula...'
-          event.projectId = dbProject.id
+          event.ProjectId = dbProject.id
         })
-        db.event.bulkCreate(events).then(function () {
+        db.Event.bulkCreate(events).then(function () {
           console.log('creating user')
-          db.user.create({
+          db.User.create({
             email: 'mail@mail.com',
             password: bCrypt.hashSync('password', bCrypt.genSaltSync(8), null)
           })

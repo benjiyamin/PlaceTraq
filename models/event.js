@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  let event = sequelize.define('event', {
+  let Event = sequelize.define('Event', {
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -13,13 +13,13 @@ module.exports = function (sequelize, DataTypes) {
     }
   })
 
-  event.associate = function (models) {
-    event.belongsTo(models.project, {
+  Event.associate = function (models) {
+    Event.belongsTo(models.Project, {
       foreignKey: {
         allowNull: false
       }
     })
   }
 
-  return event
+  return Event
 }
