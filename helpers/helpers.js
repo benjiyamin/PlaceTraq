@@ -1,6 +1,11 @@
 const moment = require('moment')
 
 module.exports = {
+  section: function (name, options) {
+    if (!this._sections) this._sections = {}
+    this._sections[name] = options.fn(this)
+    return null
+  },
   isAuthenticated: function (request) {
     return request.isAuthenticated()
   },
