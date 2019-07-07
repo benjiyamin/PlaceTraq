@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  let Project = sequelize.define('Project', {
+  let project = sequelize.define('project', {
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -23,13 +23,13 @@ module.exports = function (sequelize, DataTypes) {
     }
   })
 
-  Project.associate = function (models) {
-    Project.hasMany(models.Event, {
+  project.associate = function (models) {
+    project.hasMany(models.event, {
       onDelete: 'CASCADE'
     })
 
-    Project.belongsToMany(models.User, { through: 'ProjectFollowers' })
+    project.belongsToMany(models.user, { through: 'project_followers' })
   }
 
-  return Project
+  return project
 }

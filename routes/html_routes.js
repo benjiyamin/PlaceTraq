@@ -6,22 +6,22 @@ module.exports = function (app) {
   })
 
   app.get('/users/:id', function (request, response) {
-    db.User.findOne({
+    db.user.findOne({
       where: {
         id: request.params.id
       },
       include: [{
-        model: db.Project,
-        include: [db.Event],
+        model: db.project,
+        include: [db.event],
         order: [
-          [db.Event, 'datetime', 'DESC']
+          [db.event, 'datetime', 'DESC']
         ]
       }]
     }).then(function (user) {
       // Need to fix this to actually combine event data in order
       let events = []
-      user.Projects.forEach(project => {
-        project.Events.forEach(event => {
+      user.projects.forEach(project => {
+        project.events.forEach(event => {
           events.push(event)
         })
       })
@@ -33,13 +33,13 @@ module.exports = function (app) {
   })
 
   app.get('/projects/:id', function (request, response) {
-    db.Project.findOne({
+    db.project.findOne({
       where: {
         id: request.params.id
       },
-      include: [db.Event, db.User],
+      include: [db.event, db.user],
       order: [
-        [db.Event, 'datetime', 'DESC']
+        [db.event, 'datetime', 'DESC']
       ]
     }).then(function (project) {
       // console.log(request.user)
