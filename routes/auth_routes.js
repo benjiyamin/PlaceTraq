@@ -13,19 +13,31 @@ module.exports = function (app, passport) {
   app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect: '/signup'
   }), (request, response) => {
-    response.redirect(`users/${request.user.id}`)
+    let redirect = `/users/${request.user.id}`
+    if (request.query.redirect) {
+      redirect = request.query.redirect
+    }
+    response.redirect(redirect)
   })
 
   app.post('/login', passport.authenticate('local-login', {
     failureRedirect: '/login'
   }), (request, response) => {
-    response.redirect(`users/${request.user.id}`)
+    let redirect = `/users/${request.user.id}`
+    if (request.query.redirect) {
+      redirect = request.query.redirect
+    }
+    response.redirect(redirect)
   })
 
   app.get('/logout', function (request, response) {
     request.session.destroy(function (error) {
       if (error) throw error
-      response.redirect('/')
+      let redirect = '/'
+      if (request.query.redirect) {
+        redirect = request.query.redirect
+      }
+      response.redirect(redirect)
     })
   })
 }

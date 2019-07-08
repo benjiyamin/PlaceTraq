@@ -18,13 +18,19 @@
           <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{formatDate project.start 'MMMM YYYY'}} -
             {{formatDate project.end 'MMMM YYYY'}}</p>
           <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Followers</p>
-          <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block" {{#if (userFollowsProject request project)}}data-followed{{/if}}>
+          {{#if (isAuthenticated request)}}
+          <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
+            {{#if (userFollowsProject request project)}}data-followed{{/if}}>
             {{#if (userFollowsProject request project)}}
             <i class="fas fa-user-minus"></i> Unfollow this Project
             {{else}}
             <i class="fas fa-user-plus"></i> Follow this Project
             {{/if}}
           </button>
+          {{else}}
+          <a type="button" class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i class="fas fa-user-plus"></i> Login
+            to Follow</a>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -36,10 +42,10 @@
           <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab">Timeline</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab">Posts</a>
+          <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab">About</a>
+          <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab">Posts</a>
         </li>
       </ul>
 
@@ -72,6 +78,9 @@
             </div>
           </div>
         </div>
+        <div class="tab-pane" id="about" role="tabpanel">
+          {{{aboutHtml}}}
+        </div>
         <div class="tab-pane" id="posts" role="tabpanel">
           <div class="card">
             <div class="card-body">
@@ -85,9 +94,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="about" role="tabpanel">
-          {{{aboutHtml}}}
         </div>
       </div>
     </div>

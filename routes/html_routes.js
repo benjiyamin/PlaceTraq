@@ -59,12 +59,20 @@ module.exports = function (app) {
   })
 
   app.get('/signup', function (request, response) {
-    response.render('login', {
+    let context = {
       signUp: true
-    })
+    }
+    if (request.query.redirect) {
+      context.redirect = request.query.redirect
+    }
+    response.render('login', context)
   })
 
   app.get('/login', function (request, response) {
-    response.render('login', {})
+    let context = {}
+    if (request.query.redirect) {
+      context.redirect = request.query.redirect
+    }
+    response.render('login', context)
   })
 }

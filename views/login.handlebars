@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-lg-6 offset-lg-3">
 
-      <form action="/{{#if signUp}}signup{{else}}login{{/if}}" method="POST">
+      <form action="/{{#if signUp}}signup{{else}}login{{/if}}{{#if request.query.redirect}}?redirect={{request.query.redirect}}{{/if}}" method="POST">
         <h2>{{#if signUp}}Sign Up{{else}}Log In{{/if}}</h2>
         {{#if signUp}}<p>Please fill in this form to create an account!{{else}}Welcome back!{{/if}}</p>
         <hr>
