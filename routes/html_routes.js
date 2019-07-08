@@ -1,3 +1,5 @@
+const Op = require('sequelize').Op
+
 const _ = require('lodash')
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
 
@@ -58,10 +60,34 @@ module.exports = function (app) {
     })
   })
 
+  app.get('/projects', function (request, response) {
+    let search = request.query.search
+    let words = search.split(/[\s,]+/)
+    let queryList = []
+    words.forEach(word => {
+      let queryGroup = [
+        { name: { [Op.substring]: word } },
+        { description: { [Op.substring]: word } },
+        { location: { [Op.substring]: word } },
+        { about: { [Op.substring]: word } }
+      ]
+      queryList.push({ [Op.or]: queryGroup })
+    })
+    db.Project.findAll({
+      where: {
+        [Op.and]: queryList
+      }
+    }).then(function (projects) {
+      let context = { projects: projects }
+      if (search) {
+        context.search = search
+      }
+      response.render('projects', context)
+    })
+  })
+
   app.get('/signup', function (request, response) {
-    let context = {
-      signUp: true
-    }
+    let context = { signUp: true }
     if (request.query.redirect) {
       context.redirect = request.query.redirect
     }
