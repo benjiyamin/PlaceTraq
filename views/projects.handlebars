@@ -9,7 +9,8 @@
           <!--end of col-->
           <div class="col mx-3">
             <input class="form-control form-control-borderless mr-sm-2" type="search"
-              placeholder="Search locations or keywords" id="searchInput" {{#if search}} value="{{search}}" {{/if}}>
+              placeholder="Search projects by location or keyword" id="searchInput" {{#if search}} value="{{search}}"
+              {{/if}}>
           </div>
           <!--end of col-->
           <div class="col-auto">
@@ -32,24 +33,10 @@
 
 {{#section 'js'}}
 <script src="/js/jquery-cursor-end.js"></script>
-
+<script src="/js/search.js"></script>
 <script>
   $(document).ready(function () {
-    let $searchBtn = $('#searchBtn')
-    let $searchInput = $('#searchInput')
-
-    $searchBtn.click(function () {
-      let search = $searchInput.val().trim()
-      let url = '/projects?search=' + search
-      window.location.replace(url)
-    })
-
-    $searchInput.keyup(function (event) {
-        if (event.which == 13) {
-          $searchBtn.click()
-        }
-      })
-      .focus().putCursorAtEnd()
+    $('#searchInput').focus().putCursorAtEnd()
   })
 </script>
 {{/section}}

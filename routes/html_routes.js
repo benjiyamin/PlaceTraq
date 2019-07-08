@@ -62,22 +62,26 @@ module.exports = function (app) {
 
   app.get('/projects', function (request, response) {
     let search = request.query.search
-    let words = search.split(/[\s,]+/)
-    let queryList = []
-    words.forEach(word => {
-      let queryGroup = [
-        { name: { [Op.substring]: word } },
-        { description: { [Op.substring]: word } },
-        { location: { [Op.substring]: word } },
-        { about: { [Op.substring]: word } }
-      ]
-      queryList.push({ [Op.or]: queryGroup })
-    })
-    db.Project.findAll({
-      where: {
-        [Op.and]: queryList
+    let findQuery = {}
+    if (search) {
+      let words = search.split(/[\s,]+/)
+      let queryList = []
+      words.forEach(word => {
+        let queryGroup = [
+          { name: { [Op.substring]: word } },
+          { description: { [Op.substring]: word } },
+          { location: { [Op.substring]: word } },
+          { about: { [Op.substring]: word } }
+        ]
+        queryList.push({ [Op.or]: queryGroup })
+      })
+      findQuery = {
+        where: {
+          [Op.and]: queryList
+        }
       }
-    }).then(function (projects) {
+    }
+    db.Project.findAll(findQuery).then(function (projects) {
       let context = { projects: projects }
       if (search) {
         context.search = search
