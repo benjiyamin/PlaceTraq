@@ -48,15 +48,18 @@ module.exports = function (app) {
         [db.Event, 'datetime', 'DESC']
       ]
     }).then(function (project) {
-      var deltaOps = project.about.ops
-      var cfg = {}
-      var converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
-      var aboutHtml = converter.convert()
-
-      response.render('project', {
+      let deltaOps = project.about.ops
+      let cfg = {}
+      let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
+      let aboutHtml = converter.convert()
+      let context = {
         project: project,
         aboutHtml: aboutHtml
-      })
+      }
+      if (request.query.edit && request.isAuthenticated()) { // Change later to provide authentication with the request.user
+        context.edit = true
+      }
+      response.render('project', context)
     })
   })
 

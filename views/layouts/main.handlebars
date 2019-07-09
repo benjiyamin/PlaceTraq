@@ -27,6 +27,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
+        {{{_sections.nav-items}}}
         {{#if (isAuthenticated request)}}
         <li class="nav-item">
           <a class="nav-item nav-link" href="/users/{{request.user.id}}">My Feed</a>
