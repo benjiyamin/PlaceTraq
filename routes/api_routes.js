@@ -6,12 +6,8 @@ module.exports = function (app) {
       let options = {}
       if (includeModels) options.include = includeModels
       model.findAll(options)
-        .then(data => {
-          response.json(data)
-        })
-        .catch(() => {
-          response.status(500).end()
-        })
+        .then(data => { response.json(data) })
+        .catch(() => { response.status(500).end() })
     })
   }
 
@@ -58,6 +54,20 @@ module.exports = function (app) {
     })
   }
   */
+
+  app.put('/api/projects', function (request, response) {
+    if (!request.isAuthenticated()) {
+      response.status(401).end() // Unauthorized
+    } else {
+      db.Project.update(request.body, {
+        where: {
+          id: request.body.id
+        }
+      })
+        .then(project => { response.json(project) })
+        .catch(() => { response.status(500).end() })
+    }
+  })
 
   app.put('/api/follow', function (request, response) {
     /* eslint eqeqeq:0 */
