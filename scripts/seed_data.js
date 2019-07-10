@@ -8,21 +8,49 @@ db.sequelize
     force: true
   })
   .then(function () {
-    fs.readFile('./scripts/about_quill1.json', (err, data) => {
-      if (err) throw err
-      let about = JSON.parse(data)
-      createProject1(about)
-    })
-  })
-  .then(function () {
-    fs.readFile('./scripts/about_quill2.json', (err, data) => {
-      if (err) throw err
-      let about = JSON.parse(data)
-      createProject2(about)
-    })
+    createGroup()
   })
 
-function createProject1 (about) {
+function createGroup () {
+  db.Group.create({
+    name: 'Department of Transportation'
+  })
+    .then(function (dbGroup) {
+      createUser(dbGroup)
+    })
+}
+
+function createUser (group) {
+  db.User.create({
+    email: 'mail@mail.com',
+    password: bCrypt.hashSync('password', bCrypt.genSaltSync(8), null)
+  })
+    .then(function (dbUser) {
+      createMember(group, dbUser)
+    })
+}
+
+function createMember (group, user) {
+  console.log(group.id, user.id)
+  db.Member.create({
+    GroupId: group.id,
+    UserId: user.id
+  })
+    .then(function () {
+      fs.readFile('./scripts/about_quill1.json', (err, data) => {
+        if (err) throw err
+        let about = JSON.parse(data)
+        createProject1(about, user)
+      })
+      fs.readFile('./scripts/about_quill2.json', (err, data) => {
+        if (err) throw err
+        let about = JSON.parse(data)
+        createProject2(about, user)
+      })
+    })
+}
+
+function createProject1 (about, user) {
   console.log('Creating a project.')
   db.Project.create({
     name: 'Crosstown Parkway',
@@ -33,6 +61,7 @@ function createProject1 (about) {
     about: about
   })
     .then(function (project) {
+      user.addProject(project)
       createEvents1(project)
     })
 }
@@ -75,27 +104,10 @@ function createEvents1 (project) {
     event.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula...'
     event.ProjectId = project.id
   })
-  db.Event.bulkCreate(events).then(function () {
-    console.log('creating user')
-    createUser(project)
-  })
+  db.Event.bulkCreate(events).then(function () {})
 }
 
-function createUser (project) {
-  db.User.create({
-    email: 'mail@mail.com',
-    password: bCrypt.hashSync('password', bCrypt.genSaltSync(8), null)
-  })
-    .then(function (dbUser) {
-      dbUser.addProject(project)
-        .then(function () {
-          console.log('Script finished')
-          process.exit()
-        })
-    })
-}
-
-function createProject2 (about) {
+function createProject2 (about, user) {
   console.log('Creating a project.')
   db.Project.create({
     name: 'I-4 Ultimate',
@@ -106,6 +118,7 @@ function createProject2 (about) {
     about: about
   })
     .then(function (project) {
+      user.addProject(project)
       createEvents2(project)
     })
 }
