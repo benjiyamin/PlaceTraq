@@ -1,8 +1,8 @@
 /* eslint no-unused-expressions: 0 */
 
-var chai = require('chai')
-var chaiHttp = require('chai-http')
-var expect = chai.expect
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const expect = chai.expect
 
 // Setting up the chai http plugin
 chai.use(chaiHttp)

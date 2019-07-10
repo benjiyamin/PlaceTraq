@@ -61,7 +61,11 @@ module.exports = function (app) {
 
   app.put('/api/follow', function (request, response) {
     /* eslint eqeqeq:0 */
-    if (request.isAuthenticated() && request.user.id == request.query.user_id) {
+    if (!request.isAuthenticated()) {
+      response.status(401).end() // Unauthorized
+    } else if (request.user.id != request.query.user_id) {
+      response.status(403).end() // Forbidden
+    } else {
       db.Project.findOne({
         where: {
           id: request.query.project_id
@@ -82,8 +86,6 @@ module.exports = function (app) {
               response.json(user)
             })
         })
-    } else {
-      response.status(403).end()
     }
   })
 

@@ -52,3 +52,5 @@ db.sequelize.sync({
       console.log(`App now listening at PORT ${PORT}`)
     })
   })
+
+module.exports = app
