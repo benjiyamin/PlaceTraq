@@ -28,6 +28,12 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Project.associate = function (models) {
+    Project.belongsTo(models.Group, {
+      foreignKey: {
+        allowNull: false
+      }
+    })
+
     Project.hasMany(models.Event, {
       onDelete: 'CASCADE'
     })

@@ -42,17 +42,17 @@ function createMember (group, user) {
       fs.readFile('./scripts/about_quill1.json', (err, data) => {
         if (err) throw err
         let about = JSON.parse(data)
-        createProject1(about, user)
+        createProject1(about, user, group)
       })
       fs.readFile('./scripts/about_quill2.json', (err, data) => {
         if (err) throw err
         let about = JSON.parse(data)
-        createProject2(about, user)
+        createProject2(about, user, group)
       })
     })
 }
 
-function createProject1 (about, user) {
+function createProject1 (about, user, group) {
   console.log('Creating a project.')
   db.Project.create({
     name: 'Crosstown Parkway',
@@ -60,7 +60,8 @@ function createProject1 (about, user) {
     start: new Date(2017, 1),
     end: new Date(2019, 8),
     location: 'Port St. Lucie, FL',
-    about: about
+    about: about,
+    GroupId: group.id
   })
     .then(function (project) {
       user.addProject(project)
@@ -109,7 +110,7 @@ function createEvents1 (project) {
   db.Event.bulkCreate(events).then(function () {})
 }
 
-function createProject2 (about, user) {
+function createProject2 (about, user, group) {
   console.log('Creating a project.')
   db.Project.create({
     name: 'I-4 Ultimate',
@@ -117,7 +118,8 @@ function createProject2 (about, user) {
     start: new Date(2015, 1),
     end: new Date(2021, 2),
     location: 'Orlando, FL',
-    about: about
+    about: about,
+    GroupId: group.id
   })
     .then(function (project) {
       user.addProject(project)

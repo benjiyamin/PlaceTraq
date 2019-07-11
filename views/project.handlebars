@@ -45,7 +45,7 @@
             {{/if}}
           </button>
           {{else}}
-          <a type="button" class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i class="fas fa-user-plus"></i> Login
+          <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i class="fas fa-user-plus"></i> Login
             to Follow</a>
           {{/if}}
         </div>
@@ -186,7 +186,7 @@
       let url = '/api/follow?user_id={{request.user.id}}&project_id={{project.id}}&value=' + followed
       $.ajax({
           url: url,
-          method: 'PUT'
+          type: 'PUT'
         })
         .done(function (data) {
           document.location.reload()

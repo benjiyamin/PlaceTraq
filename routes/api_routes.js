@@ -93,13 +93,14 @@ module.exports = function (app) {
               } else {
                 user.removeProject(project)
               }
-              response.json(user)
+              response.status(200).end()
             })
         })
     }
   })
 
-  createReadOnlyRoutes(db.Project, '/api/projects', [db.User])
+  createReadOnlyRoutes(db.Project, '/api/projects')
+  createReadOnlyRoutes(db.Member, '/api/members')
   createReadOnlyRoutes(db.Group, '/api/groups', [{
     model: db.Member,
     include: [db.User, db.Group]

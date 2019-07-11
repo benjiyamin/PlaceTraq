@@ -68,7 +68,13 @@ module.exports = function (app) {
       where: {
         id: request.params.id
       },
-      include: [db.Event, db.User],
+      include: [db.Event, db.User, {
+        model: db.Group,
+        include: [{
+          model: db.Member,
+          include: [db.User]
+        }]
+      }],
       order: [
         [db.Event, 'start', 'DESC']
       ]
@@ -82,7 +88,10 @@ module.exports = function (app) {
         aboutHtml: aboutHtml
       }
       if (request.query.edit && request.isAuthenticated()) { // Change later to provide authentication with the request.user
-        context.edit = true
+        let users = project.Group.Members.map(member => member.User)
+        if (_.filter(users, { id: request.user.id }).length) {
+          context.edit = true // requestUserInProjectGroup = true
+        }
       }
       response.render('project', context)
     })
