@@ -10,6 +10,25 @@ module.exports = function (app) {
     response.render('index', {})
   })
 
+  app.get('/groups/:id', function (request, response) {
+    db.Group.findOne({
+      where: {
+        id: request.params.id
+      },
+      include: [{
+        model: db.Member,
+        include: [db.User, db.Group]
+      }],
+      order: [
+        [db.Member, 'isOwner', 'ASC']
+      ]
+    }).then(function (group) {
+      response.render('group', {
+        group: group
+      })
+    })
+  })
+
   app.get('/users/:id', function (request, response) {
     db.User.findOne({
       where: {
@@ -19,8 +38,14 @@ module.exports = function (app) {
         model: db.Project,
         include: [db.Event],
         order: [
-          [db.Event, 'datetime', 'DESC']
+          [db.Event, 'start', 'DESC']
         ]
+      }, {
+        model: db.Member,
+        include: [{
+          model: db.Group,
+          include: [db.Member]
+        }]
       }]
     }).then(function (user) {
       let events = []
@@ -30,7 +55,7 @@ module.exports = function (app) {
           events.push(event)
         })
       })
-      events = _.sortBy(events, ['datetime']).reverse()
+      events = _.sortBy(events, ['start']).reverse()
       response.render('user', {
         user: user,
         events: events
@@ -45,7 +70,7 @@ module.exports = function (app) {
       },
       include: [db.Event, db.User],
       order: [
-        [db.Event, 'datetime', 'DESC']
+        [db.Event, 'start', 'DESC']
       ]
     }).then(function (project) {
       let deltaOps = project.about.ops

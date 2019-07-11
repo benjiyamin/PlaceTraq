@@ -11,18 +11,24 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    first_name: {
+    firstName: {
       type: DataTypes.STRING
     },
-    last_name: {
+    lastName: {
       type: DataTypes.STRING
     },
-    last_login: {
+    lastLogin: {
       type: DataTypes.DATE
     },
     status: {
       type: DataTypes.ENUM('active', 'inactive'),
       defaultValue: 'active'
+    }
+  }, {
+    getterMethods: {
+      fullName () {
+        return `${this.firstName} ${this.lastName}`
+      }
     }
   })
 

@@ -7,9 +7,13 @@ module.exports = function (sequelize, DataTypes) {
     description: {
       type: DataTypes.TEXT
     },
-    datetime: {
+    start: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    end: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   })
 

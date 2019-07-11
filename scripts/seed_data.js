@@ -22,6 +22,8 @@ function createGroup () {
 
 function createUser (group) {
   db.User.create({
+    firstName: 'John',
+    lastName: 'Smith',
     email: 'mail@mail.com',
     password: bCrypt.hashSync('password', bCrypt.genSaltSync(8), null)
   })
@@ -70,34 +72,34 @@ function createEvents1 (project) {
   console.log('Creating events.')
   let events = [{
     name: 'Start Construction - Manth Lane to Coral Reef Street',
-    datetime: new Date(2017, 1)
+    start: new Date(2017, 1)
   }, {
     name: 'Start Construction - Bridge',
-    datetime: new Date(2017, 3)
+    start: new Date(2017, 3)
   },
   {
     name: 'Start Construction - Floresta Intersection',
-    datetime: new Date(2017, 5)
+    start: new Date(2017, 5)
   },
   {
     name: 'End Construction - Floresta Intersection',
-    datetime: new Date(2017, 7)
+    start: new Date(2017, 7)
   },
   {
     name: 'Start Construction - US Highway 1 and Village Green',
-    datetime: new Date(2017, 7)
+    start: new Date(2017, 7)
   },
   {
     name: 'End Construction - US Highway 1 and Village Green',
-    datetime: new Date(2019, 3)
+    start: new Date(2019, 3)
   },
   {
     name: 'End Construction - Manth Lane to Coral Reef Street',
-    datetime: new Date(2019, 7)
+    start: new Date(2019, 7)
   },
   {
     name: 'End Construction - Bridge',
-    datetime: new Date(2019, 10)
+    start: new Date(2019, 10)
   }
   ]
   events.forEach(event => {
@@ -127,30 +129,30 @@ function createEvents2 (project) {
   console.log('Creating events.')
   let events = [{
     name: 'Westbound entrance and exit ramps at S.R. 434 Closing for Two Nights',
-    datetime: new Date(2019, 5, 24)
+    start: new Date(2019, 5, 24)
   }, {
     name: 'Westbound entrance and exit ramps at S.R. 434 Open',
-    datetime: new Date(2019, 5, 25)
+    start: new Date(2019, 5, 25)
   },
   {
     name: 'Rio Grande Ave. under I-4 closing continuously June 28-30',
-    datetime: new Date(2019, 5, 28)
+    start: new Date(2019, 5, 28)
   },
   {
     name: 'Rio Grande Ave. under I-4 open',
-    datetime: new Date(2019, 5, 28)
+    start: new Date(2019, 5, 28)
   },
   {
     name: 'Maitland Boulevard Temporarily Closing for One Night',
-    datetime: new Date(2019, 5, 27)
+    start: new Date(2019, 5, 27)
   },
   {
     name: 'WB I-4 through downtown Orlando shifting June 29',
-    datetime: new Date(2019, 5, 27)
+    start: new Date(2019, 5, 27)
   },
   {
     name: 'WB I-4 exit ramp to Lee Road shifting on June 30',
-    datetime: new Date(2019, 5, 30)
+    start: new Date(2019, 5, 30)
   }
   ]
   events.forEach(event => {

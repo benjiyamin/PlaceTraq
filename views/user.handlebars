@@ -13,7 +13,6 @@
 
     <div class="col-md-4 mb-5">
       <h4 class="jumbotron p-2 text-center">Projects</h4>
-
       <div class="row justify-content-center my-4">
         <div class="col-12">
           <div>
@@ -32,9 +31,13 @@
         </div>
         <!--end of col-->
       </div>
-
       {{#each user.Projects}}
       {{> project/project-block}}
+      {{/each}}
+
+      <h4 class="jumbotron p-2 text-center">Groups</h4>
+      {{#each user.Members}}
+      {{> member/group-block}}
       {{/each}}
     </div>
 
