@@ -15,7 +15,7 @@ module.exports = function (app) {
       where: {
         id: request.params.id
       },
-      include: [{
+      include: [db.Project, {
         model: db.Member,
         include: [db.User, db.Group]
       }],
