@@ -5,62 +5,85 @@ const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtm
 
 const db = require('../models')
 
+function userIsMemberOfGroup (user, group) {
+  let users = group.Members.map(member => member.User)
+  if (_.filter(users, { id: user.id }).length) {
+    return true
+  } else {
+    return false
+  }
+}
+
 module.exports = function (app) {
   app.get('/', function (request, response) {
     response.render('index', {})
   })
 
   app.get('/groups/:id', function (request, response) {
-    db.Group.findOne({
-      where: {
-        id: request.params.id
-      },
-      include: [db.Project, {
-        model: db.Member,
-        include: [db.User, db.Group]
-      }],
-      order: [
-        [db.Member, 'isOwner', 'ASC']
-      ]
-    }).then(function (group) {
-      response.render('group', {
-        group: group
+    if (!request.isAuthenticated()) { // User not logged in
+      response.redirect('/login')
+    } else {
+      db.Group.findOne({
+        where: {
+          id: request.params.id
+        },
+        include: [db.Project, {
+          model: db.Member,
+          include: [db.User, db.Group]
+        }],
+        order: [
+          [db.Member, 'isOwner', 'ASC']
+        ]
+      }).then(function (group) {
+        if (userIsMemberOfGroup(request.user, group)) { // Request user is a member of the group. Authorized to edit page
+          response.render('group', {
+            group: group
+          })
+        } else { // User logged in, but trying to access a group page in which they are not a member.
+          response.redirect('/')
+        }
       })
-    })
+    }
   })
 
   app.get('/users/:id', function (request, response) {
-    db.User.findOne({
-      where: {
-        id: request.params.id
-      },
-      include: [{
-        model: db.Project,
-        include: [db.Event],
-        order: [
-          [db.Event, 'start', 'DESC']
-        ]
-      }, {
-        model: db.Member,
+    if (!request.isAuthenticated()) { // User not logged in
+      response.redirect('/login')
+    } else if (request.user.id.toString() !== request.params.id) { // User logged in, but trying to access another user's page
+      response.redirect('/')
+    } else { // Authenticated and authorized to load user page
+      db.User.findOne({
+        where: {
+          id: request.params.id
+        },
         include: [{
-          model: db.Group,
-          include: [db.Member]
+          model: db.Project,
+          include: [db.Event],
+          order: [
+            [db.Event, 'start', 'DESC']
+          ]
+        }, {
+          model: db.Member,
+          include: [{
+            model: db.Group,
+            include: [db.Member]
+          }]
         }]
-      }]
-    }).then(function (user) {
-      let events = []
-      user.Projects.forEach(project => {
-        project.Events.forEach(event => {
-          event.project = project
-          events.push(event)
+      }).then(function (user) {
+        let events = []
+        user.Projects.forEach(project => {
+          project.Events.forEach(event => {
+            event.project = project
+            events.push(event)
+          })
+        })
+        events = _.sortBy(events, ['start']).reverse()
+        response.render('user', {
+          user: user,
+          events: events
         })
       })
-      events = _.sortBy(events, ['start']).reverse()
-      response.render('user', {
-        user: user,
-        events: events
-      })
-    })
+    }
   })
 
   app.get('/projects/:id', function (request, response) {
@@ -87,11 +110,8 @@ module.exports = function (app) {
         project: project,
         aboutHtml: aboutHtml
       }
-      if (request.query.edit && request.isAuthenticated()) { // Change later to provide authentication with the request.user
-        let users = project.Group.Members.map(member => member.User)
-        if (_.filter(users, { id: request.user.id }).length) {
-          context.edit = true // requestUserInProjectGroup = true
-        }
+      if (request.query.edit && request.isAuthenticated()) {
+        context.edit = userIsMemberOfGroup(request.user, project.Group) // Checks if request user is a member of the group / Authorized to edit page
       }
       response.render('project', context)
     })
