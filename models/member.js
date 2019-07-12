@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
   let Member = sequelize.define('Member', {
     isOwner: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     }
   })
 

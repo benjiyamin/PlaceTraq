@@ -55,6 +55,24 @@ module.exports = function (app) {
   }
   */
 
+  app.post('/api/groups', function (request, response) {
+    if (!request.isAuthenticated()) {
+      response.status(401).end() // Unauthorized
+    } else {
+      db.Group.create(request.body)
+        .then(group => {
+          db.Member.create({
+            GroupId: group.id,
+            UserId: request.user.id,
+            isOwner: true
+          })
+            .then(() => { response.json(group) })
+            .catch(() => { response.status(500).end() })
+        })
+        .catch(() => { response.status(500).end() })
+    }
+  })
+
   app.put('/api/projects', function (request, response) {
     if (!request.isAuthenticated()) {
       response.status(401).end() // Unauthorized
@@ -69,31 +87,28 @@ module.exports = function (app) {
     }
   })
 
-  app.put('/api/follow', function (request, response) {
-    /* eslint eqeqeq:0 */
+  app.put('/api/follow/:id', function (request, response) {
     if (!request.isAuthenticated()) {
       response.status(401).end() // Unauthorized
-    } else if (request.user.id != request.query.user_id) {
-      response.status(403).end() // Forbidden
     } else {
       db.Project.findOne({
         where: {
-          id: request.query.project_id
+          id: request.params.id
         }
       })
         .then(project => {
           db.User.findOne({
             where: {
-              id: request.query.user_id
+              id: request.user.id
             }
           })
             .then(user => {
-              if (request.query.value) {
-                user.addProject(project)
-              } else {
+              if (request.query.unfollow) {
                 user.removeProject(project)
+              } else {
+                user.addProject(project)
               }
-              response.status(200).end()
+              response.json(user)
             })
         })
     }

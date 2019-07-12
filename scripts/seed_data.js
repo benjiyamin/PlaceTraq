@@ -36,7 +36,8 @@ function createMember (group, user) {
   console.log(group.id, user.id)
   db.Member.create({
     GroupId: group.id,
-    UserId: user.id
+    UserId: user.id,
+    isOwner: true
   })
     .then(function () {
       fs.readFile('./scripts/about_quill1.json', (err, data) => {

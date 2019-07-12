@@ -35,7 +35,12 @@
       {{> project/project-block}}
       {{/each}}
 
-      <h4 class="jumbotron p-2 text-center">Groups</h4>
+      <h4 class="jumbotron p-2 text-center">
+          Groups
+          <span class="input-group-append">
+            <button class="btn btn-link" data-toggle="modal" data-target="#groupModal" type="button"><i class="fas fa-plus"></i></button>
+          </span>
+      </h4>
       {{#each user.Members}}
       {{> member/group-block}}
       {{/each}}
@@ -44,6 +49,9 @@
   </div>
 </div>
 
+{{> group/group-modal }}
+
 {{#section 'js'}}
 <script src="/js/search.js"></script>
+<script src="/js/user.js"></script>
 {{/section}}
