@@ -13,7 +13,8 @@ module.exports = function (app) {
   })
 
   app.get('/groups/:id', function (request, response) {
-    if (!request.isAuthenticated()) { // User not logged in
+    if (!request.isAuthenticated()) {
+      // User not logged in
       response.redirect('/login')
     } else {
       db.Group.findOne({
@@ -24,11 +25,14 @@ module.exports = function (app) {
         }],
         order: [ [db.Member, 'isOwner', 'ASC'] ]
       }).then(function (group) {
-        if (userIsMemberOfGroup(request.user, group)) { // Request user is a member of the group. Authorized to edit page
+        if (userIsMemberOfGroup(request.user, group)) {
+          // Request user is a member of the group. Authorized to edit page
           response.render('group', {
             group: group
           })
-        } else { // User logged in, but trying to access a group page in which they are not a member.
+        } else {
+          // User logged in, but trying to access a group page in which they
+          // are not a member.
           response.redirect('/')
         }
       })
@@ -36,11 +40,14 @@ module.exports = function (app) {
   })
 
   app.get('/users/:id', function (request, response) {
-    if (!request.isAuthenticated()) { // User not logged in
+    if (!request.isAuthenticated()) {
+      // User not logged in
       response.redirect('/login')
-    } else if (request.user.id.toString() !== request.params.id) { // User logged in, but trying to access another user's page
+    } else if (request.user.id.toString() !== request.params.id) {
+      // User logged in, but trying to access another user's page
       response.redirect('/')
-    } else { // Authenticated and authorized to load user page
+    } else {
+      // Authenticated and authorized to load user page
       db.User.findOne({
         where: { id: request.params.id },
         include: [{
