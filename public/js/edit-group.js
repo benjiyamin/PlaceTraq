@@ -12,7 +12,7 @@ $(document).ready(function () {
         description: description
       }
     })
-      .done(project => { document.location.reload() })
+      .done(project => document.location.reload())
       .fail(error => { throw error })
   })
 })

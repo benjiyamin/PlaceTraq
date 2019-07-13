@@ -22,7 +22,7 @@ $(document).ready(function () {
         end: end
       }
     })
-      .done(project => { document.location.reload() })
+      .done(project => document.location.reload())
       .fail(error => { throw error })
   })
 })

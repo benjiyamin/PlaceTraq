@@ -7,8 +7,8 @@ module.exports = function (app) {
       let options = {}
       if (includeModels) options.include = includeModels
       model.findAll(options)
-        .then(data => { response.json(data) })
-        .catch(() => { response.status(500).end() })
+        .then(data => response.json(data))
+        .catch(() => response.status(500).end())
     })
   }
 
@@ -67,10 +67,10 @@ module.exports = function (app) {
             UserId: request.user.id,
             isOwner: true
           })
-            .then(() => { response.json(group) })
-            .catch(() => { response.status(500).end() })
+            .then(() => response.json(group))
+            .catch(() => response.status(500).end())
         })
-        .catch(() => { response.status(500).end() })
+        .catch(() => response.status(500).end())
     }
   })
 
@@ -89,8 +89,8 @@ module.exports = function (app) {
         .then(group => {
           if (userIsMemberOfGroup(request.user, group)) {
             group.update(request.body)
-              .then(() => { response.json(group) })
-              .catch(() => { response.status(500).end() })
+              .then(() => response.json(group))
+              .catch(() => response.status(500).end())
           } else {
             response.status(403).end() // Forbidden
           }
@@ -109,12 +109,12 @@ module.exports = function (app) {
           include: [db.User]
         }]
       })
-        .catch(() => { response.status(500).end() })
+        .catch(() => response.status(500).end())
         .then((group) => {
           if (userIsMemberOfGroup(request.user, group)) {
             db.Project.create(request.body)
-              .then((project) => { response.json(project) })
-              .catch(() => { response.status(500).end() })
+              .then(project => response.json(project))
+              .catch(() => response.status(500).end())
           } else {
             response.status(403).end() // Forbidden
           }
@@ -140,8 +140,8 @@ module.exports = function (app) {
         .then(project => {
           if (userIsMemberOfGroup(request.user, project.Group)) {
             project.update(request.body)
-              .then(() => { response.json(project) })
-              .catch(() => { response.status(500).end() })
+              .then(() => response.json(project))
+              .catch(() => response.status(500).end())
           } else {
             response.status(403).end() // Forbidden
           }
@@ -156,19 +156,19 @@ module.exports = function (app) {
       db.Project.findOne({
         where: { id: request.params.id }
       })
-        .catch(() => { response.status(500).end() })
+        .catch(() => response.status(500).end())
         .then(project => {
           db.User.findOne({
             where: { id: request.user.id }
           })
-            .catch(() => { response.status(500).end() })
+            .catch(() => response.status(500).end())
             .then(user => {
-              // request.query.unfollow ? user.removeProject(project) : user.addProject(project)
-              if (request.query.unfollow) {
+              request.query.unfollow ? user.removeProject(project) : user.addProject(project)
+              /* if (request.query.unfollow) {
                 user.removeProject(project)
               } else {
                 user.addProject(project)
-              }
+              } */
               response.json(project)
             })
         })

@@ -15,9 +15,7 @@ function createGroup () {
   db.Group.create({
     name: 'Department of Transportation'
   })
-    .then(function (dbGroup) {
-      createUser(dbGroup)
-    })
+    .then(dbGroup => createUser(dbGroup))
 }
 
 function createUser (group) {
@@ -27,9 +25,7 @@ function createUser (group) {
     email: 'mail@mail.com',
     password: bCrypt.hashSync('password', bCrypt.genSaltSync(8), null)
   })
-    .then(function (dbUser) {
-      createMember(group, dbUser)
-    })
+    .then(dbUser => createMember(group, dbUser))
 }
 
 function createMember (group, user) {
@@ -64,7 +60,7 @@ function createProject1 (about, user, group) {
     about: about,
     GroupId: group.id
   })
-    .then(function (project) {
+    .then(project => {
       user.addProject(project)
       createEvents1(project)
     })
@@ -122,7 +118,7 @@ function createProject2 (about, user, group) {
     about: about,
     GroupId: group.id
   })
-    .then(function (project) {
+    .then(project => {
       user.addProject(project)
       createEvents2(project)
     })

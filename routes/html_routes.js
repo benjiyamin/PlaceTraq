@@ -103,9 +103,6 @@ module.exports = function (app) {
         let aboutHtml = converter.convert()
         context.aboutHtml = aboutHtml
       }
-      // if (request.query.edit && request.isAuthenticated()) {
-      //  context.edit = userIsMemberOfGroup(request.user, project.Group) // Checks if request user is a member of the group / Authorized to edit page
-      // }
       response.render('project', context)
     })
   })
@@ -146,9 +143,7 @@ module.exports = function (app) {
 
   app.get('/login', function (request, response) {
     let context = {}
-    if (request.query.redirect) {
-      context.redirect = request.query.redirect
-    }
+    if (request.query.redirect) context.redirect = request.query.redirect
     response.render('login', context)
   })
 }
