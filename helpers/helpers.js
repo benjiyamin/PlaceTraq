@@ -23,4 +23,14 @@ helpers.userIsMemberOfGroup = function (user, group) {
   }
 }
 
+helpers.userIsOwnerOfGroup = function (user, group) {
+  let members = group.Members.filter(m => (m.isOwner === true))
+  let users = members.map(member => member.User)
+  if (user && group && users.filter(u => (u.id === user.id)).length) {
+    return true
+  } else {
+    return false
+  }
+}
+
 module.exports = helpers

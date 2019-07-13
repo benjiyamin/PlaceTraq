@@ -74,6 +74,30 @@ module.exports = function (app) {
     }
   })
 
+  app.put('/api/groups', function (request, response) {
+    if (!request.isAuthenticated()) {
+      response.status(401).end() // Unauthorized
+    } else {
+      db.Group.findOne({
+        where: { id: request.body.id },
+        include: [{
+          model: db.Member,
+          include: [db.User]
+        }]
+      })
+        .catch(() => { response.status(500).end() })
+        .then(group => {
+          if (userIsMemberOfGroup(request.user, group)) {
+            group.update(request.body)
+              .then(() => { response.json(group) })
+              .catch(() => { response.status(500).end() })
+          } else {
+            response.status(403).end() // Forbidden
+          }
+        })
+    }
+  })
+
   app.post('/api/projects', function (request, response) {
     if (!request.isAuthenticated()) {
       response.status(401).end() // Unauthorized

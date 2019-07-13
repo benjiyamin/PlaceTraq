@@ -3,11 +3,11 @@ $(document).ready(function () {
 
   $('#saveProjectBtn').click(function () {
     let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
-    let name = $('#nameInput').val().trim()
-    let description = $('#descriptionTextarea').val().trim()
-    let location = $('#locationInput').val().trim()
-    let start = $('#startInput').val().trim()
-    let end = $('#endInput').val().trim()
+    let name = $('#projectNameInput').val().trim()
+    let description = $('#projectDescriptionTextarea').val().trim()
+    let location = $('#projectLocationInput').val().trim()
+    let start = $('#projectStartInput').val().trim()
+    let end = $('#projectEndInput').val().trim()
     $.ajax({
       url: '/api/projects',
       type: 'PUT',
