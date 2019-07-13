@@ -10,11 +10,7 @@ $(document).ready(function () {
       url: url,
       type: 'PUT'
     })
-      .done(function (data) {
-        document.location.reload()
-      })
-      .fail(function (error) {
-        throw error
-      })
+      .done(project => { document.location.reload() })
+      .fail(error => { throw error })
   })
 })

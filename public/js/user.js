@@ -10,11 +10,7 @@ $(document).ready(function () {
         description: description
       }
     })
-      .done(function (data) {
-        document.location.reload()
-      })
-      .fail(function (error) {
-        throw error
-      })
+      .done(group => { document.location.reload() })
+      .fail(error => { throw error })
   })
 })

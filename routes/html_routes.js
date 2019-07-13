@@ -16,16 +16,12 @@ module.exports = function (app) {
       response.redirect('/login')
     } else {
       db.Group.findOne({
-        where: {
-          id: request.params.id
-        },
+        where: { id: request.params.id },
         include: [db.Project, {
           model: db.Member,
           include: [db.User, db.Group]
         }],
-        order: [
-          [db.Member, 'isOwner', 'ASC']
-        ]
+        order: [ [db.Member, 'isOwner', 'ASC'] ]
       }).then(function (group) {
         if (userIsMemberOfGroup(request.user, group)) { // Request user is a member of the group. Authorized to edit page
           response.render('group', {
@@ -45,15 +41,11 @@ module.exports = function (app) {
       response.redirect('/')
     } else { // Authenticated and authorized to load user page
       db.User.findOne({
-        where: {
-          id: request.params.id
-        },
+        where: { id: request.params.id },
         include: [{
           model: db.Project,
           include: [db.Event],
-          order: [
-            [db.Event, 'start', 'DESC']
-          ]
+          order: [ [db.Event, 'start', 'DESC'] ]
         }, {
           model: db.Member,
           include: [{
@@ -80,9 +72,7 @@ module.exports = function (app) {
 
   app.get('/projects/:id', function (request, response) {
     db.Project.findOne({
-      where: {
-        id: request.params.id
-      },
+      where: { id: request.params.id },
       include: [db.Event, db.User, {
         model: db.Group,
         include: [{
@@ -90,13 +80,9 @@ module.exports = function (app) {
           include: [db.User]
         }]
       }],
-      order: [
-        [db.Event, 'start', 'DESC']
-      ]
+      order: [ [db.Event, 'start', 'DESC'] ]
     }).then(function (project) {
-      let context = {
-        project: project
-      }
+      let context = { project: project }
       if (project.about) {
         let deltaOps = project.about.ops
         let cfg = {}
@@ -134,18 +120,14 @@ module.exports = function (app) {
     }
     db.Project.findAll(findQuery).then(function (projects) {
       let context = { projects: projects }
-      if (search) {
-        context.search = search
-      }
+      if (search) context.search = search
       response.render('projects', context)
     })
   })
 
   app.get('/signup', function (request, response) {
     let context = { signUp: true }
-    if (request.query.redirect) {
-      context.redirect = request.query.redirect
-    }
+    if (request.query.redirect) context.redirect = request.query.redirect
     response.render('login', context)
   })
 

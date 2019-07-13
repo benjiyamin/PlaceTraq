@@ -89,9 +89,7 @@ module.exports = function (app) {
       response.status(401).end() // Unauthorized
     } else {
       db.Group.findOne({
-        where: {
-          id: request.body.GroupId
-        },
+        where: { id: request.body.GroupId },
         include: [{
           model: db.Member,
           include: [db.User]
@@ -115,9 +113,7 @@ module.exports = function (app) {
       response.status(401).end() // Unauthorized
     } else {
       db.Project.findOne({
-        where: {
-          id: request.body.id
-        },
+        where: { id: request.body.id },
         include: [{
           model: db.Group,
           include: [{
@@ -144,16 +140,12 @@ module.exports = function (app) {
       response.status(401).end() // Unauthorized
     } else {
       db.Project.findOne({
-        where: {
-          id: request.params.id
-        }
+        where: { id: request.params.id }
       })
         .catch(() => { response.status(500).end() })
         .then(project => {
           db.User.findOne({
-            where: {
-              id: request.user.id
-            }
+            where: { id: request.user.id }
           })
             .catch(() => { response.status(500).end() })
             .then(user => {
@@ -162,7 +154,7 @@ module.exports = function (app) {
               } else {
                 user.addProject(project)
               }
-              response.json(user)
+              response.json(project)
             })
         })
     }
