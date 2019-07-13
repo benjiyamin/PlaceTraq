@@ -24,18 +24,23 @@ module.exports = function (app) {
           include: [db.User, db.Group]
         }],
         order: [ [db.Member, 'isOwner', 'ASC'] ]
-      }).then(function (group) {
-        if (userIsMemberOfGroup(request.user, group)) {
+      })
+        .catch(error => {
+          response.render('status', { code: 500 })
+          throw error
+        })
+        .then(group => {
+          if (userIsMemberOfGroup(request.user, group)) {
           // Request user is a member of the group. Authorized to edit page
-          response.render('group', {
-            group: group
-          })
-        } else {
+            response.render('group', {
+              group: group
+            })
+          } else {
           // User logged in, but trying to access a group page in which they
           // are not a member.
-          response.redirect('/')
-        }
-      })
+            response.redirect('/')
+          }
+        })
     }
   })
 
@@ -64,23 +69,28 @@ module.exports = function (app) {
             include: [db.Member]
           }]
         }]
-      }).then(function (user) {
-        let events = []
-        user.Projects.forEach(project => {
-          project.Events.forEach(event => {
-            events.push(event)
+      })
+        .catch(error => {
+          response.render('status', { code: 500 })
+          throw error
+        })
+        .then(user => {
+          let events = []
+          user.Projects.forEach(project => {
+            project.Events.forEach(event => {
+              events.push(event)
+            })
+          })
+          events = _.sortBy(events, ['start']).reverse()
+          let pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
+          let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
+          response.render('user', {
+            user: user,
+            // events: events,
+            pastEvents: pastEvents,
+            futureEvents: futureEvents
           })
         })
-        events = _.sortBy(events, ['start']).reverse()
-        let pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
-        let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
-        response.render('user', {
-          user: user,
-          // events: events,
-          pastEvents: pastEvents,
-          futureEvents: futureEvents
-        })
-      })
     }
   })
 
@@ -95,23 +105,33 @@ module.exports = function (app) {
         }]
       }],
       order: [ [db.Event, 'start', 'DESC'] ]
-    }).then(function (project) {
-      let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
-      let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
-      let context = {
-        project: project,
-        pastEvents: pastEvents,
-        futureEvents: futureEvents
-      }
-      if (project.about) {
-        let cfg = {}
-        let deltaOps = project.about.ops
-        let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
-        let aboutHtml = converter.convert()
-        context.aboutHtml = aboutHtml
-      }
-      response.render('project', context)
     })
+      .catch(error => {
+        response.render('status', { code: 500 })
+        throw error
+      })
+      .then(project => {
+        if (project) {
+          let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
+          let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
+          let context = {
+            project: project,
+            pastEvents: pastEvents,
+            futureEvents: futureEvents
+          }
+          if (project.about) {
+            let cfg = {}
+            let deltaOps = project.about.ops
+            let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
+            let aboutHtml = converter.convert()
+            context.aboutHtml = aboutHtml
+          }
+          response.render('project', context)
+        } else {
+          // No project found
+          response.render('status', { code: 404 })
+        }
+      })
   })
 
   app.get('/projects', function (request, response) {
@@ -135,11 +155,16 @@ module.exports = function (app) {
         }
       }
     }
-    db.Project.findAll(findQuery).then(function (projects) {
-      let context = { projects: projects }
-      if (search) context.search = search
-      response.render('projects', context)
-    })
+    db.Project.findAll(findQuery)
+      .catch(error => {
+        response.render('status', { code: 500 })
+        throw error
+      })
+      .then(function (projects) {
+        let context = { projects: projects }
+        if (search) context.search = search
+        response.render('projects', context)
+      })
   })
 
   app.get('/signup', function (request, response) {

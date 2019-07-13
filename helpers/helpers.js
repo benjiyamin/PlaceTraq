@@ -1,9 +1,15 @@
-const helpers = require('handlebars-helpers')(['array', 'date', 'string'])
+const helpers = require('handlebars-helpers')(['array', 'date', 'string', 'comparison'])
+
+const STATUS_CODES = require('statuses').STATUS_CODES
 
 helpers.section = function (name, options) {
   if (!this._sections) this._sections = {}
   this._sections[name] = options.fn(this)
   return null
+}
+
+helpers.statusMessage = function (code) {
+  return STATUS_CODES[`${code}`]
 }
 
 helpers.isAuthenticated = function (request) {
