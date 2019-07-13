@@ -44,7 +44,10 @@ module.exports = function (app) {
         where: { id: request.params.id },
         include: [{
           model: db.Project,
-          include: [db.Event],
+          include: [{
+            model: db.Event,
+            include: [db.Project]
+          }],
           order: [ [db.Event, 'start', 'DESC'] ]
         }, {
           model: db.Member,
@@ -57,7 +60,6 @@ module.exports = function (app) {
         let events = []
         user.Projects.forEach(project => {
           project.Events.forEach(event => {
-            event.project = project
             events.push(event)
           })
         })

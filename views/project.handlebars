@@ -32,9 +32,9 @@
       <div class="row">
         <div class="col">
           <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
-          <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{formatDate project.start 'MMMM YYYY'}} -
-            {{formatDate project.end 'MMMM YYYY'}}</p>
-          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Followers</p>
+          <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{date project.start 'MMMM YYYY'}} -
+            {{date project.end 'MMMM YYYY'}}</p>
+          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
           {{#if (isAuthenticated request)}}
           <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
             {{#if (userFollowsProject request project)}}data-followed{{/if}}>
@@ -74,7 +74,7 @@
               <div class="col">
                 <ul class="timeline">
                   <li>
-                    <h4 class="jumbotron p-2 text-center">Project End - {{formatDate project.end 'MMMM YYYY'}}</h4>
+                    <h4 class="jumbotron p-2 text-center">Project End - {{date project.end 'MMMM YYYY'}}</h4>
                   </li>
                   {{#each project.Events}}
                   {{> event/event-block}}
@@ -87,7 +87,7 @@
 
                   <li>
                     <h4 class="jumbotron p-2 text-center">
-                      Project Start - {{formatDate project.start 'MMMM YYYY'}}
+                      Project Start - {{date project.start 'MMMM YYYY'}}
                     </h4>
                   </li>
                 </ul>

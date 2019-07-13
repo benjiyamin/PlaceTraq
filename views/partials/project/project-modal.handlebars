@@ -32,13 +32,13 @@
               <div class="form-group row">
                 <label for="startInput" class="col-lg-2 col-form-label">Start Date</label>
                 <div class="col-lg-10">
-                  <input type="date" class="form-control" id="startInput" placeholder="Enter date" value="{{formatDate project.start 'YYYY-MM-DD'}}">
+                  <input type="date" class="form-control" id="startInput" placeholder="Enter date" value="{{date project.start 'YYYY-MM-DD'}}">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="endInput" class="col-lg-2 col-form-label">End Date</label>
                 <div class="col-lg-10">
-                  <input type="date" class="form-control" id="endInput" placeholder="Enter date" value="{{formatDate project.end 'YYYY-MM-DD'}}">
+                  <input type="date" class="form-control" id="endInput" placeholder="Enter date" value="{{date project.end 'YYYY-MM-DD'}}">
                 </div>
               </div>
             </form>
