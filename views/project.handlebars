@@ -8,10 +8,10 @@
 
 {{#if (userIsMemberOfGroup request.user project.Group)}}
 {{#section 'nav-items'}}
-<li class="nav-item">
+<!--<li class="nav-item">
   <button type="button" class="nav-item nav-link btn btn-link" data-toggle="modal" data-target="#projectModal">
     <i class="fas fa-edit"></i> Edit Page</button>
-</li>
+</li>-->
 {{/section}}
 {{/if}}
 
@@ -21,9 +21,20 @@
 
   <div class="row">
     <div class="col-md-4 mb-5">
-      <div class="row align-items-center">
+      <div class="row">
         <div class="col">
-          <h1 class="display-4">{{project.name}}</h1>
+          <h1 class="d-inline display-4">{{project.name}}</h1>
+          {{#if (userIsMemberOfGroup request.user project.Group)}}
+          <div class="float-right">
+            <button class="btn btn-link p-0 m-0" data-toggle="modal" data-target="#projectModal" type="button">
+              <i class="fas fa-edit h3"></i>
+            </button>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
           <p class="lead">
             {{project.description}}
           </p>
@@ -34,7 +45,8 @@
           <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
           <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{date project.start 'MMMM YYYY'}} -
             {{date project.end 'MMMM YYYY'}}</p>
-          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}} Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
+          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
+            Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
           {{#if (isAuthenticated request)}}
           <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
             {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
@@ -45,7 +57,8 @@
             {{/if}}
           </button>
           {{else}}
-          <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i class="fas fa-user-plus"></i> Login
+          <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i
+              class="fas fa-user-plus"></i> Login
             to Follow</a>
           {{/if}}
         </div>
@@ -103,7 +116,7 @@
             <div class="card-body">
               <h5 class="card-title">Ben Miller <small>mail@benkmiller.com • Jun 18</small></h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde ipsa aperiam odio
-                minima, deleniti natus similique impedit adipisci itaque, sit quo, eligendi illum nobis. Veritatis, modi 
+                minima, deleniti natus similique impedit adipisci itaque, sit quo, eligendi illum nobis. Veritatis, modi
                 cum! Officia, similique. Sed?.</p>
               <div class="card-text">
                 <a href="#">Reply</a>
