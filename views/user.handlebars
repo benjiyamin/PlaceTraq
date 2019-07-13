@@ -4,7 +4,13 @@
     <div class="col-md-8 mb-5">
       <h4 class="jumbotron p-2 text-center">Timeline</h4>
       <ul class="timeline">
-        {{#each events}}
+        {{#each futureEvents}}
+        {{> event/event-block}}
+        {{/each}}
+        <li>
+          <h4 class="jumbotron p-2 text-center">Today - {{date 'now' 'MMMM DD, YYYY'}}</h4>
+        </li>
+        {{#each pastEvents}}
         {{> event/event-block}}
         {{/each}}
       </ul>

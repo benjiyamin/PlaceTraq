@@ -10,11 +10,17 @@ helpers.isAuthenticated = function (request) {
   return request.isAuthenticated()
 }
 
-helpers.userFollowsProject = function (request, project) {
-  if (request.isAuthenticated()) {
-    return project.Users.filter(u => (u.id === request.user.id))
+helpers.userFollowsProject = function (user, project) {
+  return user && project && project.Users.filter(u => (u.id === user.id))
+}
+
+helpers.userIsMemberOfGroup = function (user, group) {
+  let users = group.Members.map(member => member.User)
+  if (user && group && users.filter(u => (u.id === user.id)).length) {
+    return true
+  } else {
+    return false
   }
-  return false
 }
 
 module.exports = helpers

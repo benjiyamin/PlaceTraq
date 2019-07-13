@@ -1,15 +1,5 @@
-const _ = require('lodash')
-
 const db = require('../models')
-
-function userIsMemberOfGroup (user, group) {
-  let users = group.Members.map(member => member.User)
-  if (_.filter(users, { id: user.id }).length) {
-    return true
-  } else {
-    return false
-  }
-}
+const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
 
 module.exports = function (app) {
   function createReadOnlyRoutes (model, baseUrl, includeModels) {
@@ -162,5 +152,3 @@ module.exports = function (app) {
 
   createReadOnlyRoutes(db.Project, '/api/projects')
 }
-
-module.exports.userIsMemberOfGroup = userIsMemberOfGroup

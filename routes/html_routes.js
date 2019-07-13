@@ -1,10 +1,11 @@
 const Op = require('sequelize').Op
 
+const moment = require('moment')
 const _ = require('lodash')
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
 
 const db = require('../models')
-const userIsMemberOfGroup = require('./api_routes').userIsMemberOfGroup
+const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
 
 module.exports = function (app) {
   app.get('/', function (request, response) {
@@ -64,9 +65,13 @@ module.exports = function (app) {
           })
         })
         events = _.sortBy(events, ['start']).reverse()
+        let pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
+        let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
         response.render('user', {
           user: user,
-          events: events
+          // events: events,
+          pastEvents: pastEvents,
+          futureEvents: futureEvents
         })
       })
     }
@@ -84,7 +89,13 @@ module.exports = function (app) {
       }],
       order: [ [db.Event, 'start', 'DESC'] ]
     }).then(function (project) {
-      let context = { project: project }
+      let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
+      let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
+      let context = {
+        project: project,
+        pastEvents: pastEvents,
+        futureEvents: futureEvents
+      }
       if (project.about) {
         let deltaOps = project.about.ops
         let cfg = {}
@@ -92,9 +103,9 @@ module.exports = function (app) {
         let aboutHtml = converter.convert()
         context.aboutHtml = aboutHtml
       }
-      if (request.query.edit && request.isAuthenticated()) {
-        context.edit = userIsMemberOfGroup(request.user, project.Group) // Checks if request user is a member of the group / Authorized to edit page
-      }
+      // if (request.query.edit && request.isAuthenticated()) {
+      //  context.edit = userIsMemberOfGroup(request.user, project.Group) // Checks if request user is a member of the group / Authorized to edit page
+      // }
       response.render('project', context)
     })
   })
