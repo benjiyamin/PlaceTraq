@@ -4,15 +4,7 @@ const _ = require('lodash')
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
 
 const db = require('../models')
-
-function userIsMemberOfGroup (user, group) {
-  let users = group.Members.map(member => member.User)
-  if (_.filter(users, { id: user.id }).length) {
-    return true
-  } else {
-    return false
-  }
-}
+const userIsMemberOfGroup = require('./api_routes').userIsMemberOfGroup
 
 module.exports = function (app) {
   app.get('/', function (request, response) {
@@ -102,13 +94,15 @@ module.exports = function (app) {
         [db.Event, 'start', 'DESC']
       ]
     }).then(function (project) {
-      let deltaOps = project.about.ops
-      let cfg = {}
-      let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
-      let aboutHtml = converter.convert()
       let context = {
-        project: project,
-        aboutHtml: aboutHtml
+        project: project
+      }
+      if (project.about) {
+        let deltaOps = project.about.ops
+        let cfg = {}
+        let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
+        let aboutHtml = converter.convert()
+        context.aboutHtml = aboutHtml
       }
       if (request.query.edit && request.isAuthenticated()) {
         context.edit = userIsMemberOfGroup(request.user, project.Group) // Checks if request user is a member of the group / Authorized to edit page

@@ -14,7 +14,7 @@ describe('Test authentication', function () {
     describe('PUT /api/follow', function () {
       it('should not allow unauthenticated users to access', function (done) {
         chai.request(server)
-          .put('/api/follow')
+          .put('/api/follow/1')
           .end(function (err, res) {
             expect(err).to.be.null
             expect(res).to.have.status(401) // Unauthorized

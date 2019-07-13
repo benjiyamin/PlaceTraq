@@ -1,4 +1,15 @@
+const _ = require('lodash')
+
 const db = require('../models')
+
+function userIsMemberOfGroup (user, group) {
+  let users = group.Members.map(member => member.User)
+  if (_.filter(users, { id: user.id }).length) {
+    return true
+  } else {
+    return false
+  }
+}
 
 module.exports = function (app) {
   function createReadOnlyRoutes (model, baseUrl, includeModels) {
@@ -73,17 +84,58 @@ module.exports = function (app) {
     }
   })
 
+  app.post('/api/projects', function (request, response) {
+    if (!request.isAuthenticated()) {
+      response.status(401).end() // Unauthorized
+    } else {
+      db.Group.findOne({
+        where: {
+          id: request.body.GroupId
+        },
+        include: [{
+          model: db.Member,
+          include: [db.User]
+        }]
+      })
+        .catch(() => { response.status(500).end() })
+        .then((group) => {
+          if (userIsMemberOfGroup(request.user, group)) {
+            db.Project.create(request.body)
+              .then((project) => { response.json(project) })
+              .catch(() => { response.status(500).end() })
+          } else {
+            response.status(403).end() // Forbidden
+          }
+        })
+    }
+  })
+
   app.put('/api/projects', function (request, response) {
     if (!request.isAuthenticated()) {
       response.status(401).end() // Unauthorized
     } else {
-      db.Project.update(request.body, {
+      db.Project.findOne({
         where: {
           id: request.body.id
-        }
+        },
+        include: [{
+          model: db.Group,
+          include: [{
+            model: db.Member,
+            include: [db.User]
+          }]
+        }]
       })
-        .then(project => { response.json(project) })
         .catch(() => { response.status(500).end() })
+        .then(project => {
+          if (userIsMemberOfGroup(request.user, project.Group)) {
+            project.update(request.body)
+              .then(() => { response.json(project) })
+              .catch(() => { response.status(500).end() })
+          } else {
+            response.status(403).end() // Forbidden
+          }
+        })
     }
   })
 
@@ -96,12 +148,14 @@ module.exports = function (app) {
           id: request.params.id
         }
       })
+        .catch(() => { response.status(500).end() })
         .then(project => {
           db.User.findOne({
             where: {
               id: request.user.id
             }
           })
+            .catch(() => { response.status(500).end() })
             .then(user => {
               if (request.query.unfollow) {
                 user.removeProject(project)
@@ -115,13 +169,6 @@ module.exports = function (app) {
   })
 
   createReadOnlyRoutes(db.Project, '/api/projects')
-  createReadOnlyRoutes(db.Member, '/api/members')
-  createReadOnlyRoutes(db.Group, '/api/groups', [{
-    model: db.Member,
-    include: [db.User, db.Group]
-  }])
-  createReadOnlyRoutes(db.User, '/api/users', [{
-    model: db.Project,
-    include: [db.Event]
-  }])
 }
+
+module.exports.userIsMemberOfGroup = userIsMemberOfGroup
