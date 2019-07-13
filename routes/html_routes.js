@@ -97,8 +97,8 @@ module.exports = function (app) {
         futureEvents: futureEvents
       }
       if (project.about) {
-        let deltaOps = project.about.ops
         let cfg = {}
+        let deltaOps = project.about.ops
         let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
         let aboutHtml = converter.convert()
         context.aboutHtml = aboutHtml

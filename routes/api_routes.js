@@ -163,6 +163,7 @@ module.exports = function (app) {
           })
             .catch(() => { response.status(500).end() })
             .then(user => {
+              // request.query.unfollow ? user.removeProject(project) : user.addProject(project)
               if (request.query.unfollow) {
                 user.removeProject(project)
               } else {
