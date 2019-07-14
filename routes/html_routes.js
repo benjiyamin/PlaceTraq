@@ -8,95 +8,78 @@ const db = require('../models')
 const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
 
 module.exports = function (app) {
-  app.get('/', function (request, response) {
-    response.render('index', {})
+  app.get('/', function (req, res) {
+    res.render('index', {})
   })
 
-  app.get('/groups/:id', function (request, response) {
-    if (!request.isAuthenticated()) {
-      // User not logged in
-      response.redirect('/login')
-    } else {
-      db.Group.findOne({
-        where: { id: request.params.id },
-        include: [db.Project, {
-          model: db.Member,
-          include: [db.User, db.Group]
-        }],
-        order: [ [db.Member, 'isOwner', 'ASC'] ]
+  app.get('/groups/:id', function (req, res) {
+    if (!req.isAuthenticated()) return res.redirect('/login') // Unauthorized
+    db.Group.findOne({
+      where: { id: req.params.id },
+      include: [db.Project, {
+        model: db.Member,
+        include: [db.User, db.Group]
+      }],
+      order: [ [db.Member, 'isOwner', 'ASC'] ]
+    })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
       })
-        .catch(error => {
-          response.render('status', { code: 500 })
-          throw error
-        })
-        .then(group => {
-          if (userIsMemberOfGroup(request.user, group)) {
-          // Request user is a member of the group. Authorized to edit page
-            response.render('group', {
-              group: group
-            })
-          } else {
-          // User logged in, but trying to access a group page in which they
-          // are not a member.
-            response.redirect('/')
-          }
-        })
-    }
+      .then(group => {
+        if (!group) return res.render('status', { code: 404 }) // No group found
+        if (!userIsMemberOfGroup(req.user, group)) return res.redirect('/') // Forbidden
+        res.render('group', { group: group })
+      })
   })
 
-  app.get('/users/:id', function (request, response) {
-    if (!request.isAuthenticated()) {
-      // User not logged in
-      response.redirect('/login')
-    } else if (request.user.id.toString() !== request.params.id) {
-      // User logged in, but trying to access another user's page
-      response.redirect('/')
-    } else {
-      // Authenticated and authorized to load user page
-      db.User.findOne({
-        where: { id: request.params.id },
+  app.get('/users/:id', function (req, res) {
+    if (!req.isAuthenticated()) return res.redirect('/login') // Unauthorized
+    if (req.user.id.toString() !== req.params.id) return res.redirect('/') // Forbidden
+    db.User.findOne({
+      where: { id: req.params.id },
+      include: [{
+        model: db.Project,
         include: [{
-          model: db.Project,
-          include: [{
-            model: db.Event,
-            include: [db.Project]
-          }],
-          order: [ [db.Event, 'start', 'DESC'] ]
-        }, {
-          model: db.Member,
-          include: [{
-            model: db.Group,
-            include: [db.Member]
-          }]
+          model: db.Event,
+          include: [db.Project]
+        }],
+        order: [ [db.Event, 'start', 'DESC'] ]
+      }, {
+        model: db.Member,
+        include: [{
+          model: db.Group,
+          include: [db.Member]
         }]
+      }]
+    })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
       })
-        .catch(error => {
-          response.render('status', { code: 500 })
-          throw error
-        })
-        .then(user => {
-          let events = []
-          user.Projects.forEach(project => {
-            project.Events.forEach(event => {
-              events.push(event)
-            })
-          })
-          events = _.sortBy(events, ['start']).reverse()
-          let pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
-          let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
-          response.render('user', {
-            user: user,
-            // events: events,
-            pastEvents: pastEvents,
-            futureEvents: futureEvents
+      .then(user => {
+        if (!user) res.render('status', { code: 404 }) // No user found
+        let events = []
+        user.Projects.forEach(project => {
+          project.Events.forEach(event => {
+            events.push(event)
           })
         })
-    }
+        events = _.sortBy(events, ['start']).reverse()
+        let pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
+        let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
+        res.render('user', {
+          user: user,
+          // events: events,
+          pastEvents: pastEvents,
+          futureEvents: futureEvents
+        })
+      })
   })
 
-  app.get('/projects/:id', function (request, response) {
+  app.get('/projects/:id', function (req, res) {
     db.Project.findOne({
-      where: { id: request.params.id },
+      where: { id: req.params.id },
       include: [db.Event, db.User, {
         model: db.Group,
         include: [{
@@ -107,35 +90,31 @@ module.exports = function (app) {
       order: [ [db.Event, 'start', 'DESC'] ]
     })
       .catch(error => {
-        response.render('status', { code: 500 })
+        res.render('status', { code: 500 })
         throw error
       })
       .then(project => {
-        if (project) {
-          let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
-          let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
-          let context = {
-            project: project,
-            pastEvents: pastEvents,
-            futureEvents: futureEvents
-          }
-          if (project.about) {
-            let cfg = {}
-            let deltaOps = project.about.ops
-            let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
-            let aboutHtml = converter.convert()
-            context.aboutHtml = aboutHtml
-          }
-          response.render('project', context)
-        } else {
-          // No project found
-          response.render('status', { code: 404 })
+        if (!project) res.render('status', { code: 404 }) // No project found
+        let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
+        let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
+        let context = {
+          project: project,
+          pastEvents: pastEvents,
+          futureEvents: futureEvents
         }
+        if (project.about) {
+          let cfg = {}
+          let deltaOps = project.about.ops
+          let converter = new QuillDeltaToHtmlConverter(deltaOps, cfg)
+          let aboutHtml = converter.convert()
+          context.aboutHtml = aboutHtml
+        }
+        res.render('project', context)
       })
   })
 
-  app.get('/projects', function (request, response) {
-    let search = request.query.search
+  app.get('/projects', function (req, res) {
+    let search = req.query.search
     let findQuery = {}
     if (search) {
       let words = search.split(/[\s,]+/)
@@ -157,25 +136,25 @@ module.exports = function (app) {
     }
     db.Project.findAll(findQuery)
       .catch(error => {
-        response.render('status', { code: 500 })
+        res.render('status', { code: 500 })
         throw error
       })
       .then(function (projects) {
         let context = { projects: projects }
         if (search) context.search = search
-        response.render('projects', context)
+        res.render('projects', context)
       })
   })
 
-  app.get('/signup', function (request, response) {
+  app.get('/signup', function (req, res) {
     let context = { signUp: true }
-    if (request.query.redirect) context.redirect = request.query.redirect
-    response.render('login', context)
+    if (req.query.redirect) context.redirect = req.query.redirect
+    res.render('login', context)
   })
 
-  app.get('/login', function (request, response) {
+  app.get('/login', function (req, res) {
     let context = {}
-    if (request.query.redirect) context.redirect = request.query.redirect
-    response.render('login', context)
+    if (req.query.redirect) context.redirect = req.query.redirect
+    res.render('login', context)
   })
 }

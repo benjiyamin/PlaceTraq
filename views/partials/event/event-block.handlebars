@@ -1,5 +1,5 @@
-<li>
-  <a href="#">{{name}}{{#if Project}} ({{Project.name}}){{/if}}</a>
-  <a href="#" class="float-right">{{date start 'MMMM YYYY'}}</a>
+<li class="event-box cursor-pointer" data-toggle="modal" data-target="#eventModal" data-id="{{id}}">
+  <span class="text-primary">{{name}}{{#if Project}} ({{Project.name}}){{/if}}</span>
+  <span class="text-primary float-right">{{date start 'MMMM YYYY'}}</span>
   <p>{{description}}</p>
 </li>

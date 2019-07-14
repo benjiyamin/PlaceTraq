@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let quill = new Quill('#editor', {
+  let quill = new Quill('#projectEditor', { // eslint-disable-line no-undef
     theme: 'snow'
   })
   $('#saveProjectBtn').click(function () {
@@ -9,7 +9,7 @@ $(document).ready(function () {
     let location = $('#projectLocationInput').val().trim()
     let start = $('#projectStartInput').val().trim()
     let end = $('#projectEndInput').val().trim()
-    let about = JSON.stringify(quill.getContents())
+    let about = JSON.parse(JSON.stringify(quill.getContents()))
     $.ajax({
       url: '/api/projects',
       type: 'PUT',
@@ -19,7 +19,8 @@ $(document).ready(function () {
         description: description,
         location: location,
         start: start,
-        end: end
+        end: end,
+        about: about
       }
     })
       .done(project => document.location.reload())

@@ -15,44 +15,44 @@
               <!-- Nav tabs -->
               <ul class="nav nav-pills flex-column mb-4" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="edit-info-tab" data-toggle="tab" href="#edit-info" role="tab">Info</a>
+                  <a class="nav-link active" id="project-info-tab" data-toggle="tab" href="#project-info" role="tab">Info</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="edit-about-tab" data-toggle="tab" href="#edit-about" role="tab">About</a>
+                  <a class="nav-link" id="project-about-tab" data-toggle="tab" href="#project-about" role="tab">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="edit-map-tab" data-toggle="tab" href="#edit-map" role="tab">Map</a>
+                  <a class="nav-link" id="project-map-tab" data-toggle="tab" href="#project-map" role="tab">Map</a>
                 </li>
               </ul>
             </div>
             <div class="col-8">
               <!-- Tab panes -->
               <div class="tab-content">
-                <div class="tab-pane active" id="edit-info" role="tabpanel">
+                <div class="tab-pane active" id="project-info" role="tabpanel">
                   <div id="form-container" class="container">
                     <form>
                       <div class="form-group row">
-                        <label for="nameInput">Project Name</label>
+                        <label for="projectNameInput">Project Name</label>
                         <input type="text" class="form-control" id="projectNameInput" placeholder="Enter text"
                           value="{{project.name}}">
                       </div>
                       <div class="form-group row">
-                        <label for="descriptionTextarea">Description</label>
+                        <label for="projectDescriptionTextarea">Description</label>
                         <textarea class="form-control" id="projectDescriptionTextarea"
                           rows="4">{{project.description}}</textarea>
                       </div>
                       <div class="form-group row">
-                        <label for="nameInput">Location</label>
+                        <label for="projectLocationInput">Location</label>
                         <input type="text" class="form-control" id="projectLocationInput" placeholder="Enter text"
                           value="{{project.location}}">
                       </div>
                       <div class="form-group row">
-                        <label for="startInput">Start Date</label>
+                        <label for="projectStartInput">Start Date</label>
                         <input type="date" class="form-control" id="projectStartInput" placeholder="Enter date"
                           value="{{date project.start 'YYYY-MM-DD'}}">
                       </div>
                       <div class="form-group row">
-                        <label for="endInput">End Date</label>
+                        <label for="projectEndInput">End Date</label>
                         <input type="date" class="form-control" id="projectEndInput" placeholder="Enter date"
                           value="{{date project.end 'YYYY-MM-DD'}}">
                       </div>
@@ -60,13 +60,13 @@
                   </div>
                 </div>
 
-                <div class="tab-pane" id="edit-about" role="tabpanel">
-                  <div id="editor">
+                <div class="tab-pane" id="project-about" role="tabpanel">
+                  <div class="modal-editor" id="projectEditor">
                     {{{aboutHtml}}}
                   </div>
                 </div>
 
-                <div class="tab-pane" id="edit-map" role="tabpanel">
+                <div class="tab-pane" id="project-map" role="tabpanel">
                 </div>
               </div>
             </div>

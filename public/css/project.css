@@ -2,6 +2,10 @@
     max-width: 100%;
 }
 
+.cursor-pointer{
+    cursor: pointer;
+  }
+
 .change-link {
     background-color: #000;
     border-bottom-left-radius: 6px;
@@ -20,6 +24,6 @@
     text-decoration: none;
 }
 
-#editor {
+.modal-editor {
     height: 60vh;
 }
