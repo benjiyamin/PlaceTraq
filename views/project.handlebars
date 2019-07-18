@@ -14,47 +14,51 @@
     <div class="col-md-4 mb-5">
       {{#if (userIsMemberOfGroup request.user project.Group)}}
       <div class="row jumbotron p-2 m-0 text-center">
-        <button class="col btn btn-link p-0 m-0 text-decoration-none" data-toggle="modal" data-target="#projectModal" type="button">
+        <button class="col btn btn-link p-0 m-0 text-decoration-none" data-toggle="modal" data-target="#projectModal"
+          type="button">
           <i class="fas fa-edit"></i> Edit Page
         </button>
-        <button class="col btn btn-link p-0 m-0 text-decoration-none" data-toggle="modal" data-target="#eventModal" type="button" id="addEventBtn">
+        <button class="col btn btn-link p-0 m-0 text-decoration-none" data-toggle="modal" data-target="#eventModal"
+          type="button" id="addEventBtn">
           <i class="fas fa-plus"></i> Add Event
         </button>
       </div>
       {{/if}}
-      <div class="row">
-        <div class="col">
-          <h1 class="display-4">{{project.name}}</h1>
+      <div class="sticky-top" style="top: 56px;">
+        <div class="row">
+          <div class="col">
+            <h1 class="display-4">{{project.name}}</h1>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <p class="lead">
-            {{project.description}}
-          </p>
+        <div class="row">
+          <div class="col">
+            <p class="lead">
+              {{project.description}}
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
-          <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{date project.start 'MMMM YYYY'}} -
-            {{date project.end 'MMMM YYYY'}}</p>
-          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
-            Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
-          {{#if (isAuthenticated request)}}
-          <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
-            {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
-            {{#if (userFollowsProject request.user project)}}
-            <i class="fas fa-user-minus"></i> Unfollow this Project
+        <div class="row">
+          <div class="col">
+            <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
+            <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{date project.start 'MMMM YYYY'}} -
+              {{date project.end 'MMMM YYYY'}}</p>
+            <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
+              Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
+            {{#if (isAuthenticated request)}}
+            <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
+              {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
+              {{#if (userFollowsProject request.user project)}}
+              <i class="fas fa-user-minus"></i> Unfollow this Project
+              {{else}}
+              <i class="fas fa-user-plus"></i> Follow this Project
+              {{/if}}
+            </button>
             {{else}}
-            <i class="fas fa-user-plus"></i> Follow this Project
+            <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i
+                class="fas fa-user-plus"></i> Login
+              to Follow</a>
             {{/if}}
-          </button>
-          {{else}}
-          <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i
-              class="fas fa-user-plus"></i> Login
-            to Follow</a>
-          {{/if}}
+          </div>
         </div>
       </div>
     </div>
@@ -62,7 +66,7 @@
     <div class="col-md-8 mb-5">
 
       <!-- Nav tabs -->
-      <ul class="nav nav-pills mb-4" id="myTab" role="tablist">
+      <ul class="nav nav-pills pt-4 mb-4 sticky-top bg-white" style="top: 56px;" id="myTab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab">Timeline</a>
         </li>
