@@ -22,14 +22,14 @@ module.exports = function (app) {
       }],
       order: [ [db.Member, 'isOwner', 'ASC'] ]
     })
-      .catch(error => {
-        res.render('status', { code: 500 })
-        throw error
-      })
       .then(group => {
         if (!group) return res.render('status', { code: 404 }) // No group found
         if (!userIsMemberOfGroup(req.user, group)) return res.redirect('/') // Forbidden
         res.render('group', { group: group })
+      })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
       })
   })
 
@@ -53,10 +53,6 @@ module.exports = function (app) {
         }]
       }]
     })
-      .catch(error => {
-        res.render('status', { code: 500 })
-        throw error
-      })
       .then(user => {
         if (!user) res.render('status', { code: 404 }) // No user found
         let events = []
@@ -75,6 +71,10 @@ module.exports = function (app) {
           futureEvents: futureEvents
         })
       })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
+      })
   })
 
   app.get('/projects/:id', function (req, res) {
@@ -89,10 +89,6 @@ module.exports = function (app) {
       }],
       order: [ [db.Event, 'start', 'DESC'] ]
     })
-      .catch(error => {
-        res.render('status', { code: 500 })
-        throw error
-      })
       .then(project => {
         if (!project) res.render('status', { code: 404 }) // No project found
         let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
@@ -110,6 +106,10 @@ module.exports = function (app) {
           context.aboutHtml = aboutHtml
         }
         res.render('project', context)
+      })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
       })
   })
 
@@ -135,14 +135,14 @@ module.exports = function (app) {
       }
     }
     db.Project.findAll(findQuery)
-      .catch(error => {
-        res.render('status', { code: 500 })
-        throw error
-      })
       .then(function (projects) {
         let context = { projects: projects }
         if (search) context.search = search
         res.render('projects', context)
+      })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
       })
   })
 

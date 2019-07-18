@@ -34,4 +34,17 @@ $(document).ready(function () {
   $('#addEventBtn').click(function () {
     $('#saveEventBtn').removeAttr('data-id')
   })
+
+  $(document.body).on('click', '.event-box', function () {
+    let eventId = parseInt($(this).data('id'))
+    $('#saveEventBtn').data('id', eventId)
+    $.get(`/api/events/${eventId}`)
+      .done(event => {
+        $('#eventNameInput').val(event.name)
+        $('#eventDescriptionTextarea').val(event.description)
+        let start = moment(event.start).format('YYYY-MM-DD') // eslint-disable-line no-undef
+        $('#eventStartInput').val(start)
+      })
+      .fail(error => { throw error })
+  })
 })

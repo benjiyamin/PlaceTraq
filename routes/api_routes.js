@@ -8,7 +8,10 @@ module.exports = function (app) {
       if (includeModels) options.include = includeModels
       model.findAll(options)
         .then(data => res.json(data))
-        .catch(() => res.status(500).end())
+        .catch(error => {
+          res.status(500).end()
+          throw error
+        })
     })
 
     app.get(`${baseUrl}/:id`, function (req, res) {
@@ -18,7 +21,10 @@ module.exports = function (app) {
       if (includeModels) options.include = includeModels
       model.findOne(options)
         .then(data => res.json(data))
-        .catch(() => res.status(500).end())
+        .catch(error => {
+          res.status(500).end()
+          throw error
+        })
     })
   }
 
@@ -70,15 +76,17 @@ module.exports = function (app) {
     if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
     db.Group.create(req.body)
       .then(group => {
-        db.Member.create({
+        return db.Member.create({
           GroupId: group.id,
           UserId: req.user.id,
           isOwner: true
         })
-          .then(() => res.json(group))
-          .catch(() => res.status(500).end())
       })
-      .catch(() => res.status(500).end())
+      .then(member => res.json(member))
+      .catch(error => {
+        res.status(500).end()
+        throw error
+      })
   })
 
   app.put('/api/groups', function (req, res) {
@@ -90,12 +98,14 @@ module.exports = function (app) {
         include: [db.User]
       }]
     })
-      .catch(() => res.status(500).end())
       .then(group => {
         if (!userIsMemberOfGroup(req.user, group)) return res.status(403).end() // Forbidden
-        group.update(req.body)
-          .then(() => res.json(group))
-          .catch(() => res.status(500).end())
+        return group.update(req.body)
+      })
+      .then(group => res.json(group))
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
@@ -108,12 +118,14 @@ module.exports = function (app) {
         include: [db.User]
       }]
     })
-      .catch(() => res.status(500).end())
       .then(group => {
         if (!userIsMemberOfGroup(req.user, group)) return res.status(403).end() // Forbidden
-        db.Project.create(req.body)
-          .then(project => res.json(project))
-          .catch(() => res.status(500).end())
+        return db.Project.create(req.body)
+      })
+      .then(project => res.json(project))
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
@@ -129,12 +141,14 @@ module.exports = function (app) {
         }]
       }]
     })
-      .catch(() => res.status(500).end())
       .then(project => {
         if (!userIsMemberOfGroup(req.user, project.Group)) return res.status(403).end() // Forbidden
-        project.update(req.body)
-          .then(() => res.json(project))
-          .catch(() => res.status(500).end())
+        return project.update(req.body)
+      })
+      .then(project => res.json(project))
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
@@ -143,16 +157,18 @@ module.exports = function (app) {
     db.Project.findOne({
       where: { id: req.params.id }
     })
-      .catch(() => res.status(500).end())
       .then(project => {
-        db.User.findOne({
+        return db.User.findOne({
           where: { id: req.user.id }
         })
-          .catch(() => res.status(500).end())
           .then(user => {
             req.query.unfollow ? user.removeProject(project) : user.addProject(project)
             res.json(project)
           })
+      })
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
@@ -168,12 +184,14 @@ module.exports = function (app) {
         }]
       }]
     })
-      .catch(() => res.status(500).end())
       .then(project => {
         if (!userIsMemberOfGroup(req.user, project.Group)) return res.status(403).end() // Forbidden
-        db.Event.create(req.body)
-          .then(event => res.json(event))
-          .catch(() => res.status(500).end())
+        return db.Event.create(req.body)
+      })
+      .then(event => res.json(event))
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
@@ -192,12 +210,14 @@ module.exports = function (app) {
         }]
       }]
     })
-      .catch(() => res.status(500).end())
       .then(event => {
         if (!userIsMemberOfGroup(req.user, event.Project.Group)) return res.status(403).end() // Forbidden
-        event.update(req.body)
-          .then(() => res.json(event))
-          .catch(() => res.status(500).end())
+        return event.update(req.body)
+      })
+      .then(event => res.json(event))
+      .catch(error => {
+        res.status(500).end()
+        throw error
       })
   })
 
