@@ -1,8 +1,10 @@
-<div class="container mt-4">
+<div class="container">
   <div class="row">
 
-    <div class="col-md-8 mb-5">
-      <h4 class="jumbotron p-2 text-center">Timeline</h4>
+    <div class="col-md-8">
+      <div class="sticky-top bg-white py-4" style="top: 56px;">
+        <h4 class="jumbotron p-2 m-0 text-center">Timeline</h4>
+      </div>
       <ul class="timeline">
         {{#each futureEvents}}
         {{> event/event-block}}
@@ -17,41 +19,49 @@
 
     </div>
 
-    <div class="col-md-4 mb-5">
-      <h4 class="jumbotron p-2 text-center">Projects</h4>
-      <div class="row justify-content-center my-4">
-        <div class="col-12">
-          <div>
-            <div class="row align-items-center">
-              <div class="col pr-1">
-                <input class="form-control form-control-borderless mr-sm-2" type="search"
-                  placeholder="Find more projects" id="searchInput">
+    <div class="col-md-4">
+      <div>
+        <div class="sticky-top bg-white py-4" style="top: 56px;">
+          <h4 class="jumbotron p-2 m-0 text-center">Projects</h4>
+        </div>
+        <div class="row justify-content-center my-4">
+          <div class="col-12">
+            <div>
+              <div class="row align-items-center">
+                <div class="col pr-1">
+                  <input class="form-control form-control-borderless mr-sm-2" type="search"
+                    placeholder="Find more projects" id="searchInput">
+                </div>
+                <!--end of col-->
+                <div class="col-auto pl-1">
+                  <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn">Search</button>
+                </div>
+                <!--end of col-->
               </div>
-              <!--end of col-->
-              <div class="col-auto pl-1">
-                <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn">Search</button>
-              </div>
-              <!--end of col-->
+            </div>
+          </div>
+          <!--end of col-->
+        </div>
+        {{#each user.Projects}}
+        {{> project/project-block}}
+        {{/each}}
+      </div>
+
+      <div>
+        <div class="sticky-top bg-white py-4" style="top: 56px;">
+          <div class="jumbotron p-2 m-0 text-center">
+            <h4 class="d-inline">Groups</h4>
+            <div class="float-right">
+              <button class="btn btn-link h4 py-0 m-0" data-toggle="modal" data-target="#groupModal" type="button">
+                <i class="fas fa-plus"></i>
+              </button>
             </div>
           </div>
         </div>
-        <!--end of col-->
+        {{#each user.Members}}
+        {{> member/group-block}}
+        {{/each}}
       </div>
-      {{#each user.Projects}}
-      {{> project/project-block}}
-      {{/each}}
-
-      <div class="jumbotron p-2 text-center">
-        <h4 class="d-inline">Groups</h4>
-        <div class="float-right">
-          <button class="btn btn-link h4 py-0 m-0" data-toggle="modal" data-target="#groupModal" type="button">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      </div>
-      {{#each user.Members}}
-      {{> member/group-block}}
-      {{/each}}
     </div>
 
   </div>

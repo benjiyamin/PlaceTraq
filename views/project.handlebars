@@ -14,7 +14,7 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-md-4 mb-5">
+    <div class="col-md-4">
       <div class="sticky-top pt-4" style="top: 56px;">
         {{#if (userIsMemberOfGroup request.user project.Group)}}
         <div class="row jumbotron p-2 m-0 text-center">
@@ -28,46 +28,40 @@
           </button>
         </div>
         {{/if}}
-        <div class="row">
-          <div class="col">
-            <h1 class="display-4">{{project.name}}</h1>
-          </div>
+        <div>
+          <h1 class="display-4">{{project.name}}</h1>
         </div>
-        <div class="row">
-          <div class="col">
-            <p class="lead">
-              {{project.description}}
-            </p>
-          </div>
+        <div>
+          <p class="lead">
+            {{project.description}}
+          </p>
         </div>
-        <div class="row">
-          <div class="col">
-            <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
-            <p class="text-muted"><i class="fas fa-calendar-alt"></i> {{date project.start 'MMMM YYYY'}} -
-              {{date project.end 'MMMM YYYY'}}</p>
-            <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
-              Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
-            {{#if (isAuthenticated request)}}
-            <button id="followBtn" type="button"
-              class="btn btn-primary btn-lg btn-block{{#if (userFollowsProject request.user project)}} active{{/if}}"
-              {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
-              {{#if (userFollowsProject request.user project)}}
-              <i class="fas fa-user-minus"></i> Unfollow this Project
-              {{else}}
-              <i class="fas fa-user-plus"></i> Follow this Project
-              {{/if}}
-            </button>
+        <div>
+          <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
+          <p class="text-muted"><i class="fas fa-calendar-alt"></i> {{date project.start 'MMMM YYYY'}} -
+            {{date project.end 'MMMM YYYY'}}</p>
+          <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
+            Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
+          {{#if (isAuthenticated request)}}
+          <button id="followBtn" type="button"
+            class="btn btn-primary btn-lg btn-block{{#if (userFollowsProject request.user project)}} active{{/if}}"
+            {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
+            {{#if (userFollowsProject request.user project)}}
+            <i class="fas fa-user-minus"></i> Unfollow this Project
             {{else}}
-            <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i
-                class="fas fa-user-plus"></i> Login
-              to Follow</a>
+            <i class="fas fa-user-plus"></i> Follow this Project
             {{/if}}
-          </div>
+          </button>
+          {{else}}
+          <a class="btn btn-primary btn-lg btn-block" href="/login?redirect={{request.url}}"><i
+              class="fas fa-user-plus"></i> Login
+            to Follow</a>
+          {{/if}}
         </div>
       </div>
     </div>
 
-    <div class="col-md-8 mb-5">
+    <div class="col-md-8">
 
       <!-- Nav tabs -->
       <ul class="nav nav-pills py-4 sticky-top bg-white" style="top: 56px;" id="myTab" role="tablist">
@@ -153,85 +147,4 @@
 {{/if}}
 
 <script src="/js/project.js"></script>
-
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<script>
-  function initMap() {
-
-    map = new google.maps.Map(document.getElementById('map'));
-
-    if (!google.maps.Polygon.prototype.getBounds) {
-
-      google.maps.Polygon.prototype.getBounds = function () {
-        var bounds = new google.maps.LatLngBounds();
-        var paths = this.getPaths();
-        var path;
-        for (var i = 0; i < paths.getLength(); i++) {
-          path = paths.getAt(i);
-          for (var ii = 0; ii < path.getLength(); ii++) {
-            bounds.extend(path.getAt(ii));
-          }
-        }
-        return bounds;
-      }
-
-    }
-
-    let paths = [{
-        lat: 27.303865,
-        lng: -80.329024
-      },
-      {
-        lat: 27.305074,
-        lng: -80.321676
-      },
-      {
-        lat: 27.297980,
-        lng: -80.307798
-      },
-      {
-        lat: 27.299994,
-        lng: -80.296639
-      },
-      {
-        lat: 27.298180,
-        lng: -80.295914
-      },
-      {
-        lat: 27.295884,
-        lng: -80.306346
-      },
-      {
-        lat: 27.303180,
-        lng: -80.320815
-      },
-      {
-        lat: 27.302334,
-        lng: -80.328299
-      }
-    ]
-
-    var polygon = new google.maps.Polygon({
-      paths: paths,
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35
-    });
-
-    console.log(polygon);
-
-    polygon.setMap(map);
-
-    var bounds = new google.maps.LatLngBounds();
-    bounds = polygon.getBounds();
-    map.fitBounds(bounds);
-
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBogJPw220WsvPGVwvTyt3SudYMRVrgiig&amp;callback=initMap"
-  async="" defer=""></script>
--->
 {{/section}}
