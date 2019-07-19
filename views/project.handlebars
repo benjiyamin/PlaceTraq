@@ -1,4 +1,7 @@
 {{#section 'css'}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin="" />
 <link rel="stylesheet" href="/css/project.css">
 {{#if (userIsMemberOfGroup request.user project.Group)}}
 <!-- Include stylesheet -->
@@ -6,9 +9,9 @@
 {{/if}}
 {{/section}}
 
-<div class="w-100 bg-info" id="map" style="height:33vh"></div>
+<div class="w-100" id="map" style="height:33vh"></div>
 
-<div class="container mt-4">
+<div class="container">
 
   <div class="row">
     <div class="col-md-4 mb-5">
@@ -40,12 +43,13 @@
         <div class="row">
           <div class="col">
             <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{project.location}}</p>
-            <p class="text-muted"><i class="fas fa-calendar-alt"></i></i> {{date project.start 'MMMM YYYY'}} -
+            <p class="text-muted"><i class="fas fa-calendar-alt"></i> {{date project.start 'MMMM YYYY'}} -
               {{date project.end 'MMMM YYYY'}}</p>
             <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
               Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
             {{#if (isAuthenticated request)}}
-            <button id="followBtn" type="button" class="btn btn-primary btn-lg btn-block"
+            <button id="followBtn" type="button"
+              class="btn btn-primary btn-lg btn-block{{#if (userFollowsProject request.user project)}} active{{/if}}"
               {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
               {{#if (userFollowsProject request.user project)}}
               <i class="fas fa-user-minus"></i> Unfollow this Project
@@ -135,8 +139,10 @@
 {{/if}}
 
 {{#section 'js'}}
-
-<script src="/js/project.js"></script>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin=""></script>
 
 {{#if (userIsMemberOfGroup request.user project.Group)}}
 <!-- Include the Quill library -->
@@ -145,6 +151,9 @@
 <script src="/js/edit-project.js"></script>
 <script src="/js/edit-event.js"></script>
 {{/if}}
+
+<script src="/js/project.js"></script>
+
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script>

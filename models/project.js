@@ -19,8 +19,8 @@ module.exports = function (sequelize, DataTypes) {
     location: {
       type: DataTypes.TEXT
     },
-    shape: {
-      type: DataTypes.GEOMETRY
+    features: {
+      type: DataTypes.JSON
     },
     about: {
       type: DataTypes.JSON
