@@ -18,7 +18,7 @@
   <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#projectModal" type="button">
     <i class="fas fa-edit"></i> Edit Page
   </button>
-  <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#eventModal" type="button" id="addEventBtn">
+  <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#eventEditModal" type="button" id="addEventBtn">
     <i class="fas fa-plus"></i> Add Event
   </button>
 </div>
@@ -144,9 +144,11 @@
   <!-- /.row -->
 </div>
 
+{{> event/event-modal}}
+
 {{#if (userIsMemberOfGroup request.user project.Group)}}
 {{> project/project-modal project=project group=project.Group}}
-{{> event/event-modal project=project}}
+{{> event/event-edit-modal project=project}}
 {{/if}}
 
 {{#section 'js'}}

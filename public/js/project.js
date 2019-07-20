@@ -16,4 +16,14 @@ $(document).ready(function () {
       .done(project => document.location.reload())
       .fail(error => { throw error })
   })
+
+  $(document.body).on('click', '.event-view-btn', function () {
+    let eventId = parseInt($(this).data('event-id'))
+    $.get(`/api/events/${eventId}`)
+      .done(event => {
+        $('#eventModalLabel').text(event.name)
+        $('#eventModalBody').html(event.detailsHTML)
+      })
+      .fail(error => { throw error })
+  })
 })

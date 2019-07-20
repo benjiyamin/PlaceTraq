@@ -1,4 +1,4 @@
 <li class="event-box">
-  {{> event/event-info name=name project=Project start=start description=description}}
-  <a href="#" class="card-link event-edit-btn" data-toggle="modal" data-target="#eventModal" data-id="{{id}}">Edit</a>
+  {{> event/event-info id=id name=name project=Project start=start description=description details=details}}
+  <a href="#" class="card-link event-edit-btn" data-toggle="modal" data-target="#eventEditModal" data-event-id="{{id}}">Edit</a>
 </li>

@@ -9,14 +9,14 @@ $(document).ready(function () {
     let name = $('#eventNameInput').val().trim()
     let description = $('#eventDescriptionTextarea').val().trim()
     let start = $('#eventStartInput').val().trim()
-    let about = JSON.parse(JSON.stringify(quill.getContents()))
+    let details = quill.getText().trim().length ? JSON.parse(JSON.stringify(quill.getContents())) : null
     let data = {
       name: name,
       description: description,
       start: start,
-      about: about
+      details: details
     }
-    let eventId = parseInt($(this).data('id'))
+    let eventId = parseInt($(this).data('event-id'))
     let type = eventId ? 'PUT' : 'POST'
     if (eventId) {
       data.id = eventId
@@ -33,18 +33,19 @@ $(document).ready(function () {
   })
 
   $('#addEventBtn').click(function () {
-    $('#saveEventBtn').removeAttr('data-id')
+    $('#saveEventBtn').removeAttr('data-event-id')
   })
 
   $(document.body).on('click', '.event-edit-btn', function () {
-    let eventId = parseInt($(this).data('id'))
-    $('#saveEventBtn').data('id', eventId)
+    let eventId = parseInt($(this).data('event-id'))
+    $('#saveEventBtn').attr('data-event-id', eventId)
     $.get(`/api/events/${eventId}`)
       .done(event => {
         $('#eventNameInput').val(event.name)
         $('#eventDescriptionTextarea').val(event.description)
         let start = moment(event.start).format('YYYY-MM-DD') // eslint-disable-line no-undef
         $('#eventStartInput').val(start)
+        quill.setContents(event.details)
       })
       .fail(error => { throw error })
   })
