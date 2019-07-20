@@ -8,13 +8,9 @@ helpers.section = function (name, options) {
   return null
 }
 
-helpers.statusMessage = function (code) {
-  return STATUS_CODES[`${code}`]
-}
+helpers.statusMessage = code => STATUS_CODES[`${code}`]
 
-helpers.isAuthenticated = function (request) {
-  return request.isAuthenticated()
-}
+helpers.isAuthenticated = request => request.isAuthenticated()
 
 helpers.userFollowsProject = function (user, project) {
   return user && project && project.Users.filter(u => (u.id === user.id))

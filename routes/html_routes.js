@@ -54,7 +54,7 @@ module.exports = function (app) {
       }]
     })
       .then(user => {
-        if (!user) res.render('status', { code: 404 }) // No user found
+        if (!user) return res.render('status', { code: 404 }) // No user found
         let events = []
         user.Projects.forEach(project => {
           project.Events.forEach(event => {
@@ -89,7 +89,7 @@ module.exports = function (app) {
       }]
     })
       .then(project => {
-        if (!project) res.render('status', { code: 404 }) // No project found
+        if (!project) return res.render('status', { code: 404 }) // No project found
         res.render('map', { project: project })
       })
       .catch(error => {
@@ -111,7 +111,7 @@ module.exports = function (app) {
       order: [ [db.Event, 'start', 'DESC'] ]
     })
       .then(project => {
-        if (!project) res.render('status', { code: 404 }) // No project found
+        if (!project) return res.render('status', { code: 404 }) // No project found
         let pastEvents = project.Events.filter(evt => (moment().diff(evt.start) > 0))
         let futureEvents = project.Events.filter(evt => (moment().diff(evt.start) < 0))
         let context = {
