@@ -77,9 +77,16 @@ module.exports = function (app) {
       })
   })
 
-  app.get('/maps/:id', function (req, res) {
+  app.get('/projects/:id/map', function (req, res) {
     db.Project.findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
+      include: [{
+        model: db.Group,
+        include: [{
+          model: db.Member,
+          include: [db.User]
+        }]
+      }]
     })
       .then(project => {
         if (!project) res.render('status', { code: 404 }) // No project found

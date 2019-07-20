@@ -6,7 +6,22 @@
 <link rel="stylesheet" href="/css/project.css">
 {{/section}}
 
-<div class="w-100" id="map" data-project-id="{{project.id}}" style="height:calc(100vh - 56px)"></div>
+{{#section 'loginQueryParams'}}
+?redirect={{request.url}}
+{{/section}}
+
+<div class="row jumbotron p-2 m-0">
+  <a class="btn btn-secondary" href="/projects/{{project.id}}">
+    <i class="fas fa-chevron-left"></i> {{project.name}} Page
+  </a>
+  {{#if (userIsMemberOfGroup request.user project.Group)}}
+  <button class="btn btn-primary ml-2" type="button" id="saveMapBtn">
+    <i class="fas fa-save"></i> Save Map
+  </button>
+  {{/if}}
+</div>
+
+<div class="w-100" id="map" data-project-id="{{project.id}}" style="height:calc(100vh - 110px)"></div>
 
 {{#section 'js'}}
 <!-- Make sure you put this AFTER Leaflet's CSS -->
@@ -15,5 +30,9 @@
   crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
+{{#if (userIsMemberOfGroup request.user project.Group)}}
+<script src="/js/edit-map.js"></script>
+{{else}}
 <script src="/js/map.js"></script>
+{{/if}}
 {{/section}}
