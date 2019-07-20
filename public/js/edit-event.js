@@ -35,7 +35,7 @@ $(document).ready(function () {
     $('#saveEventBtn').removeAttr('data-id')
   })
 
-  $(document.body).on('click', '.event-box', function () {
+  $(document.body).on('click', '.event-edit-btn', function () {
     let eventId = parseInt($(this).data('id'))
     $('#saveEventBtn').data('id', eventId)
     $.get(`/api/events/${eventId}`)

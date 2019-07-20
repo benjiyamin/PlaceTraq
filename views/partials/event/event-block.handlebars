@@ -1,5 +1,3 @@
-<li class="event-box cursor-pointer" data-toggle="modal" data-target="#eventModal" data-id="{{id}}">
-  <span class="text-primary">{{name}}{{#if Project}} ({{Project.name}}){{/if}}</span>
-  <span class="text-primary float-right">{{date start 'MMMM YYYY'}}</span>
-  <p>{{description}}</p>
+<li class="event-box">
+  {{> event/event-info name=name project=Project start=start description=description}}
 </li>
