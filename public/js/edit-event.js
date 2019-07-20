@@ -4,7 +4,6 @@ $(document).ready(function () {
   })
 
   $('#saveEventBtn').click(function () {
-    // let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
     let projectId = parseInt($(this).data('project-id'))
     let name = $('#eventNameInput').val().trim()
     let description = $('#eventDescriptionTextarea').val().trim()

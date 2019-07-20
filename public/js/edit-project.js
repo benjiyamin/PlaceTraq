@@ -3,14 +3,13 @@ $(document).ready(function () {
     theme: 'snow'
   })
   $('#saveProjectBtn').click(function () {
-    // let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
     let projectId = parseInt($(this).data('project-id'))
     let name = $('#projectNameInput').val().trim()
     let description = $('#projectDescriptionTextarea').val().trim()
     let location = $('#projectLocationInput').val().trim()
     let start = $('#projectStartInput').val().trim()
     let end = $('#projectEndInput').val().trim()
-    let about = JSON.parse(JSON.stringify(quill.getContents()))
+    let about = quill.getText().trim().length ? JSON.parse(JSON.stringify(quill.getContents())) : null
     $.ajax({
       url: '/api/projects',
       type: 'PUT',

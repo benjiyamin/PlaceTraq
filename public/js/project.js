@@ -3,7 +3,6 @@
 $(document).ready(function () {
   $('#followBtn').click(function () {
     let followed = $(this).data('followed')
-    // let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
     let projectId = $(this).data('project-id')
     let url = `/api/follow/${projectId}`
     if (typeof followed !== typeof undefined && followed !== false) {

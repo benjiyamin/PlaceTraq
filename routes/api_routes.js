@@ -1,5 +1,3 @@
-// const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
-
 const db = require('../models')
 const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
 

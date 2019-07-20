@@ -1,6 +1,5 @@
 $(document).ready(function () {
   $('#saveProjectBtn').click(function () {
-    // let groupId = parseInt(window.location.pathname.replace('/groups/', ''))
     let groupId = parseInt($(this).data('group-id'))
     let name = $('#projectNameInput').val().trim()
     let description = $('#projectDescriptionTextarea').val().trim()

@@ -66,7 +66,6 @@ module.exports = function (app) {
         let futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
         res.render('user', {
           user: user,
-          // events: events,
           pastEvents: pastEvents,
           futureEvents: futureEvents
         })
