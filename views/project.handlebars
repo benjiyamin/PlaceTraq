@@ -43,7 +43,7 @@
           <p class="text-muted"><i class="fas fa-users"></i> {{length project.Users}}
             Follower{{#unless (equalsLength project.Users 1)}}s{{/unless}}</p>
           {{#if (isAuthenticated request)}}
-          <button id="followBtn" type="button"
+          <button id="followBtn" data-project-id="{{project.id}}" type="button"
             class="btn btn-primary btn-lg btn-block{{#if (userFollowsProject request.user project)}} active{{/if}}"
             {{#if (userFollowsProject request.user project)}}data-followed{{/if}}>
             {{#if (userFollowsProject request.user project)}}
@@ -140,8 +140,8 @@
 </div>
 
 {{#if (userIsMemberOfGroup request.user project.Group)}}
-{{> project/project-modal project=project }}
-{{> event/event-modal }}
+{{> project/project-modal project=project group=project.Group}}
+{{> event/event-modal project=project}}
 {{/if}}
 
 {{#section 'js'}}

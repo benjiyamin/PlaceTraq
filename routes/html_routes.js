@@ -77,6 +77,20 @@ module.exports = function (app) {
       })
   })
 
+  app.get('/maps/:id', function (req, res) {
+    db.Project.findOne({
+      where: { id: req.params.id }
+    })
+      .then(project => {
+        if (!project) res.render('status', { code: 404 }) // No project found
+        res.render('map', { project: project })
+      })
+      .catch(error => {
+        res.render('status', { code: 500 })
+        throw error
+      })
+  })
+
   app.get('/projects/:id', function (req, res) {
     db.Project.findOne({
       where: { id: req.params.id },

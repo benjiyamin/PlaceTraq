@@ -3,7 +3,8 @@ $(document).ready(function () {
     theme: 'snow'
   })
   $('#saveProjectBtn').click(function () {
-    let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
+    // let projectId = parseInt(window.location.pathname.replace('/projects/', ''))
+    let projectId = parseInt($(this).data('project-id'))
     let name = $('#projectNameInput').val().trim()
     let description = $('#projectDescriptionTextarea').val().trim()
     let location = $('#projectLocationInput').val().trim()
