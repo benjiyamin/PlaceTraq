@@ -1,5 +1,5 @@
 {
-  "name": "project-link",
+  "name": "placetraq",
   "version": "0.1.0",
   "description": "",
   "main": "server.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjiyamin/Project-Link.git"
+    "url": "git+https://github.com/benjiyamin/PlaceTraq.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/benjiyamin/Project-Link/issues"
+    "url": "https://github.com/benjiyamin/PlaceTraq/issues"
   },
-  "homepage": "https://github.com/benjiyamin/Project-Link#readme",
+  "homepage": "https://github.com/benjiyamin/PlaceTraq#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "dotenv": "^8.0.0",
@@ -26,7 +26,7 @@
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
     "handlebars-helpers": "^0.10.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
