@@ -17,7 +17,15 @@ $(document).ready(function () {
       map.fitBounds(featureGroup.getBounds())
 
       let drawControl = new L.Control.Draw({
-        edit: { featureGroup: featureGroup }
+        edit: { featureGroup: featureGroup },
+        draw: {
+          polyline: { metric: false },
+          polygon: { metric: false },
+          rectangle: { metric: false },
+          circle: { metric: false },
+          marker: { metric: false },
+          circlemarker: { metric: false }
+        }
       })
       map.addControl(drawControl)
 
