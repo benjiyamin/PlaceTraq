@@ -43,14 +43,17 @@ require('./routes/auth_routes')(app, passport)
 // Load passport strategies
 require('./config/passport/passport')(passport, db.User)
 
-db.sequelize.sync({
-  force: false
-})
-  .then(function () {
-    const PORT = process.env.PORT || 3000
-    app.listen(PORT, function () {
-      console.log(`App now listening at PORT ${PORT}`)
-    })
+// When node executes this file directly, run server
+if (!module.parent) {
+  db.sequelize.sync({
+    force: false
   })
+    .then(function () {
+      const PORT = process.env.PORT || 3000
+      app.listen(PORT, function () {
+        console.log(`App now listening at PORT ${PORT}`)
+      })
+    })
+}
 
 module.exports = app
