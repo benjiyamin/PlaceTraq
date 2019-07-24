@@ -33,10 +33,6 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   User.associate = function (models) {
-    User.hasMany(models.Post, {
-      onDelete: 'CASCADE'
-    })
-
     User.hasMany(models.Member, {
       onDelete: 'CASCADE'
     })

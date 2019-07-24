@@ -36,12 +36,8 @@ describe('routes/api/projects', () => {
           }
         ])
       })
+      .catch(error => { throw error })
       .then(() => done())
-      .catch(error => {
-        done()
-        throw error
-      })
-    // done()
   })
 
   describe('GET /api/projects', () => {
@@ -110,4 +106,37 @@ describe('routes/api/projects', () => {
         })
     })
   })
+
+  /*
+  describe('PUT /api/follow/:id', () => {
+    it('should return one project if the user is logged in', done => {
+      var agent = chai.request.agent(server)
+      agent
+        .post('/signup')
+        .send({ email: 'mail@mail.com', password: 'password' })
+        .then(res => {
+          // expect(res).to.have.cookie('sessionid')
+          // The `agent` now has the sessionid cookie saved, and will send it
+          // back to the server in the next request:
+          return agent
+            .put('/api/follow/1')
+            .end((err, res) => {
+              expect(err).to.be.null
+              expect(res.status).to.equal(200)
+              expect(res.body)
+                .to.be.an('object')
+                .that.includes({ name: 'First Project', description: 'First Description' })
+              agent.close()
+              done()
+            })
+        })
+        .catch(error => {
+          agent.close()
+          done()
+          throw error
+        })
+        // .finally(() => agent.close())
+    })
+  })
+  */
 })

@@ -18,12 +18,8 @@ describe('routes/api/projects', () => {
   before(done => {
     db.sequelize.sync({ force: true })
       .then(() => { return db.Group.create({ name: 'First Group' }) })
+      .catch(error => { throw error })
       .then(() => done())
-      .catch(error => {
-        done()
-        throw error
-      })
-    // done()
   })
 
   describe('POST /api/groups', () => {

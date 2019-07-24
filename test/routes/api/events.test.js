@@ -36,12 +36,8 @@ describe('routes/api/events', () => {
         events.forEach(event => { event.ProjectId = dbProject.id })
         return db.Event.bulkCreate(events)
       })
+      .catch(error => { throw error })
       .then(() => done())
-      .catch(error => {
-        done()
-        throw error
-      })
-    // done()
   })
 
   describe('GET /api/events', () => {

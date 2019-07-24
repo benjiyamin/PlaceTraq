@@ -27,20 +27,12 @@ describe('models/User', () => {
   })
 
   context('associations', () => {
-    const Post = 'some dummy post'
     const Member = 'some dummy member'
     const Project = 'some dummy project'
 
     before(() => {
-      User.associate({ Post })
       User.associate({ Member })
       User.associate({ Project })
-    })
-
-    it('defined a hasMany association with Post', () => {
-      expect(User.hasMany).to.have.been.calledWith(Post, {
-        onDelete: 'CASCADE'
-      })
     })
 
     it('defined a hasMany association with Member', () => {
