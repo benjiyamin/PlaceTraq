@@ -6,6 +6,7 @@ const passport = require('passport')
 const session = require('express-session')
 
 const db = require('./models')
+const routes = require('./routes')
 
 let app = express()
 
@@ -36,9 +37,10 @@ app.engine('handlebars', handlebars({
 }))
 app.set('view engine', 'handlebars')
 
-require('./routes/api_routes')(app)
+// require('./routes/api_routes')(app)
+app.use(routes)
 require('./routes/html_routes')(app)
-require('./routes/auth_routes')(app, passport)
+// require('./routes/auth_routes')(app, passport)
 
 // Load passport strategies
 require('./config/passport/passport')(passport, db.User)

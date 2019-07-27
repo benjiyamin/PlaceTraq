@@ -11,7 +11,7 @@ const expect = chai.expect
 // Setting up the chai http plugin
 chai.use(chaiHttp)
 
-describe('routes/api/projects', () => {
+describe('routes/api/groups', () => {
   // Before all tests begin,
   // 1) sync schema from the models to db
   // 2) create the testing data

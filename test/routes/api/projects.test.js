@@ -95,10 +95,10 @@ describe('routes/api/projects', () => {
     })
   })
 
-  describe('PUT /api/follow/:id', () => {
+  describe('PUT /api/projects/:id/follow', () => {
     it('should return a 401 error if the user isn\'t logged in', done => {
       chai.request(server)
-        .put('/api/follow/1')
+        .put('/api/projects/1/follow')
         .end(function (err, res) {
           expect(err).to.be.null
           expect(res).to.have.status(401) // Unauthorized

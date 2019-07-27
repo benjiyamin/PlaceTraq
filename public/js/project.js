@@ -4,7 +4,7 @@ $(document).ready(function () {
   $('#followBtn').click(function () {
     let followed = $(this).data('followed')
     let projectId = $(this).data('project-id')
-    let url = `/api/follow/${projectId}`
+    let url = `/api/projects/${projectId}/follow`
     if (typeof followed !== typeof undefined && followed !== false) {
       url += '?unfollow=true'
     }
