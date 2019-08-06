@@ -1,9 +1,31 @@
+const Op = require('sequelize').Op
+
 const db = require('../models')
-const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
+const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 
 module.exports = {
   findAll: (req, res) => {
-    db.Project.findAll()
+    let search = req.query.search
+    let findQuery = {}
+    if (search) {
+      let words = search.split(/[\s,]+/)
+      let queryList = []
+      words.forEach(word => {
+        let queryGroup = [
+          { name: { [Op.substring]: word } },
+          { description: { [Op.substring]: word } },
+          { location: { [Op.substring]: word } },
+          { about: { [Op.substring]: word } }
+        ]
+        queryList.push({ [Op.or]: queryGroup })
+      })
+      findQuery = {
+        where: {
+          [Op.and]: queryList
+        }
+      }
+    }
+    db.Project.findAll(findQuery)
       .then(data => res.json(data))
       .catch(error => {
         res.status(500).end()
@@ -12,9 +34,20 @@ module.exports = {
   },
   findById: (req, res) => {
     db.Project.findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
+      include: [db.Event, db.User, {
+        model: db.Group,
+        include: [{
+          model: db.Member,
+          include: [db.User]
+        }]
+      }],
+      order: [ [db.Event, 'start', 'DESC'] ]
     })
-      .then(data => res.json(data))
+      .then(project => {
+        if (!project) return res.status(404).end() // No project found
+        res.json(project)
+      })
       .catch(error => {
         res.status(500).end()
         throw error
@@ -53,6 +86,7 @@ module.exports = {
     })
       .then(project => {
         if (!userIsMemberOfGroup(req.user, project.Group)) return res.status(403).end() // Forbidden
+        if (!project) return res.status(404).end() // No project found
         return project.update(req.body)
       })
       .then(project => res.json(project))
@@ -70,6 +104,7 @@ module.exports = {
       where: { id: req.params.id }
     })
       .then(project => {
+        if (!project) return res.status(404).end() // No project found
         return db.User.findOne({
           where: { id: req.user.id }
         })

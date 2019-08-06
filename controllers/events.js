@@ -1,5 +1,5 @@
 const db = require('../models')
-const userIsMemberOfGroup = require('../helpers/helpers').userIsMemberOfGroup
+const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 
 module.exports = {
   findAll: (req, res) => {
@@ -14,7 +14,10 @@ module.exports = {
     db.Event.findOne({
       where: { id: req.params.id }
     })
-      .then(data => res.json(data))
+      .then(event => {
+        if (!event) return res.status(404).end() // No event found
+        res.json(event)
+      })
       .catch(error => {
         res.status(500).end()
         throw error
@@ -44,6 +47,7 @@ module.exports = {
   },
   update: (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
+    if (!event) return res.status(404).end() // No event found
     db.Event.findOne({
       where: { id: req.body.id },
       include: [{
