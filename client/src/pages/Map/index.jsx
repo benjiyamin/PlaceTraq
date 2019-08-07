@@ -23,7 +23,7 @@ function TopBar ({ user, group, id, name }) {
       <Link className='btn btn-secondary' to={`/projects/${id}`}>
         <i className='fas fa-chevron-left' /> {name} Page
       </Link>
-      {user && userIsMemberOfGroup(user, group) ? <SaveButton /> : null}
+      {user && group && userIsMemberOfGroup(user, group) ? <SaveButton /> : null}
     </Row>
   )
 }
@@ -57,7 +57,7 @@ class MapPage extends Component {
     const name = project ? project.name : null
     return (
       <div>
-        {user && group ? <TopBar user={user} group={group} id={id} name={name} /> : null}
+        <TopBar user={user} group={group} id={id} name={name} />
         {project ? <ProjectMap project={project} style={{ height: 'calc(100vh - 110px)' }} edit='true' /> : null}
       </div>
     )

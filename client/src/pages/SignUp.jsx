@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 import SignUpForm from '../components/forms/SignUpForm'
 
-function SignUpPage ({ redirect, history, loadUser }) {
+function SignUpPage ({ redirect, history }) {
   if (redirect) history.push(redirect)
   return (
     <Container className='mt-4'>
@@ -15,7 +15,7 @@ function SignUpPage ({ redirect, history, loadUser }) {
           <h2>Sign Up</h2>
           <p>Please fill in this form to create an account!</p>
           <hr />
-          <SignUpForm afterUpdate={loadUser} />
+          <SignUpForm />
           <div className='hint-text'>Already have an account? <Link to='/login'>Log In</Link></div>
         </Col>
       </Row>
@@ -24,8 +24,8 @@ function SignUpPage ({ redirect, history, loadUser }) {
 }
 SignUpPage.propTypes = {
   redirect: PropTypes.string,
-  history: PropTypes.object,
-  loadUser: PropTypes.func
+  history: PropTypes.object
+  // loadUser: PropTypes.func
 }
 
 export default SignUpPage

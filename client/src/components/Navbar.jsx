@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 
 import API from '../utils/API'
@@ -9,7 +9,8 @@ import API from '../utils/API'
 function AppNavbar ({ user }) {
   function logOutHandler () {
     API.logout()
-      .then(() => { return <Redirect to='/' /> })
+      .then(() => { window.location.reload() })
+      .catch(err => console.log(err))
   }
 
   return (

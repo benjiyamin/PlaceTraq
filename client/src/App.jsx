@@ -49,9 +49,9 @@ class App extends Component {
               user={this.state.user} />} />
             <Route exact path='/projects' component={SearchPage} />
             <Route exact path='/signup' render={props => <SignUpPage {...props}
-              redirect={this.state.user ? '/profile' : null} loadUser={this.loadUser} />} />
+              redirect={this.state.user ? '/profile' : null} />} />
             <Route exact path='/login' render={props => <LoginPage {...props}
-              redirect={this.state.user ? '/profile' : null} loadUser={this.loadUser} />} />
+              redirect={this.state.user ? '/profile' : null} />} />
             <Route component={StatusPage} />
           </Switch>
         </div>

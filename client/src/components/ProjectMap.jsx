@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import L from 'leaflet'
 import 'leaflet-draw/dist/leaflet.draw'
 
+import API from '../utils/API'
+
 class ProjectMap extends Component {
   componentDidMount () {
     const map = L.map('map', {
@@ -16,12 +18,12 @@ class ProjectMap extends Component {
       ]
     })
     if (this.props.project) {
-      const featureGroup = L.geoJSON(this.props.project.features).addTo(map)
-      map.fitBounds(featureGroup.getBounds())
+      this.featureGroup = L.geoJSON(this.props.project.features).addTo(map)
+      map.fitBounds(this.featureGroup.getBounds())
 
       if (this.props.edit) {
         this.drawControl = new L.Control.Draw({
-          edit: { featureGroup: featureGroup },
+          edit: { featureGroup: this.featureGroup },
           draw: {
             polyline: { metric: false },
             polygon: { metric: false },
@@ -34,14 +36,24 @@ class ProjectMap extends Component {
         map.addControl(this.drawControl)
 
         map.on(L.Draw.Event.CREATED, function (e) {
-          featureGroup.addLayer(e.layer)
+          this.featureGroup.addLayer(e.layer)
         })
 
         map.on(L.Draw.Event.DELETED, function (e) {
-          featureGroup.removeLayer(e.layer)
+          this.featureGroup.removeLayer(e.layer)
         })
       }
     }
+  }
+
+  updateFeatures = () => {
+    API.putProject({
+      id: this.props.project.id,
+      features: this.featureGroup.toGeoJSON()
+    })
+      .then(res => this.setState({ project: res.data }))
+      .catch(error => console.error(error))
+      .finally(() => { alert('Project Map has been saved.') })
   }
 
   render () {

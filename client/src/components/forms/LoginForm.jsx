@@ -18,8 +18,9 @@ class LoginForm extends AppForm {
         email: this.state.email,
         password: this.state.password
       })
+        .then(() => { window.location.reload() })
         .catch(err => console.log(err))
-        .finally(() => { if (this.props.afterUpdate) this.props.afterUpdate() })
+        // .finally(() => { if (this.props.afterUpdate) this.props.afterUpdate() })
     }
 
     render () {
