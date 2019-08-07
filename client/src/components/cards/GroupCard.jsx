@@ -8,7 +8,7 @@ function GroupCard ({ group }) {
   return (
     <Card
       title={group.name}
-      subtitle={`${group.Members.length} Member${group.Members.length !== 1 ? 's' : null}`}
+      subtitle={`${group.Members.length} Member${group.Members.length !== 1 ? 's' : ''}`}
       text={ellipsis(group.description, 140)}
       to={`/groups/${group.id}`}
     />

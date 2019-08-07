@@ -35,18 +35,21 @@ class ProjectMap extends Component {
         })
         map.addControl(this.drawControl)
 
+        const featureGroup = this.featureGroup
+
         map.on(L.Draw.Event.CREATED, function (e) {
-          this.featureGroup.addLayer(e.layer)
+          featureGroup.addLayer(e.layer)
         })
 
         map.on(L.Draw.Event.DELETED, function (e) {
-          this.featureGroup.removeLayer(e.layer)
+          featureGroup.removeLayer(e.layer)
         })
       }
     }
   }
 
   updateFeatures = () => {
+    console.log('saving')
     API.putProject({
       id: this.props.project.id,
       features: this.featureGroup.toGeoJSON()

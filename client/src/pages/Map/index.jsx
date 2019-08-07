@@ -9,32 +9,12 @@ import API from '../../utils/API'
 import { userIsMemberOfGroup } from '../../utils/auth'
 import ProjectMap from '../../components/ProjectMap'
 
-function SaveButton () {
-  return (
-    <Button variant='primary' className='ml-2'>
-      <i className='fas fa-save' /> Save Map
-    </Button>
-  )
-}
-
-function TopBar ({ user, group, id, name }) {
-  return (
-    <Row className='jumbotron p-2 m-0'>
-      <Link className='btn btn-secondary' to={`/projects/${id}`}>
-        <i className='fas fa-chevron-left' /> {name} Page
-      </Link>
-      {user && group && userIsMemberOfGroup(user, group) ? <SaveButton /> : null}
-    </Row>
-  )
-}
-TopBar.propTypes = {
-  user: PropTypes.object.isRequired,
-  group: PropTypes.object.isRequired,
-  id: PropTypes.number,
-  name: PropTypes.string
-}
-
 class MapPage extends Component {
+  constructor (props) {
+    super(props)
+    this.map = React.createRef()
+  }
+
   state = {
     project: null
   }
@@ -49,6 +29,11 @@ class MapPage extends Component {
       .catch(error => console.error(error))
   }
 
+  handleSaveMap = () => {
+    console.log('saving')
+    this.map.current.updateFeatures()
+  }
+
   render () {
     const user = this.props.user
     const project = this.state.project
@@ -57,8 +42,17 @@ class MapPage extends Component {
     const name = project ? project.name : null
     return (
       <div>
-        <TopBar user={user} group={group} id={id} name={name} />
-        {project ? <ProjectMap project={project} style={{ height: 'calc(100vh - 110px)' }} edit='true' /> : null}
+        <Row className='jumbotron p-2 m-0'>
+          <Link className='btn btn-secondary' to={`/projects/${id}`}>
+            <i className='fas fa-chevron-left' /> {name} Page
+          </Link>
+          {user && group && userIsMemberOfGroup(user, group) ? (
+            <Button variant='primary' className='ml-2' onClick={this.handleSaveMap}>
+              <i className='fas fa-save' /> Save Map
+            </Button>
+          ) : null}
+        </Row>
+        {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }} edit='true' /> : null}
       </div>
     )
   }

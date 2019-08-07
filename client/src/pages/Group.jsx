@@ -12,7 +12,7 @@ import ProjectEditor from '../components/editors/ProjectEditor'
 function MemberRow ({ member }) {
   return (
     <tr>
-      <td>{member.User.fullName}}</td>
+      <td>{member.User.fullName}</td>
       <td>{member.User.email}</td>
       <td>{member.isOwner ? 'Owner' : 'Member'}</td>
     </tr>
