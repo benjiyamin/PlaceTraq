@@ -35,24 +35,59 @@ TopBar.propTypes = {
   handleShowEvent: PropTypes.func
 }
 
-function FollowBtn ({ user, project }) {
-  if (user && project) {
-    return (
-      userFollowsProject(user, project) ? (
-        <Button variant='primary' size='lg' active block data-followed>
-          <i className='fas fa-user-minus' /> Unfollow this Project
-        </Button>
-      ) : (
-        <Button varient='primary' size='lg' block>
-          <i className='fas fa-user-plus' /> Follow this Project
-        </Button>
-      )
-    )
-  } else {
-    return (
-      <Link className='btn btn-primary btn-lg btn-block' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
-    )
+class FollowBtn extends Component {
+  state = {
+    userFollowsProject: null
   }
+
+  followProject = id => {
+    // const APICall = () => userFollowsProject(this.props.user, this.state.project)
+    //   ? API.unfollowProject(id) : API.followProject(id)
+
+    API.followProject(id)
+      .then(res => this.setState({ project: res.data }))
+      .catch(error => console.error(error))
+  }
+
+  unfollowProject = id => {
+    API.unfollowProject(id)
+      .then(res => {
+        this.setState({ project: res.data })
+      })
+      .catch(error => console.error(error))
+  }
+
+  handleFollowProject = evt => { this.followProject(this.props.project.id) }
+
+  handleUnfollowProject = evt => {
+    this.unfollowProject(this.props.project.id)
+  }
+
+  render () {
+    const user = this.props.user
+    const project = this.props.project
+    if (user && project) {
+      return (
+        userFollowsProject(user, project) ? (
+          <Button variant='primary' size='lg' onClick={this.handleUnfollowProject} active block data-followed>
+            <i className='fas fa-user-minus' /> Unfollow this Project
+          </Button>
+        ) : (
+          <Button varient='primary' size='lg' onClick={this.handleFollowProject} block>
+            <i className='fas fa-user-plus' /> Follow this Project
+          </Button>
+        )
+      )
+    } else {
+      return (
+        <Link className='btn btn-primary btn-lg btn-block' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
+      )
+    }
+  }
+}
+FollowBtn.propTypes = {
+  user: PropTypes.object,
+  project: PropTypes.object
 }
 
 function InfoBlock ({ user, project }) {
@@ -92,16 +127,20 @@ class ProjectPage extends Component {
   }
 
   state = {
-    project: null
+    project: null,
+    followed: null
   }
 
   componentDidMount () {
     this.loadProject(this.props.match.params.id)
   }
 
-  loadProject = (id) => {
+  loadProject = id => {
     API.getProject(id)
-      .then(res => this.setState({ project: res.data }))
+      .then(res => this.setState({
+        project: res.data,
+        followed: userFollowsProject(this.props.user, res.data)
+      }))
       .catch(error => console.error(error))
   }
 

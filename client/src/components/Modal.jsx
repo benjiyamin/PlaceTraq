@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Button, Modal } from 'react-bootstrap'
 
-import 'react-quill/dist/quill.snow.css'
-
 class AppModal extends Component {
   state = {
     show: false

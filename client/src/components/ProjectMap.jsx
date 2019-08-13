@@ -49,7 +49,6 @@ class ProjectMap extends Component {
   }
 
   updateFeatures = () => {
-    console.log('saving')
     API.putProject({
       id: this.props.project.id,
       features: this.featureGroup.toGeoJSON()
