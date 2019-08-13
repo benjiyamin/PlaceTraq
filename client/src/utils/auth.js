@@ -16,5 +16,5 @@ export const userIsOwnerOfGroup = function (user, group) {
 }
 
 export const userFollowsProject = function (user, project) {
-  return user && project && project.Users.filter(u => (u.id === user.id))
+  return user && project && project.Users.filter(u => (u.id === user.id)).length
 }

@@ -36,24 +36,22 @@ TopBar.propTypes = {
 }
 
 class FollowBtn extends Component {
-  state = {
-    userFollowsProject: null
-  }
+  // state = {
+  //   userFollowsProject: null
+  // }
 
   followProject = id => {
     // const APICall = () => userFollowsProject(this.props.user, this.state.project)
     //   ? API.unfollowProject(id) : API.followProject(id)
 
     API.followProject(id)
-      .then(res => this.setState({ project: res.data }))
+      .then(res => this.props.afterProjectUpdate())
       .catch(error => console.error(error))
   }
 
   unfollowProject = id => {
     API.unfollowProject(id)
-      .then(res => {
-        this.setState({ project: res.data })
-      })
+      .then(res => this.props.afterProjectUpdate())
       .catch(error => console.error(error))
   }
 
@@ -87,10 +85,11 @@ class FollowBtn extends Component {
 }
 FollowBtn.propTypes = {
   user: PropTypes.object,
-  project: PropTypes.object
+  project: PropTypes.object,
+  afterProjectUpdate: PropTypes.func
 }
 
-function InfoBlock ({ user, project }) {
+function InfoBlock ({ user, project, afterProjectUpdate }) {
   return (
     <div className='sticky-top pt-3' style={{ top: '56px' }}>
       <div>
@@ -110,13 +109,14 @@ function InfoBlock ({ user, project }) {
       </div>
       <p className='text-muted'><i className='fas fa-users' /> {project ? project.Users.length : null}
         Follower{project && project.Users.length !== 1 ? 's' : null}</p>
-      <FollowBtn user={user} project={project} />
+      <FollowBtn user={user} project={project} afterProjectUpdate={afterProjectUpdate} />
     </div>
   )
 }
 InfoBlock.propTypes = {
   user: PropTypes.object,
-  project: PropTypes.object
+  project: PropTypes.object,
+  afterProjectUpdate: PropTypes.func
 }
 
 class ProjectPage extends Component {
@@ -162,7 +162,7 @@ class ProjectPage extends Component {
         <Container>
           <Row>
             <Col md={4}>
-              {project ? <InfoBlock user={user} project={project} /> : null}
+              {project ? <InfoBlock user={user} project={project} afterProjectUpdate={this.afterProjectUpdate} /> : null}
             </Col>
             <Col md={8}>
               <Tab.Container defaultActiveKey='timeline'>
