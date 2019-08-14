@@ -15,7 +15,7 @@ class SearchForm extends AppForm {
   }
 
   loadProjects = () => {
-    API.getProjects(this.state.search)
+    API.getProjects({ search: this.state.search })
       // .then(res => this.setState({ projects: res.data }))
       .then(res => this.props.setProjects(res.data))
       .catch(error => console.error(error))

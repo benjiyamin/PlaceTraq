@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
 
 const db = require('../../models')
 
@@ -10,6 +11,36 @@ router.post('/signup', passport.authenticate('local-signup', {
   let redirect = req.query.redirect || '/profile'
   res.redirect(redirect)
 })
+
+/*
+router.get('/login', (req, res, next) => {
+  passport.authenticate('login', (err, user, info) => {
+    if (err) {
+      console.log(err)
+    }
+    if (info !== undefined) {
+      console.log(info.message)
+      res.send(info.message)
+    } else {
+      req.logIn(user, err => {
+        if (err) throw err
+        db.User.findOne({
+          where: {
+            email: user.email
+          }
+        }).then(user => {
+          const token = jwt.sign({ id: user.username }, process.env.JWT_SECRET)
+          res.status(200).send({
+            auth: true,
+            token: token,
+            message: 'user found & logged in'
+          })
+        })
+      })
+    }
+  })(req, res, next)
+})
+*/
 
 router.post('/login', passport.authenticate('local-login', {
   failureRedirect: '/login'

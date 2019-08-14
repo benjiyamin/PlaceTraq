@@ -32,15 +32,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
 
-// Template engine
-/*
-app.engine('handlebars', handlebars({
-  defaultLayout: 'main',
-  helpers: require('./helpers/helpers')
-}))
-app.set('view engine', 'handlebars')
-*/
-
 app.use(routes)
 
 /*

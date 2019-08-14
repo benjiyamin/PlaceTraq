@@ -6,7 +6,10 @@ const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 module.exports = {
   findAll: (req, res) => {
     let search = req.query.search
-    let findQuery = {}
+    let userId = parseInt(req.query.userId)
+    let findQuery = {
+      where: {}
+    }
     if (search) {
       let words = search.split(/[\s,]+/)
       let queryList = []
@@ -24,6 +27,16 @@ module.exports = {
           [Op.and]: queryList
         }
       }
+    }
+    if (userId) {
+      if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
+      if (userId !== req.user.id) return res.status(403).end() // Forbidden
+      findQuery.include = [{
+        model: db.User,
+        where: {
+          id: userId
+        }
+      }]
     }
     db.Project.findAll(findQuery)
       .then(data => res.json(data))

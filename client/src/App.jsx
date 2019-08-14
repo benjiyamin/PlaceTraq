@@ -42,7 +42,7 @@ class App extends Component {
             <Route exact path='/groups/:id' render={props => <GroupPage {...props}
               user={this.state.user} />} />
             <Route exact path='/profile' render={props => <ProfilePage {...props}
-              user={this.state.user} redirect={!this.state.user ? '/login' : null} />} />
+              redirect={!this.state.user ? '/login' : null} />} />
             <Route exact path='/projects/:id' render={props => <ProjectPage {...props}
               user={this.state.user} />} />
             <Route exact path='/projects/:id/map' render={props => <MapPage {...props}

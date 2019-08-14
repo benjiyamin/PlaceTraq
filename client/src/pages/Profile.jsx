@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import _ from 'lodash'
 
+import API from '../utils/API'
 import Timeline from '../components/Timeline'
 import ProjectCard from '../components/cards/ProjectCard'
 import GroupCard from '../components/cards/GroupCard'
@@ -16,26 +17,50 @@ class ProfilePage extends Component {
   }
 
   state = {
-    redirectToLogin: false
+    redirectToLogin: false,
+    projects: [],
+    groups: [],
+    events: []
+  }
+
+  componentDidMount () {
+    this.loadGroups()
   }
 
   handleRedirect = () => this.setState({ redirectToLogin: true })
 
-  getEvents = () => {
-    const events = []
-    this.props.user.Projects.forEach(project => {
-      project.Events.forEach(event => {
-        events.push(event)
+  loadGroups = () => {
+    API.getGroups()
+      .then(res => this.setState({ groups: res.data }))
+      .then(() => this.loadProjects())
+      .catch(error => console.error(error))
+  }
+
+  loadProjects = () => {
+    API.getRequestUser()
+      .then(res => res.data)
+      .then(user => API.getProjects({ userId: user.id }))
+      .then(res => this.setState({ projects: res.data }))
+      .then(() => this.loadEvents())
+      .catch(error => console.error(error))
+  }
+
+  loadEvents = () => {
+    API.getRequestUser()
+      .then(res => res.data)
+      .then(user => API.getEvents({ userId: user.id }))
+      .then(res => {
+        const events = res.data
+        _.sortBy(events, ['start']).reverse()
+        this.setState({ events: events })
       })
-    })
-    return _.sortBy(events, ['start']).reverse()
+      .catch(error => console.error(error))
   }
 
   handleAddGroup = () => this.groupEditor.current.modal.current.handleShow()
 
   render () {
     if (this.props.redirect) this.props.history.push(this.props.redirect)
-    const user = this.props.user
     return (
       <Container>
         <Row>
@@ -43,7 +68,7 @@ class ProfilePage extends Component {
             <div className='sticky-top bg-white py-3' style={{ top: '56px' }}>
               <h4 className='jumbotron p-2 m-0 text-center'>Timeline</h4>
             </div>
-            {user ? <Timeline events={this.getEvents()} /> : null}
+            {this.state.events ? <Timeline events={this.state.events} /> : null}
           </Col>
           <Col md={4}>
             <div>
@@ -61,7 +86,7 @@ class ProfilePage extends Component {
                   </Button>
                 </Col>
               </Row>
-              {user ? user.Projects.map((project, i) => {
+              {this.state.projects ? this.state.projects.map((project, i) => {
                 return <ProjectCard key={i} project={project} />
               }) : null}
             </div>
@@ -77,8 +102,8 @@ class ProfilePage extends Component {
                 </div>
               </div>
             </div>
-            {user ? user.Members.map((member, i) => {
-              return <GroupCard key={i} group={member.Group} />
+            {this.state.groups ? this.state.groups.map((group, i) => {
+              return <GroupCard key={i} group={group} />
             }) : null}
           </Col>
         </Row>
@@ -89,7 +114,6 @@ class ProfilePage extends Component {
   }
 }
 ProfilePage.propTypes = {
-  user: PropTypes.object,
   redirect: PropTypes.string,
   history: PropTypes.object
 }

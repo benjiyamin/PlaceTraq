@@ -3,7 +3,7 @@ const groupsController = require('../../controllers/groups')
 
 // Matches with "/api/groups"
 router.route('/')
-  // .get(groupsController.findAll)
+  .get(groupsController.findAll)
   .post(groupsController.create)
   .put(groupsController.update)
 

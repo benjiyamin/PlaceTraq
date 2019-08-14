@@ -1,9 +1,29 @@
+const Op = require('sequelize').Op
+
 const db = require('../models')
 const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 
 module.exports = {
   findAll: (req, res) => {
-    db.Event.findAll()
+    let userId = parseInt(req.query.userId)
+    let findQuery = {}
+    if (userId) {
+      if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
+      if (userId !== req.user.id) return res.status(403).end() // Forbidden
+      findQuery = {
+        include: [{
+          model: db.Project,
+          include: [{
+            model: db.User,
+            [Op.contains]: { id: userId }
+          }]
+        }]
+      }
+    }
+    db.Event.findAll(findQuery)
+      .then(events => events.filter(event => {
+        return event.Project.Users.filter(user => user.id === userId).length
+      }))
       .then(data => res.json(data))
       .catch(error => {
         res.status(500).end()
