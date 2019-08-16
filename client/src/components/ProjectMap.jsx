@@ -9,6 +9,9 @@ import API from '../utils/API'
 class ProjectMap extends Component {
   componentDidMount () {
     const map = L.map('map', {
+      zoom: 15,
+      center: [28.5383, -81.3792],
+      zoomControl: this.props.controls || false,
       layers: [
         L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
           attribution: '<a target="_blank" href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
@@ -17,11 +20,20 @@ class ProjectMap extends Component {
         })
       ]
     })
+    /*
+    if (!this.props.controls) {
+      map.dragging.disable()
+      map.touchZoom.disable()
+      map.doubleClickZoom.disable()
+      map.scrollWheelZoom.disable()
+    }
+    */
     if (this.props.project) {
       this.featureGroup = L.geoJSON(this.props.project.features).addTo(map)
-      map.fitBounds(this.featureGroup.getBounds())
+      if (this.props.project.features) map.fitBounds(this.featureGroup.getBounds())
 
-      if (this.props.edit) {
+      if (this.props.edit && this.featureGroup) {
+        console.log(this.props.edit, 'here')
         this.drawControl = new L.Control.Draw({
           edit: { featureGroup: this.featureGroup },
           draw: {
@@ -64,7 +76,8 @@ class ProjectMap extends Component {
 }
 ProjectMap.propTypes = {
   project: PropTypes.object,
-  edit: PropTypes.string
+  edit: PropTypes.string,
+  controls: PropTypes.bool
 }
 
 export default ProjectMap

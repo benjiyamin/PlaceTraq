@@ -14,7 +14,7 @@ class SignUpForm extends AppForm {
 
     handleFormSubmit = event => {
       event.preventDefault()
-      API.login({
+      API.signup({
         email: this.state.email,
         password: this.state.password
       })

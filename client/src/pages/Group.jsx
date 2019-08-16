@@ -104,7 +104,7 @@ class GroupPage extends Component {
 
         </Row>
         {group ? <GroupEditor group={group} ref={this.groupEditor} afterUpdate={this.afterGroupUpdate} /> : null}
-        <ProjectEditor ref={this.projectEditor} />
+        <ProjectEditor ref={this.projectEditor} group={group} />
       </Container>
     )
   }

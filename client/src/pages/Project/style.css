@@ -21,3 +21,28 @@
 }
 
 .modal-editor { height: 60vh }
+
+.pt-project-desc {
+    font-size: 1.125rem;
+    line-height: 1.56;
+}
+
+.pt-project-container {
+    max-width: 1280px;
+}
+
+.pt-project-info-block {
+    border-radius: 6px;
+    border: solid 1px #e1e1e1;
+    background-color: white;
+}
+
+.pt-project-avatar {
+    width: 136px;
+    height: 136px;
+    border-style: solid;
+    border-width: 2px;
+    border-image-source: linear-gradient(135deg, #536dfe, #ff6584);
+    border-image-slice: 1;
+    background-color: #fff;
+}

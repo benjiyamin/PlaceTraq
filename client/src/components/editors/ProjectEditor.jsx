@@ -40,7 +40,7 @@ class ProjectEditor extends Editor {
                 <Tab.Content>
                   <Tab.Pane eventKey='project-info'>
                     <Container>
-                      <ProjectForm ref={this.form} project={this.props.project} afterUpdate={this.props.afterUpdate} />
+                      <ProjectForm ref={this.form} group={this.props.group} project={this.props.project} afterUpdate={this.props.afterUpdate} />
                     </Container>
                   </Tab.Pane>
                   <Tab.Pane eventKey='project-about'>

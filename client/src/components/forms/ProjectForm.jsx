@@ -27,7 +27,11 @@ class ProjectForm extends AppForm {
       end: this.state.end,
       about: this.state.about
     }
-    if (this.state.id) projectData.id = this.state.id
+    if (this.state.id) {
+      projectData.id = this.state.id
+    } else {
+      projectData.GroupId = this.props.group.id
+    }
 
     const APICall = () => this.state.id ? API.putProject(projectData) : API.postProject(projectData)
 

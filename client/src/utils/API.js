@@ -23,5 +23,6 @@ export default {
     return axios.get(url)
   },
   login: loginData => axios.post('/auth/login', loginData),
+  signup: signupData => axios.post('/auth/signup', signupData),
   logout: () => axios.get('/auth/logout')
 }

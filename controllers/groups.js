@@ -4,14 +4,15 @@ const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 module.exports = {
   findAll: (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
-    db.Group.findAll({
+    let findQuery = {
       include: [{
         model: db.Member,
         where: {
           UserId: req.user.id
         }
       }]
-    })
+    }
+    db.Group.findAll(findQuery)
       .then(data => res.json(data))
       .catch(error => {
         res.status(500).end()

@@ -7,6 +7,7 @@ module.exports = {
   findAll: (req, res) => {
     let search = req.query.search
     let userId = parseInt(req.query.userId)
+    let groupId = parseInt(req.query.groupId)
     let findQuery = {
       where: {}
     }
@@ -28,8 +29,9 @@ module.exports = {
         }
       }
     }
+    if ((userId || groupId) &&
+      !req.isAuthenticated()) return res.status(401).end() // Unauthorized
     if (userId) {
-      if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
       if (userId !== req.user.id) return res.status(403).end() // Forbidden
       findQuery.include = [{
         model: db.User,
@@ -38,6 +40,7 @@ module.exports = {
         }
       }]
     }
+    if (groupId) findQuery.where.GroupId = groupId
     db.Project.findAll(findQuery)
       .then(data => res.json(data))
       .catch(error => {

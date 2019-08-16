@@ -43,16 +43,16 @@ class MapPage extends Component {
     return (
       <div>
         <Row className='jumbotron p-2 m-0'>
-          <Link className='btn btn-secondary' to={`/projects/${id}`}>
+          <Link className='btn btn-secondary btn-sm' to={`/projects/${id}`}>
             <i className='fas fa-chevron-left' /> {name} Page
           </Link>
           {user && group && userIsMemberOfGroup(user, group) ? (
-            <Button variant='primary' className='ml-2' onClick={this.handleSaveMap}>
+            <Button variant='primary' size='sm' className='ml-2' onClick={this.handleSaveMap}>
               <i className='fas fa-save' /> Save Map
             </Button>
           ) : null}
         </Row>
-        {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }} edit='true' /> : null}
+        {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }} edit={user ? 'true' : null} controls /> : null}
       </div>
     )
   }

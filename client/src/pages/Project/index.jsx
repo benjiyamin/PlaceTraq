@@ -36,14 +36,7 @@ TopBar.propTypes = {
 }
 
 class FollowBtn extends Component {
-  // state = {
-  //   userFollowsProject: null
-  // }
-
   followProject = id => {
-    // const APICall = () => userFollowsProject(this.props.user, this.state.project)
-    //   ? API.unfollowProject(id) : API.followProject(id)
-
     API.followProject(id)
       .then(res => this.props.afterProjectUpdate())
       .catch(error => console.error(error))
@@ -67,18 +60,18 @@ class FollowBtn extends Component {
     if (user && project) {
       return (
         userFollowsProject(user, project) ? (
-          <Button variant='primary' size='lg' onClick={this.handleUnfollowProject} active block data-followed>
-            <i className='fas fa-user-minus' /> Unfollow this Project
+          <Button className='float-right m-3' variant='secondary' size='md' onClick={this.handleUnfollowProject} active data-followed>
+            Unfollow Project
           </Button>
         ) : (
-          <Button varient='primary' size='lg' onClick={this.handleFollowProject} block>
-            <i className='fas fa-user-plus' /> Follow this Project
+          <Button className='float-right  m-3' varient='secondary' size='md' onClick={this.handleFollowProject}>
+            Follow Project
           </Button>
         )
       )
     } else {
       return (
-        <Link className='btn btn-primary btn-lg btn-block' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
+        <Link className='btn btn-secondary float-right m-3' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
       )
     }
   }
@@ -89,34 +82,26 @@ FollowBtn.propTypes = {
   afterProjectUpdate: PropTypes.func
 }
 
-function InfoBlock ({ user, project, afterProjectUpdate }) {
+function InfoBlock ({ project }) {
   return (
-    <div className='sticky-top pt-3' style={{ top: '56px' }}>
-      <div>
-        <h1 className='display-4'>{project ? project.name : null}</h1>
-      </div>
-      <div>
-        <p className='lead'>
-          {project ? project.description : null}
-        </p>
-      </div>
-      <div>
-        <p className='text-muted'><i className='fa fa-map-marker-alt' /> {project ? project.location : null}</p>
-        <p className='text-muted'><i className='fas fa-calendar-alt' />
+    <div className='px-4'>
+      <h2>{project ? project.name : null}</h2>
+      <p className='font-weight-bold'>{project ? project.Users.length : null} <span className='text-muted'>Follower{project && project.Users.length !== 1 ? 's' : null}</span></p>
+      <p className='pt-project-desc'>
+        {project ? project.description : null}
+      </p>
+      <div className='d-flex justify-content-between'>
+        <p className='text-muted'><i className='fa fa-map-marker-alt bg-gradient' /> {project ? project.location : null}</p>
+        <p className='text-muted'><i className='fas fa-calendar-alt bg-gradient' />
           {' '}
-          {project ? moment(project.start).format('MMMM YYYY') : null} - {project ? moment(project.end).format('MMMM YYYY') : null}
+          {project ? moment(project.start).format('MMM YYYY') : null} - {project ? moment(project.end).format('MMM YYYY') : null}
         </p>
       </div>
-      <p className='text-muted'><i className='fas fa-users' /> {project ? project.Users.length : null}
-        Follower{project && project.Users.length !== 1 ? 's' : null}</p>
-      <FollowBtn user={user} project={project} afterProjectUpdate={afterProjectUpdate} />
     </div>
   )
 }
 InfoBlock.propTypes = {
-  user: PropTypes.object,
-  project: PropTypes.object,
-  afterProjectUpdate: PropTypes.func
+  project: PropTypes.object
 }
 
 class ProjectPage extends Component {
@@ -158,15 +143,23 @@ class ProjectPage extends Component {
       <div>
         <TopBar user={user} group={group}
           handleShowProject={this.handleEditProject} handleShowEvent={this.handleEditEvent} />
-        {project ? <ProjectMap project={project} style={{ height: '33vh' }} /> : null}
-        <Container>
+        <Container className='pt-project-container'>
           <Row>
             <Col md={4}>
-              {project ? <InfoBlock user={user} project={project} afterProjectUpdate={this.afterProjectUpdate} /> : null}
+              <div className='sticky-top pt-project-info-block mt-4' style={{ top: '56px' }}>
+                <div>
+                  {project ? <ProjectMap project={project} style={{ height: '170px' }} /> : null}
+                </div>
+                <div className='clearfix'>
+                  {/* <div className='pt-project-avatar float-left transform-y-50' /> */}
+                  <FollowBtn user={user} project={project} afterProjectUpdate={this.afterProjectUpdate} />
+                </div>
+                {project ? <InfoBlock user={user} project={project} /> : null}
+              </div>
             </Col>
             <Col md={8}>
               <Tab.Container defaultActiveKey='timeline'>
-                <Nav variant='pills' className='nav-fill py-3 sticky-top bg-white' style={{ top: '56px' }}>
+                <Nav variant='tabs' className='sticky-top bg-white mt-5' style={{ top: '56px' }}>
                   <Nav.Item>
                     <Nav.Link eventKey='timeline'>Timeline</Nav.Link>
                   </Nav.Item>
@@ -182,7 +175,7 @@ class ProjectPage extends Component {
                     {project ? <Timeline events={project.Events} start={project.start} end={project.end} /> : null}
                   </Tab.Pane>
                   <Tab.Pane eventKey='about' className='about-tab'
-                    dangerouslySetInnerHTML={project ? { __html: new QuillDeltaToHtmlConverter(project.about.ops).convert() } : null}>
+                    dangerouslySetInnerHTML={project && project.about ? { __html: new QuillDeltaToHtmlConverter(project.about.ops).convert() } : null}>
                   </Tab.Pane>
                 </Tab.Content>
               </Tab.Container>

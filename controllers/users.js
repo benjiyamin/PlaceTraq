@@ -10,20 +10,22 @@ module.exports = {
     if (req.user.id.toString() !== req.params.id) return res.status(403).end() // Forbidden
     db.User.findOne({
       where: { id: req.params.id },
-      include: [{
+      include: [
+      /* {
         model: db.Project,
         include: [{
           model: db.Event,
           include: [db.Project]
         }],
         order: [ [db.Event, 'start', 'DESC'] ]
-      }, {
-        model: db.Member,
-        include: [{
-          model: db.Group,
-          include: [db.Member]
+      }, */
+        {
+          model: db.Member,
+          include: [{
+            model: db.Group,
+            include: [db.Member]
+          }]
         }]
-      }]
     })
       .then(user => {
         if (!user) return res.status(404).end() // No user found
