@@ -38,8 +38,8 @@ class ProfilePage extends Component {
 
   loadProjects = () => {
     API.getRequestUser()
-      .then(res => res.data)
-      .then(user => API.getProjects({ userId: user.id }))
+      // .then(res => res.data)
+      .then(res => API.getProjects({ userId: res.data.id }))
       .then(res => this.setState({ projects: res.data }))
       .then(() => this.loadEvents())
       .catch(error => console.error(error))
@@ -47,8 +47,8 @@ class ProfilePage extends Component {
 
   loadEvents = () => {
     API.getRequestUser()
-      .then(res => res.data)
-      .then(user => API.getEvents({ userId: user.id }))
+      // .then(res => res.data)
+      .then(res => API.getEvents({ userId: res.data.id }))
       .then(res => {
         const events = res.data
         _.sortBy(events, ['start']).reverse()

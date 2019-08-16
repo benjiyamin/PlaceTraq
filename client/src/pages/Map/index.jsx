@@ -16,14 +16,22 @@ class MapPage extends Component {
   }
 
   state = {
+    user: null,
     project: null
   }
 
   componentDidMount () {
     this.loadProject(this.props.match.params.id)
+    this.loadUser()
   }
 
-  loadProject = (id) => {
+  loadUser = () => {
+    API.getRequestUser()
+      .then(res => this.setState({ user: res.data }))
+      .catch(error => console.error(error))
+  }
+
+  loadProject = id => {
     API.getProject(id)
       .then(res => this.setState({ project: res.data }))
       .catch(error => console.error(error))
@@ -35,7 +43,7 @@ class MapPage extends Component {
   }
 
   render () {
-    const user = this.props.user
+    const user = this.state.user
     const project = this.state.project
     const group = project ? project.Group : null
     const id = project ? project.id : null
@@ -58,7 +66,6 @@ class MapPage extends Component {
   }
 }
 MapPage.propTypes = {
-  user: PropTypes.object,
   match: PropTypes.object
 }
 
