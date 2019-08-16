@@ -34,19 +34,16 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar user={this.state.user} />
+          <Navbar />
           <div className='w-100' style={{ height: '56px' }} />
           <Switch>
             <Route exact path='/' render={props => <LandingPage {...props}
               signUp={!this.state.user} />} />
-            <Route exact path='/groups/:id' render={props => <GroupPage {...props}
-              user={this.state.user} />} />
+            <Route exact path='/groups/:id' component={GroupPage} />} />
             <Route exact path='/profile' render={props => <ProfilePage {...props}
               redirect={!this.state.user ? '/login' : null} />} />
-            <Route exact path='/projects/:id' render={props => <ProjectPage {...props}
-              user={this.state.user} />} />
-            <Route exact path='/projects/:id/map' render={props => <MapPage {...props}
-              user={this.state.user} />} />
+            <Route exact path='/projects/:id' component={ProjectPage} />
+            <Route exact path='/projects/:id/map' component={MapPage} />
             <Route exact path='/projects' component={SearchPage} />
             <Route exact path='/signup' render={props => <SignUpPage {...props}
               redirect={this.state.user ? '/profile' : null} />} />

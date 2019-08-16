@@ -21,7 +21,7 @@ function EventRow ({ children, date }) {
   )
 }
 EventRow.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
   date: PropTypes.string
 }
 
@@ -67,8 +67,8 @@ function Timeline ({ events, start, end }) {
       <ul className='timeline'>
         {futureEvents.map((evt, i) => {
           return (
-            <EventRow date={moment(evt.start).format('MMM D YYYY')}>
-              <EventBlock key={i} event={evt} />
+            <EventRow key={i} date={moment(evt.start).format('MMM D YYYY')}>
+              <EventBlock event={evt} />
             </EventRow>
           )
         })}
@@ -77,8 +77,8 @@ function Timeline ({ events, start, end }) {
         </EventRow>
         {pastEvents.map((evt, i) => {
           return (
-            <EventRow date={moment(evt.start).format('MMM D YYYY')}>
-              <EventBlock key={i} event={evt} past />
+            <EventRow key={i} date={moment(evt.start).format('MMM D YYYY')}>
+              <EventBlock event={evt} past />
             </EventRow>
           )
         })}

@@ -25,6 +25,8 @@ class ProfilePage extends Component {
 
   componentDidMount () {
     this.loadGroups()
+    this.loadProjects()
+    this.loadEvents()
   }
 
   handleRedirect = () => this.setState({ redirectToLogin: true })
@@ -32,7 +34,7 @@ class ProfilePage extends Component {
   loadGroups = () => {
     API.getGroups()
       .then(res => this.setState({ groups: res.data }))
-      .then(() => this.loadProjects())
+      // .then(() => this.loadProjects())
       .catch(error => console.error(error))
   }
 
@@ -41,7 +43,7 @@ class ProfilePage extends Component {
       // .then(res => res.data)
       .then(res => API.getProjects({ userId: res.data.id }))
       .then(res => this.setState({ projects: res.data }))
-      .then(() => this.loadEvents())
+      // .then(() => this.loadEvents())
       .catch(error => console.error(error))
   }
 

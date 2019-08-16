@@ -112,19 +112,28 @@ class ProjectPage extends Component {
   }
 
   state = {
+    user: null,
     project: null,
     followed: null
   }
 
   componentDidMount () {
     this.loadProject(this.props.match.params.id)
+    this.loadUser()
+  }
+
+  loadUser = () => {
+    API.getRequestUser()
+      .then(res => this.setState({ user: res.data }))
+      .catch(error => console.error(error))
   }
 
   loadProject = id => {
     API.getProject(id)
       .then(res => this.setState({
         project: res.data,
-        followed: userFollowsProject(this.props.user, res.data)
+        // followed: userFollowsProject(this.props.user, res.data)
+        followed: userFollowsProject(this.state.user, res.data)
       }))
       .catch(error => console.error(error))
   }
@@ -136,7 +145,8 @@ class ProjectPage extends Component {
   handleEditEvent = () => this.eventEditor.current.modal.current.handleShow()
 
   render () {
-    const user = this.props.user
+    // const user = this.props.user
+    const user = this.state.user
     const project = this.state.project
     const group = project ? project.Group : null
     return (
@@ -189,7 +199,7 @@ class ProjectPage extends Component {
   }
 }
 ProjectPage.propTypes = {
-  user: PropTypes.object,
+  // user: PropTypes.object,
   match: PropTypes.object
 }
 

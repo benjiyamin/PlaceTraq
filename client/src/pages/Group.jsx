@@ -39,6 +39,13 @@ class GroupPage extends Component {
 
   componentDidMount () {
     this.loadGroup(this.props.match.params.id)
+    this.loadUser()
+  }
+
+  loadUser = () => {
+    API.getRequestUser()
+      .then(res => this.setState({ user: res.data }))
+      .catch(error => console.error(error))
   }
 
   loadGroup = (id) => {
@@ -50,7 +57,8 @@ class GroupPage extends Component {
   afterGroupUpdate = () => this.loadGroup(this.state.group.id)
 
   render () {
-    const user = this.props.user
+    // const user = this.props.user
+    const user = this.state.user
     const group = this.state.group
     return (
       <Container className='mt-4'>
@@ -110,7 +118,7 @@ class GroupPage extends Component {
   }
 }
 GroupPage.propTypes = {
-  user: PropTypes.object,
+  // user: PropTypes.object,
   match: PropTypes.object
 }
 
