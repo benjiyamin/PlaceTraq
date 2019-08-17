@@ -21,7 +21,14 @@ app.use(function (request, response, next) {
 })
 
 // Serve up static assets
-app.use(express.static('client/public'))
+// app.use(express.static('client/public'))
+if (process.env.NODE_ENV === 'production') {
+  // Serve up static assets (usually on heroku)
+  app.use(express.static('client/build'))
+} else {
+  // Serve up static assets
+  app.use(express.static('client/public'))
+}
 
 // For Passport
 app.use(session({
