@@ -14,8 +14,8 @@ function SearchResults ({ projects }) {
       {
         projects.map((project, i) => {
           return (
-            <Col key={i} xs={12} sm={6} lg={4}>
-              <ProjectCard project={project} />
+            <Col key={i} xs={12} sm={6} lg={3}>
+              <ProjectCard project={project} isLink />
             </Col>
           )
         })

@@ -6,6 +6,7 @@ const userIsMemberOfGroup = require('../helpers').userIsMemberOfGroup
 module.exports = {
   findAll: (req, res) => {
     let userId = parseInt(req.query.userId)
+    // let projectId = parseInt(req.query.projectId)
     let findQuery = {}
     if (userId) {
       if (!req.isAuthenticated()) return res.status(401).end() // Unauthorized
@@ -21,9 +22,7 @@ module.exports = {
       }
     }
     db.Event.findAll(findQuery)
-      .then(events => events.filter(event => {
-        return event.Project.Users.filter(user => user.id === userId).length
-      }))
+      .then(events => events.filter(event => event.Project.Users.filter(user => user.id === userId).length))
       .then(data => res.json(data))
       .catch(error => {
         res.status(500).end()

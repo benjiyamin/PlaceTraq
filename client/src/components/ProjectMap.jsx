@@ -7,8 +7,13 @@ import 'leaflet-draw/dist/leaflet.draw'
 import API from '../utils/API'
 
 class ProjectMap extends Component {
+  constructor (props) {
+    super(props)
+    this.map = React.createRef()
+  }
+
   componentDidMount () {
-    const map = L.map('map', {
+    const map = L.map(this.map.current, {
       zoom: 15,
       center: [28.5383, -81.3792],
       zoomControl: this.props.controls || false,
@@ -71,7 +76,7 @@ class ProjectMap extends Component {
   }
 
   render () {
-    return <div className='w-100' id='map' {...this.props} />
+    return <div className='w-100' ref={this.map} {...this.props} />
   }
 }
 ProjectMap.propTypes = {

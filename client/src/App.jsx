@@ -37,8 +37,7 @@ class App extends Component {
           <Navbar />
           <div className='w-100' style={{ height: '56px' }} />
           <Switch>
-            <Route exact path='/' render={props => <LandingPage {...props}
-              signUp={!this.state.user} />} />
+            <Route exact path='/' component={LandingPage} />
             <Route exact path='/groups/:id' component={GroupPage} />} />
             <Route exact path='/profile' render={props => <ProfilePage {...props}
               redirect={!this.state.user ? '/login' : null} />} />

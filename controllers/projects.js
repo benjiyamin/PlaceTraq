@@ -52,6 +52,7 @@ module.exports = {
     db.Project.findOne({
       where: { id: req.params.id },
       include: [db.Event, db.User, {
+      // include: [db.Event, {
         model: db.Group,
         include: [{
           model: db.Member,

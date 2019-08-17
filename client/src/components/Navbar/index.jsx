@@ -8,7 +8,6 @@ import API from '../../utils/API'
 import './style.css'
 
 class AppNavbar extends Component {
-
   state = {
     user: null
   }
