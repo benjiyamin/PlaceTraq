@@ -17,10 +17,10 @@ function TopBar ({ user, group, handleShowProject, handleShowEvent }) {
   if (user && group && userIsMemberOfGroup(user, group)) {
     return (
       <div className='row jumbotron p-2 m-0'>
-        <Button variant='primary' className='ml-2' onClick={handleShowProject}>
+        <Button variant='primary' size='sm' className='ml-2' onClick={handleShowProject}>
           <i className='fas fa-edit' /> Edit Page
         </Button>
-        <Button variant='primary' className='ml-2' onClick={handleShowEvent} >
+        <Button variant='primary' size='sm' className='ml-2' onClick={handleShowEvent} >
           <i className='fas fa-plus' /> Add Event
         </Button>
       </div>

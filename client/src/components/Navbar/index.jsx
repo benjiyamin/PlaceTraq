@@ -36,7 +36,7 @@ class AppNavbar extends Component {
         <Navbar bg={transparent ? 'transparent' : 'white'} expand='lg' sticky={this.props.sticky ? 'top' : null}
           fixed={this.props.sticky ? null : 'top'} variant={transparent ? 'dark' : 'light'}>
           <Navbar.Brand className='ml-5'><Link className='text-white text-decoration-none' to='/'>
-            <img src={transparent ? '/images/placetrac-logo-white.svg' : '/images/placetrac-logo.svg'} className='pt-logo' />
+            <img src={transparent ? '/images/placetrac-logo-white.svg' : '/images/placetrac-logo.svg'} alt='' className='pt-logo' />
           </Link></Navbar.Brand>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>

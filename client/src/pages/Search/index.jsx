@@ -49,7 +49,7 @@ class SearchPage extends Component {
           <Container className='h-100'>
             <Row className='h-100 align-items-center text-center'>
               <Col>
-                <img src='/images/location.svg' />
+                <img src='/images/location.svg' alt='' />
                 <h1 className='display-4 text-white my-2'>Find projects in your area</h1>
                 <p className='lead mb-5 text-white-50'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
               </Col>

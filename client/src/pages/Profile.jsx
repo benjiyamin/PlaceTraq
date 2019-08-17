@@ -19,7 +19,8 @@ class ProfilePage extends Component {
   }
 
   state = {
-    redirectToLogin: false,
+    // redirectToLogin: false,
+    user: null,
     projects: [],
     groups: [],
     events: []
@@ -29,9 +30,16 @@ class ProfilePage extends Component {
     this.loadGroups()
     this.loadProjects()
     this.loadEvents()
+    this.loadUser()
   }
 
-  handleRedirect = () => this.setState({ redirectToLogin: true })
+  // handleRedirect = () => this.setState({ redirectToLogin: true })
+
+  loadUser = () => {
+    API.getRequestUser()
+      .then(res => this.setState({ user: res.data }))
+      .catch(error => console.error(error))
+  }
 
   loadGroups = () => {
     API.getGroups()
@@ -65,6 +73,7 @@ class ProfilePage extends Component {
 
   render () {
     if (this.props.redirect) this.props.history.push(this.props.redirect)
+    // if (!this.state.user) this.props.history.push('/login')
     return (
       <>
         <Navbar />

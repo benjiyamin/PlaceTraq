@@ -8,14 +8,16 @@ import Navbar from '../../components/Navbar'
 import API from '../../utils/API'
 import './style.css'
 
-function Header ({ signUp }) {
+function Header ({ signUp, sections }) {
+  const handleArrowClick = () => window.scrollTo(0, sections.current.offsetTop)
+
   return (
     <header className='bg-secondary landing-hero-image hero-image'>
       <Navbar transparent sticky />
       <Container className='h-100 py-5' style={{ transform: 'translateY(-56px)' }}>
         <Row className='h-100 align-items-center text-center'>
           <Col>
-            <img src='/images/bubbles.svg' className='mt-5' />
+            <img src='/images/bubbles.svg' alt='' className='mt-5' />
             <h1 className='display-4 text-white font-weight-bold my-3'>Follow Local Projects</h1>
             <p className='lead mb-5 text-white-50'>Placetraq keeps you updated on infrastructure projects in your area
             so you can lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
@@ -24,14 +26,15 @@ function Header ({ signUp }) {
           </Col>
         </Row>
         <Row className='text-white d-flex justify-content-center'>
-          <h1><i className='fas fa-arrow-down' /></h1>
+          <h1 className='cursor-pointer' onClick={handleArrowClick}><i className='fas fa-arrow-down' /></h1>
         </Row>
       </Container>
     </header>
   )
 }
 Header.propTypes = {
-  signUp: PropTypes.bool
+  signUp: PropTypes.bool,
+  sections: PropTypes.object
 }
 
 function Section ({ headline, description, imgSrc, mirror }) {
@@ -65,6 +68,11 @@ function Footer () {
 }
 
 class LandingPage extends Component {
+  constructor (props) {
+    super(props)
+    this.sections = React.createRef()
+  }
+
   state = {
     user: null
   }
@@ -82,8 +90,8 @@ class LandingPage extends Component {
   render () {
     return (
       <>
-        <Header signUp={!this.state.user} />
-        <Container>
+        <Header signUp={!this.state.user} sections={this.sections} />
+        <Container ref={this.sections}>
           <Section
             headline='Know how your community is changing'
             description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab

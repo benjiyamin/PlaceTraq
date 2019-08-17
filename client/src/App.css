@@ -1,4 +1,4 @@
-.cursor-pointer { cursor: pointer }
+html { scroll-behavior: smooth }
 
 body { font-family: 'Roboto', sans-serif }
 
@@ -13,6 +13,8 @@ h2, .h2 { font-size: 1.875rem }
 h3, .h3 { font-size: 1.5rem }
 
 h4, .h4 { font-size: 1.125rem }
+
+.cursor-pointer { cursor: pointer }
 
 .pt-logo { height: 24px }
 
@@ -31,11 +33,17 @@ h4, .h4 { font-size: 1.125rem }
   color: #536dfe;
 }
 
-.btn.btn-sm { padding: 8px 24px }
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled).active {
+  background-color: #3748a7;
+  border-color: #3748a7;
+}
 
-.btn { padding: 12px 25.5px }
+.btn.btn-sm { padding: 6px 32px }
 
-.btn.btn-lg { padding: 8px 32px }
+.btn { padding: 8px 32px }
+
+.btn.btn-lg { padding: 12px 32px }
 
 .lead {
   line-height: 1.4;
