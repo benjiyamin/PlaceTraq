@@ -1,0 +1,24 @@
+.project-card-desc {
+    font-size: 1.125rem;
+    line-height: 1.56;
+}
+
+.project-card-container {
+    max-width: 1280px;
+}
+
+.project-card-info-block {
+    border-radius: 6px;
+    border: solid 1px #e1e1e1;
+    background-color: white;
+}
+
+.project-card-avatar {
+    width: 136px;
+    height: 136px;
+    border-style: solid;
+    border-width: 2px;
+    border-image-source: linear-gradient(135deg, #536dfe, #ff6584);
+    border-image-slice: 1;
+    background-color: #fff;
+}

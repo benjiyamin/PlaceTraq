@@ -1,0 +1,86 @@
+html { scroll-behavior: smooth }
+
+body { font-family: 'Roboto', sans-serif }
+
+h1, h2, h3, .h1, .h2, .h3 { font-weight: bold }
+
+h4, h5, h6, .h4, .h5, .h6 { font-weight: medium }
+
+h1, .h1 { font-size: 2.5rem }
+
+h2, .h2 { font-size: 1.875rem }
+
+h3, .h3 { font-size: 1.5rem }
+
+h4, .h4 { font-size: 1.125rem }
+
+.cursor-pointer { cursor: pointer }
+
+.pt-logo { height: 24px }
+
+.btn {
+  border-radius: 28px;
+}
+
+.btn.btn-primary {
+  background-color: #536dfe;
+  border-color: #536dfe;
+}
+
+.btn.btn-secondary, .btn.btn-outline-success {
+  background-color: transparent;
+  border-color: #536dfe;
+  color: #536dfe;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled).active {
+  background-color: #3748a7;
+  border-color: #3748a7;
+}
+
+.btn.btn-sm { padding: 6px 32px }
+
+.btn { padding: 8px 32px }
+
+.btn.btn-lg { padding: 12px 32px }
+
+.lead {
+  line-height: 1.4;
+  font-size: 1.25rem;
+}
+
+.text-muted { color: #869099!important }
+
+.nav-tabs {
+  box-shadow: 0 1px 0 0 #ccc;
+  background-color: white;
+  color: #4d4e4f;
+  border: 0;
+}
+
+.nav-tabs .nav-link {
+  padding: 8px 32px
+}
+
+.nav-link.active {
+  box-shadow: 0 2px 0 0 #536dfe;
+  border: none
+}
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #ff6584, #a063b6 49%, #4a61e4);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.transform-y-50 { transform: translateY(-50%) }
+
+.hero-image {
+  /* Position and center the image to scale nicely on all screens */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
