@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+const path = require('path')
+
 const express = require('express')
 // const handlebars = require('express-handlebars')
 const passport = require('passport')
@@ -23,6 +25,7 @@ app.use(function (request, response, next) {
 // Serve up static assets
 // app.use(express.static('client/public'))
 
+/*
 if (process.env.NODE_ENV === 'production') {
   // Serve up static assets (usually on heroku)
   app.use(express.static('client/build'))
@@ -30,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   // Serve up static assets
   app.use(express.static('client/public'))
 }
+*/
 
 // For Passport
 app.use(session({
@@ -42,16 +46,18 @@ app.use(passport.session()) // persistent login sessions
 
 app.use(routes)
 
-/*
 if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')))
+  // Serve up static assets (usually on heroku)
+  app.use(express.static('client/build'))
+
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
   })
+} else {
+  // Serve up static assets
+  app.use(express.static('client/public'))
 }
-*/
 
 // Load passport strategies
 require('./config/passport/passport')(passport, db.User)
