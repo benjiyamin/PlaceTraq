@@ -19,10 +19,12 @@ function Header ({ signUp, sections }) {
           <Col>
             <img src='/images/bubbles.svg' alt='' className='mt-5' />
             <h1 className='display-4 text-white font-weight-bold my-3'>Follow Local Projects</h1>
-            <p className='lead mb-5 text-white-50'>Placetraq keeps you updated on infrastructure projects in your area
-            so you can lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
-            <Link className='btn btn-primary btn-lg' to='/projects'>Find Nearby Projects</Link>
-            {signUp ? <Link className='btn btn-outline-light btn-lg ml-2' to='/signup'>Sign Up</Link> : null}
+            <p className='lead mb-5 text-white'>PlaceTraq keeps you updated on infrastructure
+              in your area. </p>
+            <div className='mx-auto'>
+              <Link className='btn btn-primary btn-lg mb-2' to='/projects'>Find Nearby Projects</Link>
+              {signUp ? <Link className='btn btn-outline-light btn-lg mb-2 ml-2' to='/signup'>Sign Up</Link> : null}
+            </div>
           </Col>
         </Row>
         <Row className='text-white d-flex justify-content-center'>
@@ -61,7 +63,7 @@ function Footer () {
   return (
     <footer className='py-5 bg-dark'>
       <Container>
-        <p className='m-0 text-center text-white'>Copyright © Your Website 2019</p>
+        <p className='m-0 text-center text-white'>Copyright © PlaceTraq 2019</p>
       </Container>
     </footer>
   )
@@ -94,24 +96,22 @@ class LandingPage extends Component {
         <Container ref={this.sections}>
           <Section
             headline='Know how your community is changing'
-            description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab
-          labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque
-          unde nisi, totam quas ipsam.'
+            description="Stay current with your city and take pride in how it's
+              constantly growing."
             imgSrc='/images/undraw_best_place_r685.svg'
           />
           <Section
             headline='Keep up with local development'
-            description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab
-          labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque
-          unde nisi, totam quas ipsam.'
+            description='Gain new insight in how construction around you will
+            impact your life and affect the nearby properties.'
             imgSrc='/images/undraw_knowledge_g5gf.svg'
             mirror
           />
           <Section
             headline='Make your commute better'
-            description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab
-          labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque
-          unde nisi, totam quas ipsam.'
+            description='Receive up-to-date alerts to avoid getting
+              stuck in traffic. Know where and when detours are happening helps
+              you save time and headaches.'
             imgSrc='/images/undraw_off_road_9oae.svg'
           />
         </Container>
