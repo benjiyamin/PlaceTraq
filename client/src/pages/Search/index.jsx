@@ -6,6 +6,7 @@ import queryString from 'query-string'
 
 import SearchForm from '../../components/forms/SearchForm'
 import ProjectCard from '../../components/cards/ProjectCard'
+import Navbar from '../../components/Navbar'
 import './style.css'
 
 function SearchResults ({ projects }) {
@@ -43,6 +44,7 @@ class SearchPage extends Component {
     const search = this.props.location.search
     return (
       <>
+        <Navbar />
         <header className='bg-secondary search-hero-image hero-image py-5'>
           <Container className='h-100'>
             <Row className='h-100 align-items-center text-center'>

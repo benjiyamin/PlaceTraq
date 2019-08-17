@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Button, Card } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
 import moment from 'moment'
 
@@ -59,22 +59,21 @@ FollowBtn.propTypes = {
   afterProjectUpdate: PropTypes.func
 }
 
-function InfoBlock ({ project, fullSize }) {
+function CardBody ({ project, fullSize }) {
   const NameTag = fullSize ? 'h2' : 'h3'
   const descClass = fullSize ? 'project-card-desc' : 'text-muted'
   const description = fullSize ? project.description : ellipsis(project.description, 60)
   return (
-    <div className='px-4'>
-      <NameTag>{project.name || <Skeleton />}</NameTag>
+    <Card.Body className='p-3'>
+      <Card.Title><NameTag>{project.name || <Skeleton />}</NameTag></Card.Title>
       {fullSize && project.Users ? (
-        <p className='font-weight-bold'>
-          {project.Users.length || <Skeleton />}
-          <span className='text-muted'>Follower{project && project.Users.length !== 1 ? 's' : null}</span>
-        </p>
+        <Card.Subtitle className='font-weight-bold mb-2'>
+          {project.Users.length || <Skeleton />} <span className='text-muted'>Follower{project && project.Users.length !== 1 ? 's' : null}</span>
+        </Card.Subtitle>
       ) : null}
-      <p className={descClass}>
+      <Card.Text className={descClass}>
         {description || <Skeleton count={3} />}
-      </p>
+      </Card.Text>
       <div className='d-flex justify-content-between'>
         <p className='text-muted'><i className='fa fa-map-marker-alt bg-gradient' /> {project ? project.location : null}</p>
         {fullSize ? (
@@ -84,10 +83,10 @@ function InfoBlock ({ project, fullSize }) {
           </p>
         ) : null}
       </div>
-    </div>
+    </Card.Body>
   )
 }
-InfoBlock.propTypes = {
+CardBody.propTypes = {
   project: PropTypes.object,
   fullSize: PropTypes.bool
 }
@@ -111,7 +110,7 @@ class ProjectCard extends Component {
     const project = this.props.project
     const user = this.state.user
     const component = (
-      <div className='project-card-info-block'>
+      <Card className='mb-4'>
         <div>
           <ProjectMap project={project}
             style={{ height: this.props.fullSize ? '170px' : '73px' }} />
@@ -123,8 +122,8 @@ class ProjectCard extends Component {
             </div>
           ) : null
         }
-        <InfoBlock user={user} project={project} fullSize={this.props.fullSize} />
-      </div>
+        <CardBody user={user} project={project} fullSize={this.props.fullSize} />
+      </Card>
     )
     if (this.props.isLink) {
       return (

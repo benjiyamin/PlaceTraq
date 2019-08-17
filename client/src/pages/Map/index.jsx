@@ -8,6 +8,7 @@ import './style.css'
 import API from '../../utils/API'
 import { userIsMemberOfGroup } from '../../utils/auth'
 import ProjectMap from '../../components/ProjectMap'
+import Navbar from '../../components/Navbar'
 
 class MapPage extends Component {
   constructor (props) {
@@ -49,7 +50,8 @@ class MapPage extends Component {
     const id = project ? project.id : null
     const name = project ? project.name : null
     return (
-      <div>
+      <>
+        <Navbar />
         <Row className='jumbotron p-2 m-0'>
           <Link className='btn btn-secondary btn-sm' to={`/projects/${id}`}>
             <i className='fas fa-chevron-left' /> {name} Page
@@ -61,7 +63,7 @@ class MapPage extends Component {
           ) : null}
         </Row>
         {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }} edit={user ? 'true' : null} controls /> : null}
-      </div>
+      </>
     )
   }
 }

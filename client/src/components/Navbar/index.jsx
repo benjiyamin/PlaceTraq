@@ -32,31 +32,36 @@ class AppNavbar extends Component {
     const user = this.state.user
     const transparent = this.props.transparent
     return (
-      <Navbar bg={transparent ? 'transparent' : 'white'} expand='lg' fixed='top' variant={transparent ? 'dark' : 'light'}>
-        <Navbar.Brand className='ml-5'><Link className='text-white text-decoration-none' to='/'>
-          <img src={transparent ? '/images/placetrac-logo-white.svg' : '/images/placetrac-logo.svg'} className='pt-logo' />
-        </Link></Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-        <Navbar.Collapse id='basic-navbar-nav'>
-          {user
-            ? (
-              <Nav className='ml-auto'>
-                <Nav.Item><Link className='nav-link h4 m-0' to='/profile'>Profile</Link></Nav.Item>
-                <Nav.Item><Link className='nav-link h4 m-0' to='/' onClick={this.logOutHandler}>Log Out</Link></Nav.Item>
-              </Nav>
-            ) : (
-              <Nav className='ml-auto'>
-                <Nav.Item><Link className='nav-link' to='/login'>Log In</Link></Nav.Item>
-              </Nav>
-            )
-          }
-        </Navbar.Collapse>
-      </Navbar>
+      <>
+        <Navbar bg={transparent ? 'transparent' : 'white'} expand='lg' sticky={this.props.sticky ? 'top' : null}
+          fixed={this.props.sticky ? null : 'top'} variant={transparent ? 'dark' : 'light'}>
+          <Navbar.Brand className='ml-5'><Link className='text-white text-decoration-none' to='/'>
+            <img src={transparent ? '/images/placetrac-logo-white.svg' : '/images/placetrac-logo.svg'} className='pt-logo' />
+          </Link></Navbar.Brand>
+          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          <Navbar.Collapse id='basic-navbar-nav'>
+            <Nav className='ml-auto mr-5'>
+              {user
+                ? (
+                  <>
+                    <Nav.Item><Link className='nav-link h4 m-0' to='/profile'>Profile</Link></Nav.Item>
+                    <Nav.Item><Link className='nav-link h4 m-0' to='/' onClick={this.logOutHandler}>Log Out</Link></Nav.Item>
+                  </>
+                ) : (
+                  <Nav.Item><Link className='nav-link' to='/login'>Log In</Link></Nav.Item>
+                )
+              }
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        {!transparent ? <div className='w-100' style={{ height: '56px' }} /> : null}
+      </>
     )
   }
 }
 AppNavbar.propTypes = {
-  transparent: PropTypes.bool
+  transparent: PropTypes.bool,
+  sticky: PropTypes.bool
 }
 
 export default AppNavbar

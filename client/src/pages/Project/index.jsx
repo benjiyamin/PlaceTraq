@@ -11,6 +11,7 @@ import { userIsMemberOfGroup, userFollowsProject } from '../../utils/auth'
 import Timeline from '../../components/Timeline'
 import ProjectCard from '../../components/cards/ProjectCard'
 import ProjectEditor from '../../components/editors/ProjectEditor'
+import Navbar from '../../components/Navbar'
 
 function TopBar ({ user, group, handleShowProject, handleShowEvent }) {
   if (user && group && userIsMemberOfGroup(user, group)) {
@@ -78,7 +79,8 @@ class ProjectPage extends Component {
     const project = this.state.project
     const group = project ? project.Group : null
     return (
-      <div>
+      <>
+        <Navbar />
         <TopBar user={user} group={group}
           handleShowProject={this.handleEditProject} handleShowEvent={this.handleEditEvent} />
         <Container className='project-container'>
@@ -112,10 +114,9 @@ class ProjectPage extends Component {
               </Tab.Container>
             </Col>
           </Row>
-
         </Container>
         {project ? <ProjectEditor project={project} ref={this.projectEditor} afterUpdate={this.afterProjectUpdate} /> : null}
-      </div>
+      </>
     )
   }
 }

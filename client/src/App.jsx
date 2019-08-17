@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import API from './utils/API'
-import Navbar from './components/Navbar'
 import GroupPage from './pages/Group'
 import LandingPage from './pages/Landing'
 import LoginPage from './pages/Login'
@@ -34,8 +33,6 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar />
-          <div className='w-100' style={{ height: '56px' }} />
           <Switch>
             <Route exact path='/' component={LandingPage} />
             <Route exact path='/groups/:id' component={GroupPage} />} />

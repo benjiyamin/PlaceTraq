@@ -4,13 +4,15 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 
+import Navbar from '../../components/Navbar'
 import API from '../../utils/API'
 import './style.css'
 
 function Header ({ signUp }) {
   return (
-    <header className='bg-secondary landing-hero-image hero-image py-5'>
-      <Container className='h-100'>
+    <header className='bg-secondary landing-hero-image hero-image'>
+      <Navbar transparent sticky />
+      <Container className='h-100 py-5' style={{ transform: 'translateY(-56px)' }}>
         <Row className='h-100 align-items-center text-center'>
           <Col>
             <img src='/images/bubbles.svg' className='mt-5' />
@@ -79,7 +81,7 @@ class LandingPage extends Component {
 
   render () {
     return (
-      <div>
+      <>
         <Header signUp={!this.state.user} />
         <Container>
           <Section
@@ -106,7 +108,7 @@ class LandingPage extends Component {
           />
         </Container>
         <Footer />
-      </div>
+      </>
     )
   }
 }
