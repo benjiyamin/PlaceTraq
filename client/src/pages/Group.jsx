@@ -31,6 +31,7 @@ class GroupPage extends Component {
   }
 
   state = {
+    user: null,
     group: null
   }
 

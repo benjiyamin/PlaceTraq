@@ -19,7 +19,6 @@ class ProfilePage extends Component {
   }
 
   state = {
-    // redirectToLogin: false,
     user: null,
     projects: [],
     groups: [],
@@ -27,40 +26,35 @@ class ProfilePage extends Component {
   }
 
   componentDidMount () {
-    this.loadGroups()
-    this.loadProjects()
-    this.loadEvents()
-    this.loadUser()
-  }
-
-  // handleRedirect = () => this.setState({ redirectToLogin: true })
-
-  loadUser = () => {
     API.getRequestUser()
-      .then(res => this.setState({ user: res.data }))
+      .then(res => {
+        const user = res.data
+        this.setState({ user: user })
+        if (user) {
+          this.loadGroups()
+          this.loadProjects()
+          this.loadEvents()
+        } else {
+          this.props.history.push('/login')
+        }
+      })
       .catch(error => console.error(error))
   }
 
   loadGroups = () => {
     API.getGroups()
       .then(res => this.setState({ groups: res.data }))
-      // .then(() => this.loadProjects())
       .catch(error => console.error(error))
   }
 
   loadProjects = () => {
-    API.getRequestUser()
-      // .then(res => res.data)
-      .then(res => API.getProjects({ userId: res.data.id }))
+    API.getProjects({ userId: this.state.user.id })
       .then(res => this.setState({ projects: res.data }))
-      // .then(() => this.loadEvents())
       .catch(error => console.error(error))
   }
 
   loadEvents = () => {
-    API.getRequestUser()
-      // .then(res => res.data)
-      .then(res => API.getEvents({ userId: res.data.id }))
+    API.getEvents({ userId: this.state.user.id })
       .then(res => {
         const events = res.data
         _.sortBy(events, ['start']).reverse()
@@ -72,8 +66,6 @@ class ProfilePage extends Component {
   handleAddGroup = () => this.groupEditor.current.modal.current.handleShow()
 
   render () {
-    if (this.props.redirect) this.props.history.push(this.props.redirect)
-    // if (!this.state.user) this.props.history.push('/login')
     return (
       <>
         <Navbar />
@@ -128,7 +120,6 @@ class ProfilePage extends Component {
   }
 }
 ProfilePage.propTypes = {
-  redirect: PropTypes.string,
   history: PropTypes.object
 }
 

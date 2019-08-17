@@ -61,7 +61,7 @@ router.get('/logout', (req, res) => {
 
 // Get request user if authenticated
 router.get('/user', (req, res) => {
-  if (!req.isAuthenticated()) return null // Unauthorized
+  if (!req.isAuthenticated()) res.json(null) // Unauthorized
   db.User.findOne({
     where: { id: req.user.id },
     include: [{
@@ -80,6 +80,7 @@ router.get('/user', (req, res) => {
     }]
   })
     .then(user => res.json(user))
+    .catch(error => res.json(error))
 })
 
 module.exports = router

@@ -37,18 +37,18 @@ class FollowBtn extends Component {
     if (user && project) {
       return (
         userFollowsProject(user, project) ? (
-          <Button className='float-right m-3' variant='secondary' size='md' onClick={this.handleUnfollowProject} active data-followed>
+          <Button className='float-right mt-3 mr-3' variant='secondary' size='md' onClick={this.handleUnfollowProject} active data-followed>
             Unfollow Project
           </Button>
         ) : (
-          <Button className='float-right  m-3' varient='secondary' size='md' onClick={this.handleFollowProject}>
+          <Button className='float-right mt-3 mr-3' varient='secondary' size='md' onClick={this.handleFollowProject}>
             Follow Project
           </Button>
         )
       )
     } else {
       return (
-        <Link className='btn btn-secondary float-right m-3' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
+        <Link className='btn btn-secondary float-right mt-3 mr-3' to='/login'><i className='fas fa-user-plus' /> Login to Follow</Link>
       )
     }
   }
@@ -75,9 +75,9 @@ function CardBody ({ project, fullSize }) {
         {description || <Skeleton count={3} />}
       </Card.Text>
       <div className='d-flex justify-content-between'>
-        <p className='text-muted'><i className='fa fa-map-marker-alt bg-gradient' /> {project ? project.location : null}</p>
+        <p className='text-muted m-0'><i className='fa fa-map-marker-alt bg-gradient' /> {project ? project.location : null}</p>
         {fullSize ? (
-          <p className='text-muted'><i className='fas fa-calendar-alt bg-gradient' />
+          <p className='text-muted m-0'><i className='fas fa-calendar-alt bg-gradient' />
             {' '}
             {project ? moment(project.start).format('MMM YYYY') : null} - {project ? moment(project.end).format('MMM YYYY') : null}
           </p>
