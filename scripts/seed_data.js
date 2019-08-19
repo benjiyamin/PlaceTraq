@@ -146,10 +146,90 @@ function createProject2 (about, user, group) {
         {
           name: 'WB I-4 exit ramp to Lee Road shifting on June 30',
           start: new Date(2019, 5, 30)
+        },
+        {
+          name: 'Keller Rd. under Maitland Blvd. Closing Nightly',
+          start: new Date(2019, 7, 18),
+          description: 'The Florida Department of Transportation (FDOT) is temporarily closing Keller Road under Maitland Boulevard (State Road 414) along with the eastbound frontage road access to and from Keller Road. The nightly closures are scheduled to occur between 9 p.m. and 6 a.m. on August 18 through August 24.'
+        },
+        {
+          name: 'Kennedy Blvd under I-4 closing nightly',
+          start: new Date(2019, 7, 30),
+          description: 'Kennedy Boulevard will close each night at 10 p.m., with the roadway reopening by 5 a.m. the following morning. These closures are necessary for work on the Interstate 4 (I-4) bridge over Kennedy Boulevard.'
+        },
+        {
+          name: 'EB S.R. 408 to Orange Ave. closes nightly from 11 p.m. to 5 a.m.',
+          start: new Date(2019, 8, 25),
+          description: 'The I-4 Ultimate project is making great gains at the Interstate 4 (I-4) and State Road (S.R.) 408 interchange. Nightly closures and traffic pacing operations are necessary for work such as concrete pours and bridge girder placement.'
+        },
+        {
+          name: 'The S.R. 408 ramps from I-4 are closing from 11 p.m. to 5 a.m.',
+          start: new Date(2019, 8, 21),
+          description: 'The I-4 Ultimate project is making great gains at the Interstate 4 (I-4) and State Road (S.R.) 408 interchange. Nightly closures and traffic pacing operations are necessary for work such as concrete pours and bridge girder placement.'
+        },
+        {
+          name: 'The WB S.R. 408 entrance ramp from Division Ave. is closing from 11 p.m. to 5 a.m.',
+          start: new Date(2019, 8, 23),
+          description: 'The I-4 Ultimate project is making great gains at the Interstate 4 (I-4) and State Road (S.R.) 408 interchange. Nightly closures and traffic pacing operations are necessary for work such as concrete pours and bridge girder placement.'
+        },
+        {
+          name: 'Colonial Dr. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 16),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Washington Ave. at Hughey Ave. closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 17),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Livingston Ave. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 19),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Pine St. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 21),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Hughey Ave. from Central Blvd. to Church St. closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 22),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Division Ave. at Gore St. closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 23),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Central Blvd. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 18),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Church St. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 7, 18),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'Amelia St. under I-4 closes from 10 p.m. to 6 a.m.',
+          start: new Date(2019, 8, 3),
+          description: 'The I-4 Ultimate project is making gains throughout downtown Orlando as new bridges are being constructed and concrete is being poured.'
+        },
+        {
+          name: 'EB Lane on Lee Rd. and WB On Ramp to I-4 Closing',
+          start: new Date(2019, 7, 16),
+          description: 'The Florida Department of Transportation (FDOT) is closing the right lane on eastbound Lee Road (State Road 423) under Interstate 4 (I-4) and the westbound I-4 entrance ramp from Lee Road during the weekend of August 16.'
+        },
+        {
+          name: 'Minnesota Ave. at Formosa Ave. Closing',
+          start: new Date(2019, 7, 16),
+          description: 'Minnesota Avenue at Formosa Avenue is closing the weekend of August 16. The continuous closure is scheduled to begin at 10 p.m. on Friday, August 16 and conclude by 5 a.m. by Monday, August 19'
         }
         ]
         events.forEach(event => {
-          event.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula...'
+          if (!event.description) event.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula...'
           event.ProjectId = project.id
         })
         return db.Event.bulkCreate(events)
