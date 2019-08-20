@@ -59,7 +59,7 @@ function Timeline ({ events, start, end }) {
   const pastEvents = events.filter(evt => (moment().diff(evt.start) > 0))
   const futureEvents = events.filter(evt => (moment().diff(evt.start) < 0))
   return (
-    <div className='mt-4'>
+    <>
       {end ? <>
         <h2>Project End</h2>
         <p className='text-muted'>{moment(end).format('MMMM DD, YYYY')}</p>
@@ -87,7 +87,7 @@ function Timeline ({ events, start, end }) {
         <h2>Project Start</h2>
         <p className='text-muted'>{moment(start).format('MMMM DD, YYYY')}</p>
       </> : null}
-    </div>
+    </>
   )
 }
 Timeline.propTypes = {

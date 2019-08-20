@@ -104,10 +104,10 @@ class ProjectPage extends Component {
                   </Nav.Item>
                 </Nav>
                 <Tab.Content>
-                  <Tab.Pane eventKey='timeline'>
+                  <Tab.Pane eventKey='timeline' className='pt-4'>
                     {project ? <Timeline events={project.Events} start={project.start} end={project.end} /> : null}
                   </Tab.Pane>
-                  <Tab.Pane eventKey='about' className='about-tab'
+                  <Tab.Pane eventKey='about' className='about-tab pt-4'
                     dangerouslySetInnerHTML={project && project.about ? { __html: new QuillDeltaToHtmlConverter(project.about.ops).convert() } : null}>
                   </Tab.Pane>
                 </Tab.Content>
