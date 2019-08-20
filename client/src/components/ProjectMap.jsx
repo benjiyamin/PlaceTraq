@@ -25,14 +25,12 @@ class ProjectMap extends Component {
         })
       ]
     })
-    /*
     if (!this.props.controls) {
       map.dragging.disable()
       map.touchZoom.disable()
       map.doubleClickZoom.disable()
       map.scrollWheelZoom.disable()
     }
-    */
     if (this.props.project) {
       this.featureGroup = L.geoJSON(this.props.project.features).addTo(map)
       if (this.props.project.features) map.fitBounds(this.featureGroup.getBounds())
