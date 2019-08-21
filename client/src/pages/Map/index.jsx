@@ -62,7 +62,8 @@ class MapPage extends Component {
             </Button>
           ) : null}
         </Row>
-        {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }} edit={user ? 'true' : null} controls /> : null}
+        {project ? <ProjectMap ref={this.map} project={project} style={{ height: 'calc(100vh - 110px)' }}
+          edit={user && group && userIsMemberOfGroup(user, group) ? 'true' : null} controls /> : null}
       </>
     )
   }

@@ -9,11 +9,38 @@ import API from '../utils/API'
 class ProjectMap extends Component {
   constructor (props) {
     super(props)
-    this.map = React.createRef()
+    this.mapRef = React.createRef()
+  }
+
+  componentDidUpdate () {
+    if (this.props.project && this.props.edit && this.featureGroup) {
+      this.drawControl = new L.Control.Draw({
+        edit: { featureGroup: this.featureGroup },
+        draw: {
+          polyline: { metric: false },
+          polygon: { metric: false },
+          rectangle: { metric: false },
+          circle: { metric: false },
+          marker: { metric: false },
+          circlemarker: { metric: false }
+        }
+      })
+      this.map.addControl(this.drawControl)
+
+      const featureGroup = this.featureGroup
+
+      this.map.on(L.Draw.Event.CREATED, function (e) {
+        featureGroup.addLayer(e.layer)
+      })
+
+      this.map.on(L.Draw.Event.DELETED, function (e) {
+        featureGroup.removeLayer(e.layer)
+      })
+    }
   }
 
   componentDidMount () {
-    const map = L.map(this.map.current, {
+    this.map = L.map(this.mapRef.current, {
       zoom: 15,
       center: [28.5383, -81.3792],
       zoomControl: this.props.controls || false,
@@ -26,40 +53,14 @@ class ProjectMap extends Component {
       ]
     })
     if (!this.props.controls) {
-      map.dragging.disable()
-      map.touchZoom.disable()
-      map.doubleClickZoom.disable()
-      map.scrollWheelZoom.disable()
+      this.map.dragging.disable()
+      this.map.touchZoom.disable()
+      this.map.doubleClickZoom.disable()
+      this.map.scrollWheelZoom.disable()
     }
     if (this.props.project) {
-      this.featureGroup = L.geoJSON(this.props.project.features).addTo(map)
-      if (this.props.project.features) map.fitBounds(this.featureGroup.getBounds())
-
-      if (this.props.edit && this.featureGroup) {
-        console.log(this.props.edit, 'here')
-        this.drawControl = new L.Control.Draw({
-          edit: { featureGroup: this.featureGroup },
-          draw: {
-            polyline: { metric: false },
-            polygon: { metric: false },
-            rectangle: { metric: false },
-            circle: { metric: false },
-            marker: { metric: false },
-            circlemarker: { metric: false }
-          }
-        })
-        map.addControl(this.drawControl)
-
-        const featureGroup = this.featureGroup
-
-        map.on(L.Draw.Event.CREATED, function (e) {
-          featureGroup.addLayer(e.layer)
-        })
-
-        map.on(L.Draw.Event.DELETED, function (e) {
-          featureGroup.removeLayer(e.layer)
-        })
-      }
+      this.featureGroup = L.geoJSON(this.props.project.features).addTo(this.map)
+      if (this.props.project.features) this.map.fitBounds(this.featureGroup.getBounds())
     }
   }
 
@@ -74,7 +75,7 @@ class ProjectMap extends Component {
   }
 
   render () {
-    return <div className='w-100' ref={this.map} {...this.props} />
+    return <div className='w-100' ref={this.mapRef} {...this.props} />
   }
 }
 ProjectMap.propTypes = {
