@@ -68,7 +68,7 @@ function CardBody ({ project, fullSize }) {
       <Card.Title><NameTag>{project.name || <Skeleton />}</NameTag></Card.Title>
       {fullSize && project.Users ? (
         <Card.Subtitle className='font-weight-bold mb-2'>
-          {project.Users.length || <Skeleton />} <span className='text-muted'>Follower{project && project.Users.length !== 1 ? 's' : null}</span>
+          {project.Users.length.toString() || <Skeleton />} <span className='text-muted'>Follower{project && project.Users.length !== 1 ? 's' : null}</span>
         </Card.Subtitle>
       ) : null}
       <Card.Text className={descClass}>

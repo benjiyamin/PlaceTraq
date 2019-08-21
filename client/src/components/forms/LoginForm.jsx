@@ -33,7 +33,7 @@ class LoginForm extends AppForm {
             <Form.Control type='password' placeholder='Password' required='required' name='password' onChange={this.handleInputChange} />
           </Form.Group>
           <Form.Group>
-            <Button variant='primary' size='lg' type='submit' onClick={this.handleFormSubmit}>
+            <Button variant='primary' type='submit' onClick={this.handleFormSubmit}>
               Log In
             </Button>
           </Form.Group>

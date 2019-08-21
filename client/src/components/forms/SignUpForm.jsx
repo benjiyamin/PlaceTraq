@@ -43,7 +43,7 @@ class SignUpForm extends AppForm {
                 I accept the <a href='#'>Terms of Use</a> &amp; <a href='#'>Privacy Policy</a>
           </Form.Group>
           <Form.Group>
-            <Button variant='primary' type='submit' className='btn-lg' onClick={this.handleFormSubmit}>
+            <Button variant='primary' type='submit' onClick={this.handleFormSubmit}>
                   Sign Up
             </Button>
           </Form.Group>
