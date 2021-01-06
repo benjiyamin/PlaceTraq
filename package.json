@@ -43,7 +43,7 @@
     "passport-local": "^1.0.0",
     "quill-delta": "^4.2.1",
     "quill-delta-to-html": "^0.10.11",
-    "sequelize": "^5.9.2"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
