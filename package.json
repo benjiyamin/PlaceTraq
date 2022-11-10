@@ -50,7 +50,7 @@
     "chai-http": "^4.3.0",
     "cross-env": "^5.2.0",
     "csvtojson": "^2.0.10",
-    "mocha": "^6.1.4",
+    "mocha": "^10.1.0",
     "nodemon": "^1.19.1",
     "sequelize-test-helpers": "^1.1.2",
     "sinon": "^7.3.2",
