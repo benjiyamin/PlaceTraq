@@ -39,7 +39,7 @@
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "quill-delta": "^4.2.1",
     "quill-delta-to-html": "^0.10.11",
